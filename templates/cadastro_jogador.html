@@ -3,32 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>CADASTRAR</title>
 </head>
 <body>
     <h1>Cadastro de Jogador</h1>
         <form action="/cadastrar" method="POST"> 
 
-             
-                <input type="nome" placeholder="Nome do Jogador" required>  
+                <input type="text" name="nome" placeholder="Nome do Jogador" required>  
             
              <br><br>
             
-                <input type="idade" placeholder="Idade do jogador" required>
+                <input type="number"  name="idade" placeholder="Idade do jogador" required>
             
              <br><br>
            
-                <input type="categoria" placeholder="Categoria" required>
-          
-          
-                <input type="nome" placeholder="Nome do clube" required>
+                <input type="text" name="categoria" placeholder="Categoria" required>
+            <br><br> 
+
+                <input type="text"  name="clube" placeholder="Nome do clube" required>
            
              <br><br>
            
                 <button type="submit">CADASTRAR</button>
-           
-            
+
         </form>
+    <hr>
+        <h2>Jogadores Cadastrado</h2>
+        <table border ="1">
+            <tr>
+
+                <th>ID</th>
+
+                <th>Nome</th>
+
+                <th>Idade</th>
+
+                <th>Categoria</th>
+
+                <th>Clube</th>
+
+            </tr>
+
+                {% for jogador in jogadores %}
+
+            <tr>
+
+                <td>{{ jogador.id }}</td>
+
+                <td>{{ jogador.nome }}</td>
+
+                <td>{{ jogador.idade }}</td>
+
+                <td>{{ jogador.categoria }}</td>
+
+                <td>{{ jogador.clube }}</td>
+
+            </tr>
+
+                {% endfor %}
+
+        </table>
+
     </body>
 </html>

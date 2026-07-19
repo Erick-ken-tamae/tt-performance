@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-from models.jogador import cadastrar_joagdor, listar_jogador
+from models.jogador import cadastrar_jogador, listar_jogador
 
 
 app = Flask(__name__)
@@ -18,17 +18,14 @@ def inicio():
 @app.route("/cadastrar", methods=["POST"])
 def cadastrar():
 
+    print(request.form)
+
     nome = request.form["nome"]
     idade = request.form["idade"]
     categoria = request.form["categoria"]
     clube = request.form["clube"]
 
-    cadastrar(
-        nome,
-        idade,
-        categoria,
-        clube
-    )
+    cadastrar_jogador(nome, idade, categoria, clube)
 
     return redirect("/")
 

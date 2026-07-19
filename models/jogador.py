@@ -23,7 +23,7 @@ def listar_jogador():
     banco = conectar()
     cursor = banco.cursor(dictionary=True)
     
-    cursor.execute("SELECT * FROM")
+    cursor.execute("SELECT * FROM jogador")
     
     jogadores = cursor.fetchall()
     
