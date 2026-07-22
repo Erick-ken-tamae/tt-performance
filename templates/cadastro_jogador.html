@@ -31,37 +31,30 @@
     <hr>
         <h2>Jogadores Cadastrado</h2>
         <table border ="1">
-            <tr>
-
+           <tr>
                 <th>ID</th>
-
                 <th>Nome</th>
-
                 <th>Idade</th>
-
                 <th>Categoria</th>
-
                 <th>Clube</th>
+                <th>Ações</th>
+        </tr>
 
-            </tr>
+    {% for jogador in jogadores %}
+        <tr>
+            <td>{{ jogador.id }}</td>
+        <td>{{ jogador.nome }}</td>
+        <td>{{ jogador.idade }}</td>
+        <td>{{ jogador.categoria }}</td>
+        <td>{{ jogador.clube }}</td>
 
-                {% for jogador in jogadores %}
-
-            <tr>
-
-                <td>{{ jogador.id }}</td>
-
-                <td>{{ jogador.nome }}</td>
-
-                <td>{{ jogador.idade }}</td>
-
-                <td>{{ jogador.categoria }}</td>
-
-                <td>{{ jogador.clube }}</td>
-
-            </tr>
-
-                {% endfor %}
+    <td>
+        <a href="/excluir_jogador/{{ jogador.id }}">
+            <button>Excluir</button>
+        </a>
+    </td>
+</tr>
+{% endfor %}
 
         </table>
 

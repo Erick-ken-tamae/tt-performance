@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect
 from models.jogador import cadastrar_jogador, listar_jogador
-
+from models.partida import  cadastrar_partida, listar_partida
 
 app = Flask(__name__)
 
+#inicio
 @app.route("/")
 def inicio():
 
@@ -14,7 +15,7 @@ def inicio():
         jogadores=jogadores
     )
 
-
+#PÁGINA DE CADASTRAR jogador
 @app.route("/cadastrar", methods=["POST"])
 def cadastrar():
 
@@ -27,8 +28,38 @@ def cadastrar():
 
     cadastrar_jogador(nome, idade, categoria, clube)
 
-    return redirect("/")
+    return redirect("/partida")
 
+    
+#PÁGINA DA PARTIDA
+@app.route("/partida")
+def partida():
+    jogadores = listar_jogador()
+    partidas = listar_partida()
+    
+    return render_template(
+        "partida.html",
+        jogadores=jogadores,
+        partidas=partidas
+    )
+    
+#salvar partida
+@app.route("/salvar_partida", methods=["POST"])
+def salvar_partida():
+
+    jogador_id = request.form["jogador_id"]
+
+    adversario = request.form["adversario"]
+
+    data_partida = request.form["data_partida"]
+
+    cadastrar_partida(
+        jogador_id,
+        adversario,
+        data_partida
+    )
+
+    return redirect("/partida")
 
 if __name__ == "__main__":
     app.run(debug=True)

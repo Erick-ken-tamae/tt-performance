@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Partidas</title>
+
+</head>
+
+    <body>
+
+        <h1>Cadastro de Partida</h1>
+
+            <form action="/salvar_partida" method="POST">
+
+                <select name="jogador_id">
+
+                {% for jogador in jogadores %}
+
+                <option value="{{ jogador.id }}">
+
+                {{ jogador.nome }}
+
+                </option>
+
+                {% endfor %}
+
+                </select>
+
+            <br><br>
+
+                <input
+                type="text"
+                name="adversario"
+                placeholder="Nome do adversário"
+                required>
+
+            <br><br>
+
+                <input
+                type="date"
+                name="data_partida"
+                required>
+
+            <br><br>
+
+            <button>Iniciar Partida</button>
+
+            </form>
+
+        <hr>
+            <h2>Histórico de Partidas</h2>
+            <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>Jogador</th>
+                <th>Adversário</th>
+                <th>Data</th>
+            </tr>
+
+            {% for partida in partidas %}
+            <tr>
+                <td>{{ partida.id }}</td>
+                <td>{{ partida.nome }}</td>
+                <td>{{ partida.adversario }}</td>
+                <td>{{ partida.data_partida }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </body>
+
+</html>
