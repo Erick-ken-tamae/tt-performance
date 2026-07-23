@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='iniciar_partida.css') }}">
+
+    <title>Iniciar Partida</title>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1> TT Performance</h1>
+
+        <h2>🏓 Partida em Andamento</h2>
+
+        <div class="placar">
+
+            <div class="jogador">
+
+                <h3>Jogador</h3>
+
+                <div class="pontos">
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="versus">
+
+                <span>VS</span>
+
+            </div>
+
+
+            <div class="jogador">
+
+                <h3>Adversário</h3>
+
+                <div class="pontos">
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="sets">
+
+            <h2>Sets</h2>
+
+            <div class="placar-set">
+
+                <div>
+
+                    <h3>Jogador</h3>
+
+                    <strong>0</strong>
+
+                </div>
+
+
+                <div class="versus">
+
+                    ×
+
+                </div>
+
+
+                <div>
+
+                    <h3>Adversário</h3>
+
+                    <strong>0</strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="acoes">
+
+            <button class="btn-ponto">
+                + Ponto Jogador
+            </button>
+
+            <button class="btn-ponto adversario">
+                + Ponto Adversário
+            </button>
+
+        </div>
+
+
+        <a href="/partida" class="btn-voltar">
+
+            ← Voltar para Partidas
+
+        </a>
+
+    </div>
+
+</body>
+
+</html>

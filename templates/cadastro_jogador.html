@@ -3,60 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <title>CADASTRAR</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Cadastro de Jogadores</title>
 </head>
+
 <body>
-    <h1>Cadastro de Jogador</h1>
-        <form action="/cadastrar" method="POST"> 
 
-                <input type="text" name="nome" placeholder="Nome do Jogador" required>  
-            
-             <br><br>
-            
-                <input type="number"  name="idade" placeholder="Idade do jogador" required>
-            
-             <br><br>
-           
-                <input type="text" name="categoria" placeholder="Categoria" required>
-            <br><br> 
+<div class="container">
 
-                <input type="text"  name="clube" placeholder="Nome do clube" required>
-           
-             <br><br>
-           
-                <button type="submit">CADASTRAR</button>
+    <h1>TT Performance</h1>
+    <h2>Cadastro de Jogadores</h2>
 
-        </form>
+    <form action="/cadastrar" method="POST">
+
+        <input type="text" name="nome" placeholder="Nome do jogador" required>
+
+        <input type="number" name="idade" placeholder="Idade" required>
+
+        <input type="text" name="categoria" placeholder="Categoria" required>
+
+        <input type="text" name="clube" placeholder="Clube" required>
+
+        <button type="submit">Cadastrar</button>
+
+    </form>
+
+    <br>
+
+    <a href="/partida">
+        <button class="partida">Ir para Partidas</button>
+    </a>
+
     <hr>
-        <h2>Jogadores Cadastrado</h2>
-        <table border ="1">
-           <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Idade</th>
-                <th>Categoria</th>
-                <th>Clube</th>
-                <th>Ações</th>
+
+    <h2>Jogadores Cadastrados</h2>
+
+    <table>
+
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Idade</th>
+            <th>Categoria</th>
+            <th>Clube</th>
+            <th>Ações</th>
         </tr>
 
-    {% for jogador in jogadores %}
+        {% for jogador in jogadores %}
+
         <tr>
+
             <td>{{ jogador.id }}</td>
-        <td>{{ jogador.nome }}</td>
-        <td>{{ jogador.idade }}</td>
-        <td>{{ jogador.categoria }}</td>
-        <td>{{ jogador.clube }}</td>
+            <td>{{ jogador.nome }}</td>
+            <td>{{ jogador.idade }}</td>
+            <td>{{ jogador.categoria }}</td>
+            <td>{{ jogador.clube }}</td>
 
-    <td>
-        <a href="/excluir_jogador/{{ jogador.id }}">
-            <button>Excluir</button>
-        </a>
-    </td>
-</tr>
-{% endfor %}
+            <td>
+                <a href="/excluir_jogador/{{ jogador.id }}">
+                    <button class="excluir">Excluir</button>
+                </a>
+            </td>
 
-        </table>
+        </tr>
 
-    </body>
+        {% endfor %}
+
+    </table>
+
+</div>
+
+</body>
 </html>

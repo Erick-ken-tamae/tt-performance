@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-from models.jogador import cadastrar_jogador, listar_jogador
+from models.jogador import cadastrar_jogador, listar_jogador, excluir_jogador
 from models.partida import  cadastrar_partida, listar_partida
 
 app = Flask(__name__)
@@ -60,6 +60,17 @@ def salvar_partida():
     )
 
     return redirect("/partida")
+#Excluir partida
+@app.route("/excluir_jogador/<int:id>")
+def excluir(id):
+    excluir_jogador(id)
+    return redirect("/")
+
+#iniciar partida
+@app.route("/iniciar_partida")
+def iniciar_partida():
+    return render_template("iniciar_partida.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)

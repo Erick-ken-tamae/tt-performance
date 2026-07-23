@@ -1,0 +1,124 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #f2f2f2;
+}
+
+/* Container principal */
+.container {
+    width: 900px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Título principal */
+h1 {
+    text-align: center;
+    color: #0b5ed7;
+    margin-bottom: 10px;
+}
+
+/* Títulos */
+h2 {
+    margin: 20px 0;
+    color: #333;
+}
+
+/* Formulário */
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+/* Select e inputs */
+select,
+input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Botões */
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    background: #0b5ed7;
+    font-size: 14px;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+/* Botão cadastrar partida */
+button[type="submit"] {
+    background: #198754;
+}
+
+/* Botão voltar */
+.btn-voltar {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #6c757d;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.btn-voltar:hover {
+    background: #5a6268;
+}
+
+/* Linha */
+hr {
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+/* Tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+/* Cabeçalho da tabela */
+table th {
+    background: #0b5ed7;
+    color: white;
+    padding: 12px;
+}
+
+/* Células */
+table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Linhas alternadas */
+tr:nth-child(even) {
+    background: #f8f8f8;
+}
+
+/* Efeito ao passar o mouse */
+tr:hover {
+    background: #ececec;
+}

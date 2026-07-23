@@ -1,0 +1,223 @@
+* {
+
+    margin: 0;
+
+    padding: 0;
+
+    box-sizing: border-box;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+
+body {
+
+    min-height: 100vh;
+
+    background: #f2f2f2;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+}
+
+
+.container {
+
+    width: 900px;
+
+    background: white;
+
+    padding: 35px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+
+    text-align: center;
+
+}
+
+
+h1 {
+
+    color: #0b5ed7;
+
+    margin-bottom: 10px;
+
+}
+
+
+h2 {
+
+    color: #333;
+
+    margin: 20px 0;
+
+}
+
+
+.placar {
+
+    display: flex;
+
+    justify-content: space-around;
+
+    align-items: center;
+
+    margin-top: 30px;
+
+}
+
+
+.jogador {
+
+    width: 250px;
+
+    padding: 25px;
+
+    border: 2px solid #ddd;
+
+    border-radius: 12px;
+
+}
+
+
+.jogador h3 {
+
+    font-size: 22px;
+
+    margin-bottom: 20px;
+
+}
+
+
+.pontos {
+
+    font-size: 70px;
+
+    font-weight: bold;
+
+    color: #0b5ed7;
+
+}
+
+
+.versus {
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+    color: #dc3545;
+
+}
+
+
+.sets {
+
+    margin-top: 35px;
+
+    padding: 20px;
+
+    border-top: 1px solid #ddd;
+
+}
+
+
+.placar-set {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 40px;
+
+}
+
+
+.placar-set strong {
+
+    font-size: 40px;
+
+    color: #198754;
+
+}
+
+
+.acoes {
+
+    margin-top: 30px;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 15px;
+
+}
+
+
+.btn-ponto {
+
+    padding: 14px 25px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #198754;
+
+    color: white;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+}
+
+
+.btn-ponto:hover {
+
+    opacity: 0.85;
+
+}
+
+
+.btn-ponto.adversario {
+
+    background: #dc3545;
+
+}
+
+
+.btn-voltar {
+
+    display: inline-block;
+
+    margin-top: 30px;
+
+    padding: 10px 20px;
+
+    background: #6c757d;
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 6px;
+
+}
+
+
+.btn-voltar:hover {
+
+    background: #5a6268;
+
+}
