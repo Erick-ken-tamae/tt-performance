@@ -271,7 +271,29 @@
 
         </a>
 
+        <!-- MENSAGEM DA VITÓRIA -->
+        <div id="popupVitoria" class="popup-overlay">
+    
+        <div class="popup">
+    
+            <div class="trofeu">
+                🏆
+            </div>
+    
+            <h2>Partida Encerrada!</h2>
+    
+            <p id="mensagemVitoria"></p>
+    
+            <button
+                onclick="fecharPopup()"
+                class="btn-fechar"
+            >
+                Fechar
+            </button>
+    
+        </div>
     </div>
+
     <script src="{{ url_for('static', filename='iniciar_partida.js') }}"></script>
 </body>
 

@@ -51,12 +51,36 @@ function verificarVencedor(){
         }else{
             vencedor ="Adversario"
         }
-        alert(" PARBÉNS " + vencedor + " VENCEU A PARTIDA!!");
+        // Mostra a mensagem da vitória
+        mostrarVitoria(vencedor);
         //Desabilita os botões
         document.querySelectorAll("btn-ponto").forEach(function(botao){
             botao.disabled = true;
         });
     };
+}
+
+//mostrar a mensagem do vencedor
+function mostrarVitoria(){
+    const popup=document.getElementById("popupVitoria");
+    const mensagem = document.getElementById("mensagemVitoria");
+
+    mensagem.innerHTML=`
+        🏆<strong>${vencedor}</strong>
+        VENCEU A PARTIDA
+        
+        <br><br>
+        
+        ${pontosJogador} 
+        X
+        ${pontosAdversario}`;
+
+        popup.style.display="flex";
+}
+
+//fechar a mensagem da vitória
+function fecharPopup(){
+    document.getElementById("popupVitoria").style.display= "none";
 }
 
 
