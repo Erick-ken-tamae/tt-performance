@@ -47,21 +47,21 @@ function verificarVencedor(){
         let vencedor;
 
         if(pontosJogador > pontosAdversario){
-            vencedor = "Jogador"
+            vencedor = nomeJogador;
         }else{
-            vencedor ="Adversario"
+            vencedor =nomeAdversario;
         }
         // Mostra a mensagem da vitória
         mostrarVitoria(vencedor);
         //Desabilita os botões
-        document.querySelectorAll("btn-ponto").forEach(function(botao){
+        document.querySelectorAll(".btn-ponto").forEach(function(botao){
             botao.disabled = true;
         });
     };
 }
 
 //mostrar a mensagem do vencedor
-function mostrarVitoria(){
+function mostrarVitoria(vencedor){
     const popup=document.getElementById("popupVitoria");
     const mensagem = document.getElementById("mensagemVitoria");
 
@@ -70,12 +70,14 @@ function mostrarVitoria(){
         VENCEU A PARTIDA
         
         <br><br>
-        
+         <strong>
         ${pontosJogador} 
         X
-        ${pontosAdversario}`;
+        ${pontosAdversario}
+        </strong>
+        `;
 
-        popup.style.display="flex";
+    popup.style.display="flex";
 }
 
 //fechar a mensagem da vitória
@@ -86,6 +88,10 @@ function fecharPopup(){
 
 //registrando os pontos
 function registrarPonto(){
+    if(encerrarPartida){
+        return;
+    }
+
     const ganhador = document.getElementById("ganhador").value;
     const tecnica = document.getElementById("tecnica").value;
     const erro = document.getElementById("erro").value;
@@ -93,12 +99,14 @@ function registrarPonto(){
     //aumentar placar
     if(ganhador ==="jogador"){
         pontosJogador++;
-        document.getElementById("pontosJogador").innerText = pontosJogador;
     }else{
         pontosAdversario++;
-        document.getElementById("pontosAdversario").innerText=pontosAdversario;
     }
-    
+     // Atualizar placar
+    atualizarPlacar();
+    // Verificar se alguém venceu
+    verificarVencedor();
+   
     //HISTÓRICO DO PONTO
     const lista = document.getElementById("listaJogadas");
     const jogada = document.createElement("div");
