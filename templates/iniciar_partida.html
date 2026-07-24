@@ -27,9 +27,9 @@
 
             <div class="jogador">
 
-                <h3>Jogador</h3>
+                <h3>{{partida.nome}}</h3>
 
-                <div class="pontos">
+                <div class="pontos" id="pontosJogador">
                     0
                 </div>
 
@@ -45,9 +45,9 @@
 
             <div class="jogador">
 
-                <h3>Adversário</h3>
+                <h3>{{partida.adversario}}</h3>
 
-                <div class="pontos">
+                <div class="pontos" id="pontosAdversario">
                     0
                 </div>
 
@@ -64,7 +64,7 @@
 
                 <div>
 
-                    <h3>Jogador</h3>
+                    <h3>{{partida.nome}}</h3>
 
                     <strong>0</strong>
 
@@ -80,7 +80,7 @@
 
                 <div>
 
-                    <h3>Adversário</h3>
+                    <h3>{{partida.adversario}}</h3>
 
                     <strong>0</strong>
 
@@ -93,11 +93,11 @@
 
         <div class="acoes">
 
-            <button class="btn-ponto">
+            <button class="btn-ponto" onclick="adicionarPontoJogador()">
                 + Ponto Jogador
             </button>
 
-            <button class="btn-ponto adversario">
+            <button class="btn-ponto adversario" onclick="adicionarPontoAdversario">
                 + Ponto Adversário
             </button>
 

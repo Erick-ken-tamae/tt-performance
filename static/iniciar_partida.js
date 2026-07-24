@@ -1,6 +1,18 @@
 let pontosJogador = 0;
 let pontosAdversario = 0;
 
+//placar dos jogadores
+function adicionarPontoJogador(){
+    pontosJogador++;
+    document.getElementById("pontosJogador").innerText = pontosJogador;
+}
+
+function adicionarPontoAdversario(){
+    pontosAdversario++;
+    document.getElementById("pontosAdversario").innerText = pontosAdversario;
+}
+
+//registrando os pontos
 function registrarPonto(){
     const ganhador = document.getElementById("ganhador").value;
     const tecnica = document.getElementById("tecnica").value;
