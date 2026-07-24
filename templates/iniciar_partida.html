@@ -102,6 +102,167 @@
             </button>
 
         </div>
+         <!-- REGISTRO DO PONTO -->
+
+        <div class="registro-ponto">
+
+            <h2>Registrar ponto</h2>
+
+
+            <label>
+
+                Quem ganhou o ponto?
+
+            </label>
+
+
+            <select id="ganhador">
+
+                <option value="jogador">
+
+                    {{ partida.nome }}
+
+                </option>
+
+                <option value="adversario">
+
+                    {{ partida.adversario }}
+
+                </option>
+
+            </select>
+
+
+            <label>
+
+                Como foi o ponto?
+
+            </label>
+
+
+            <select id="tecnica">
+
+                <option value="saque">
+
+                    Saque
+
+                </option>
+
+                <option value="forehand">
+
+                    Forehand
+
+                </option>
+
+                <option value="backhand">
+
+                    Backhand
+
+                </option>
+
+                <option value="bloqueio">
+
+                    Bloqueio
+
+                </option>
+
+                <option value="smash">
+
+                    Smash
+
+                </option>
+
+                <option value="rally">
+
+                    Rally
+
+                </option>
+
+            </select>
+
+
+            <label>
+
+                O adversário errou?
+
+            </label>
+
+
+            <select id="erro">
+
+                <option value="nenhum">
+
+                    Não
+
+                </option>
+
+                <option value="saque">
+
+                    Errou o saque
+
+                </option>
+
+                <option value="fora">
+
+                    Bola fora
+
+                </option>
+
+                <option value="rede">
+
+                    Bola na rede
+
+                </option>
+
+                <option value="erro_tecnico">
+
+                    Erro técnico
+
+                </option>
+
+                <option value="outro">
+
+                    Outro erro
+
+                </option>
+
+            </select>
+
+
+            <label>
+
+                Observação
+
+            </label>
+
+
+            <textarea
+                id="observacao"
+                placeholder="Descreva como foi o ponto..."
+            ></textarea>
+
+
+            <button
+                onclick="registrarPonto()"
+                class="btn-registrar"
+            >
+
+                + Registrar Ponto
+
+            </button>
+
+        </div>
+
+
+        <!-- HISTÓRICO -->
+
+        <div class="historico">
+
+            <h2>Histórico da partida</h2>
+
+            <div id="listaJogadas"></div>
+
+        </div>
 
 
         <a href="/partida" class="btn-voltar">
@@ -111,7 +272,7 @@
         </a>
 
     </div>
-
+    <script src="{{ url_for('static', filename='iniciar_partida.js') }}"></script>
 </body>
 
 </html>

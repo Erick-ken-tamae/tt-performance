@@ -78,15 +78,16 @@
             <td>{{ partida.nome }}</td>
             <td>{{ partida.adversario }}</td>
             <td>{{ partida.data_partida }}</td>
-
+            <td>
+                   <a href="/iniciar_partida/{{ partida.id }}" class="btn-iniciar">
+                    ⚡ Iniciar Partida
+                    </a>
+                </td>
         </tr>
 
         {% endfor %}
 
     </table>
-    <a href="/iniciar_partida" class="btn-iniciar">
-    ⚡ Iniciar Partida
-    </a>
 </div>
 
 </body>

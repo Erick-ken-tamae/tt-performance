@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from models.jogador import cadastrar_jogador, listar_jogador, excluir_jogador
-from models.partida import  cadastrar_partida, listar_partida
+from models.partida import  cadastrar_partida, listar_partida, buscar_partida
 
 app = Flask(__name__)
 
@@ -67,9 +67,12 @@ def excluir(id):
     return redirect("/")
 
 #iniciar partida
-@app.route("/iniciar_partida")
-def iniciar_partida():
-    return render_template("iniciar_partida.html")
+@app.route("/iniciar_partida/<int:id>")
+def iniciar_partida(id):
+    
+    partida = buscar_partida(id)
+    return render_template("iniciar_partida.html",
+                           partida=partida)
 
 
 if __name__ == "__main__":

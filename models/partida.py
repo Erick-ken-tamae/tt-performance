@@ -73,3 +73,34 @@ def listar_partida():
 
 
     return partidas
+
+def buscar_partida(id):
+
+    banco = conectar()
+
+    cursor = banco.cursor(dictionary=True)
+
+    sql = """
+        SELECT
+            partida.id,
+            partida.jogador_id,
+            jogador.nome,
+            partida.adversario,
+            partida.data_partida
+
+        FROM partida
+
+        INNER JOIN jogador
+            ON partida.jogador_id = jogador.id
+
+        WHERE partida.id = %s
+    """
+
+    cursor.execute(sql, (id,))
+
+    partida = cursor.fetchone()
+
+    cursor.close()
+    banco.close()
+
+    return partida
