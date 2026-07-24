@@ -1,16 +1,64 @@
 let pontosJogador = 0;
 let pontosAdversario = 0;
+let encerrarPartida = false;
 
 //placar dos jogadores
 function adicionarPontoJogador(){
+    if(encerrarPartida){
+        return;
+    }
+
     pontosJogador++;
-    document.getElementById("pontosJogador").innerText = pontosJogador;
+    atualizarPlacar();
+    verificarVencedor();
 }
 
 function adicionarPontoAdversario(){
+
+    if(encerrarPartida){
+        return;
+    }
+    
     pontosAdversario++;
-    document.getElementById("pontosAdversario").innerText = pontosAdversario;
+    atualizarPlacar();
+    verificarVencedor();
 }
+
+//Atualiza o placar
+function atualizarPlacar(){
+    document.getElementById("pontosJogador").innerHTML= pontosJogador;
+    document.getElementById("pontosAdversario").innerHTML = pontosAdversario;
+}
+
+//Verifica o vencedor
+function verificarVencedor(){
+
+    if(pontosJogador < 11 && pontosAdversario < 11 ){
+        return
+    }
+
+    //Diferença de pontos
+    const diferenca = Math.abs(pontosJogador - pontosAdversario);
+
+    //Para vencer precisa de 2 pontos de vantagem
+    if(diferenca >=2){
+        encerrarPartida = true;
+
+        let vencedor;
+
+        if(pontosJogador > pontosAdversario){
+            vencedor = "Jogador"
+        }else{
+            vencedor ="Adversario"
+        }
+        alert(" PARBÉNS " + vencedor + " VENCEU A PARTIDA!!");
+        //Desabilita os botões
+        document.querySelectorAll("btn-ponto").forEach(function(botao){
+            botao.disabled = true;
+        });
+    };
+}
+
 
 //registrando os pontos
 function registrarPonto(){
