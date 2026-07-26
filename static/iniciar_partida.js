@@ -1,137 +1,235 @@
-let pontosJogador = 0;
-let pontosAdversario = 0;
-let encerrarPartida = false;
+    let pontosJogador = 0;
+    let pontosAdversario = 0;
+    let encerrarPartida = false;
 
-//placar dos jogadores
-function adicionarPontoJogador(){
-    if(encerrarPartida){
-        return;
-    }
-
-    pontosJogador++;
-    atualizarPlacar();
-    verificarVencedor();
-}
-
-function adicionarPontoAdversario(){
-
-    if(encerrarPartida){
-        return;
-    }
-    
-    pontosAdversario++;
-    atualizarPlacar();
-    verificarVencedor();
-}
-
-//Atualiza o placar
-function atualizarPlacar(){
-    document.getElementById("pontosJogador").innerHTML= pontosJogador;
-    document.getElementById("pontosAdversario").innerHTML = pontosAdversario;
-}
-
-//Verifica o vencedor
-function verificarVencedor(){
-
-    if(pontosJogador < 11 && pontosAdversario < 11 ){
-        return
-    }
-
-    //Diferença de pontos
-    const diferenca = Math.abs(pontosJogador - pontosAdversario);
-
-    //Para vencer precisa de 2 pontos de vantagem
-    if(diferenca >=2){
-        encerrarPartida = true;
-
-        let vencedor;
-
-        if(pontosJogador > pontosAdversario){
-            vencedor = nomeJogador;
-        }else{
-            vencedor =nomeAdversario;
+    //placar dos jogadores
+    function adicionarPontoJogador(){
+        if(encerrarPartida){
+            return;
         }
-        // Mostra a mensagem da vitória
-        mostrarVitoria(vencedor);
-        //Desabilita os botões
-        document.querySelectorAll(".btn-ponto").forEach(function(botao){
-            botao.disabled = true;
-        });
-    };
-}
 
-//mostrar a mensagem do vencedor
-function mostrarVitoria(vencedor){
-    const popup=document.getElementById("popupVitoria");
-    const mensagem = document.getElementById("mensagemVitoria");
-
-    mensagem.innerHTML=`
-        🏆<strong>${vencedor}</strong>
-        VENCEU A PARTIDA
-        
-        <br><br>
-         <strong>
-        ${pontosJogador} 
-        X
-        ${pontosAdversario}
-        </strong>
-        `;
-
-    popup.style.display="flex";
-}
-
-//fechar a mensagem da vitória
-function fecharPopup(){
-    document.getElementById("popupVitoria").style.display= "none";
-}
-
-
-//registrando os pontos
-function registrarPonto(){
-    if(encerrarPartida){
-        return;
-    }
-
-    const ganhador = document.getElementById("ganhador").value;
-    const tecnica = document.getElementById("tecnica").value;
-    const erro = document.getElementById("erro").value;
-    const observacao = document.getElementById("observacao").value;
-    //aumentar placar
-    if(ganhador ==="jogador"){
         pontosJogador++;
-    }else{
-        pontosAdversario++;
+        atualizarPlacar();
+        verificarVencedor();
     }
-     // Atualizar placar
-    atualizarPlacar();
-    // Verificar se alguém venceu
-    verificarVencedor();
-   
-    //HISTÓRICO DO PONTO
-    const lista = document.getElementById("listaJogadas");
-    const jogada = document.createElement("div");
-    
-    jogada.classList.add("jogada")
-    jogada.innerHTML=`
-        <strong>
-        Ponto para:${ganhador}
-        </strong>
 
-        <br>
+    function adicionarPontoAdversario(){
+
+        if(encerrarPartida){
+            return;
+        }
         
-        Técnica: ${tecnica}
+        pontosAdversario++;
+        atualizarPlacar();
+        verificarVencedor();
+    }
+
+    //Atualiza o placar
+    function atualizarPlacar(){
+        document.getElementById("pontosJogador").innerHTML= pontosJogador;
+        document.getElementById("pontosAdversario").innerHTML = pontosAdversario;
+    }
+
+    //Verifica o vencedor
+    function verificarVencedor(){
+
+        if(pontosJogador < 11 && pontosAdversario < 11 ){
+            return
+        }
+
+        //Diferença de pontos
+        const diferenca = Math.abs(pontosJogador - pontosAdversario);
+
+        //Para vencer precisa de 2 pontos de vantagem
+        if(diferenca >=2){
+            encerrarPartida = true;
+
+            let vencedor;
+
+            if(pontosJogador > pontosAdversario){
+                vencedor = nomeJogador;
+            }else{
+                vencedor =nomeAdversario;
+            }
+            // Mostra a mensagem da vitória
+            mostrarVitoria(vencedor);
+            //Desabilita os botões
+            document.querySelectorAll(".btn-ponto").forEach(function(botao){
+                botao.disabled = true;
+            });
+        };
+    }
+
+    //mostrar a mensagem do vencedor
+    function mostrarVitoria(vencedor){
+        const popup=document.getElementById("popupVitoria");
+        const mensagem = document.getElementById("mensagemVitoria");
+
+        mensagem.innerHTML=`
+            🏆<strong>${vencedor}</strong>
+            VENCEU A PARTIDA
+            
+            <br><br>
+            <strong>
+            ${pontosJogador} 
+            X
+            ${pontosAdversario}
+            </strong>
+            `;
+
+        popup.style.display="flex";
+    }
+
+    //fechar a mensagem da vitória
+    function fecharPopup(){
+        document.getElementById("popupVitoria").style.display= "none";
+    }
+
+
+    //registrando os pontos
+    function registrarPonto(){
+        if(encerrarPartida){
+            return;
+        }
+
+        const ganhador = document.getElementById("ganhador").value;
+        const tecnica = document.getElementById("tecnica").value;
+        const erro = document.getElementById("erro").value;
+        const observacao = document.getElementById("observacao").value;
+        //aumentar placar
+        if(ganhador ==="jogador"){
+            pontosJogador++;
+        }else{
+            pontosAdversario++;
+        }
+        // Atualizar placar
+        atualizarPlacar();
+        // Verificar se alguém venceu
+        verificarVencedor();
+    
+        //HISTÓRICO DO PONTO
+        const lista = document.getElementById("listaJogadas");
+        const jogada = document.createElement("div");
         
-        <br>
-        
-        Erro: ${erro}
-        
-        <br>
-        
-        Observação: ${observacao}
+        jogada.classList.add("jogada")
+        jogada.innerHTML=`
+            <strong>
+            Ponto para:${ganhador}
+            </strong>
+
+            <br>
+            
+            Técnica: ${tecnica}
+            
+            <br>
+            
+            Erro: ${erro}
+            
+            <br>
+            
+            Observação: ${observacao}
+            `;
+
+            lista.prepend(jogada);
+            //limpar a observação
+            document.getElementById("observacao").value="";
+    }
+
+    // ===============================
+    // MARCAÇÃO RÁPIDA
+    // ===============================
+
+    function marcarErro(jogador, tipoErro) {
+
+        // Não permite marcar depois que a partida terminou
+        if (encerrarPartida) {
+            return;
+        }
+
+        let nome;
+
+        if (jogador === "jogador") {
+
+            pontosJogador++;
+
+            nome = nomeJogador;
+
+
+        } else {
+
+            pontosAdversario++;
+
+            nome = nomeAdversario;
+
+        }
+
+        // Atualiza o placar
+        atualizarPlacar();
+
+        // Adiciona no histórico
+        adicionarHistorico(
+            nome,
+            tipoErro
+        );
+
+        // Verifica se alguém venceu
+        verificarVencedor();
+    }
+
+    function adicionarMarcacao(id, tipoMarcacao) {
+
+        const area = document.getElementById(id);
+
+        const marcacao = document.createElement("span");
+
+        marcacao.classList.add("marcacao");
+
+        let nomeTecnica;
+
+        if (tipoMarcacao === "F") {
+            nomeTecnica = "Forehand";
+        } else if (tipoMarcacao === "B") {
+            nomeTecnica = "Backhand";
+        } else if (tipoMarcacao === "S") {
+            nomeTecnica = "Saque";
+        }
+
+        marcacao.innerText = nomeTecnica + " ";
+
+        area.appendChild(marcacao);
+    }
+
+    function adicionarHistorico(nome, tipoMarcacao) {
+
+        const lista = document.getElementById("listaJogadas");
+
+        const jogada = document.createElement("div");
+
+        jogada.classList.add("jogada");
+
+        let tipo;
+
+        if (tipoMarcacao === "F") {
+            tipo = "Forehand";
+        } 
+        else if (tipoMarcacao === "B") {
+            tipo = "Backhand";
+        } 
+        else if (tipoMarcacao === "S") {
+            tipo = "Saque";
+        }
+
+        jogada.innerHTML = `
+
+            <strong>
+                Ponto para: ${nome}
+            </strong>
+
+            <br>
+
+            Tipo: ${tipo}
+
         `;
 
         lista.prepend(jogada);
-        //limpar a observação
-        document.getElementById("observacao").value="";
-}
-
+    }

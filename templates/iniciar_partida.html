@@ -91,168 +91,63 @@
         </div>
 
 
-        <div class="acoes">
-
-            <button class="btn-ponto" onclick="adicionarPontoJogador()">
-                + Ponto Jogador {{partida.nome}}
-            </button>
-
-            <button class="btn-ponto adversario" onclick="adicionarPontoAdversario()">
-                + Ponto Adversário {{partida.adversario}}
-            </button>
-
-        </div>
+       
          <!-- REGISTRO DO PONTO -->
+        <div class="marcacao-pontos">
 
-        <div class="registro-ponto">
+        <h2>Marcar ponto</h2>
 
-            <h2>Registrar ponto</h2>
+        <div class="tabela-marcacao">
 
+            <!-- ERICK -->
+            <div class="coluna-jogador">
 
-            <label>
+                <h3>{{ partida.nome }}</h3>
 
-                Quem ganhou o ponto?
+                <button onclick="marcarErro('jogador', 'F')">
+                    Forhand
+                </button>
 
-            </label>
+                <button onclick="marcarErro('jogador', 'B')">
+                    BackHand
+                </button>
 
-
-            <select id="ganhador">
-
-                <option value="jogador">
-
-                    {{ partida.nome }}
-
-                </option>
-
-                <option value="adversario">
-
-                    {{ partida.adversario }}
-
-                </option>
-
-            </select>
-
-
-            <label>
-
-                Como foi o ponto?
-
-            </label>
-
-
-            <select id="tecnica">
-
-                <option value="saque">
-
+                <button onclick="marcarErro('jogador', 'S')">
                     Saque
+                </button>
 
-                </option>
-
-                <option value="forehand">
-
-                    Forehand
-
-                </option>
-
-                <option value="backhand">
-
-                    Backhand
-
-                </option>
-
-                <option value="bloqueio">
-
-                    Bloqueio
-
-                </option>
-
-                <option value="smash">
-
-                    Smash
-
-                </option>
-
-                <option value="rally">
-
-                    Rally
-
-                </option>
-
-            </select>
+            </div>
 
 
-            <label>
+            <!-- PONTOS -->
+            <div class="coluna-pontos">
 
-                O adversário errou?
-
-            </label>
-
-
-            <select id="erro">
-
-                <option value="nenhum">
-
-                    Não
-
-                </option>
-
-                <option value="saque">
-
-                    Errou o saque
-
-                </option>
-
-                <option value="fora">
-
-                    Bola fora
-
-                </option>
-
-                <option value="rede">
-
-                    Bola na rede
-
-                </option>
-
-                <option value="erro_tecnico">
-
-                    Erro técnico
-
-                </option>
-
-                <option value="outro">
-
-                    Outro erro
-
-                </option>
-
-            </select>
+            </div>
 
 
-            <label>
+            <!-- JOÃO -->
+            <div class="coluna-jogador">
 
-                Observação
+                <h3>{{ partida.adversario }}</h3>
 
-            </label>
+                <button onclick="marcarErro('adversario', 'F')">
+                    Forhand
+                </button>
 
+                <button onclick="marcarErro('adversario', 'B')">
+                    BackHand
+                </button>
 
-            <textarea
-                id="observacao"
-                placeholder="Descreva como foi o ponto..."
-            ></textarea>
+                <button onclick="marcarErro('adversario', 'S')">
+                    Saque
+                </button>
 
-
-            <button
-                onclick="registrarPonto()"
-                class="btn-registrar"
-            >
-
-                + Registrar Ponto
-
-            </button>
+            </div>
 
         </div>
 
+</div>
+        
 
         <!-- HISTÓRICO -->
 
