@@ -1,474 +1,273 @@
-* {
-
-    margin: 0;
-
-    padding: 0;
-
-    box-sizing: border-box;
-
-    font-family: Arial, Helvetica, sans-serif;
-
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
-
-body {
-
-    min-height: 100vh;
-
-    background: #f2f2f2;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
+body{
+    min-height:100vh;
+    background:#f2f2f2;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding:30px 0;
 }
 
-
-.container {
-
-    width: 900px;
-
-    background: white;
-
-    padding: 35px;
-
-    border-radius: 15px;
-
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-
-    text-align: center;
-
+.container{
+    width:900px;
+    background:white;
+    padding:35px;
+    border-radius:15px;
+    box-shadow:0 0 15px rgba(0,0,0,.2);
+    text-align:center;
 }
 
-
-h1 {
-
-    color: #0b5ed7;
-
-    margin-bottom: 10px;
-
+h1{
+    color:#0b5ed7;
+    margin-bottom:10px;
 }
 
-
-h2 {
-
-    color: #333;
-
-    margin: 20px 0;
-
+h2{
+    color:#333;
+    margin:20px 0;
 }
 
-
-.placar {
-
-    display: flex;
-
-    justify-content: space-around;
-
-    align-items: center;
-
-    margin-top: 30px;
-
+.placar{
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    margin-top:30px;
 }
 
-
-.jogador {
-
-    width: 250px;
-
-    padding: 25px;
-
-    border: 2px solid #ddd;
-
-    border-radius: 12px;
-
+.jogador{
+    width:250px;
+    padding:25px;
+    border:2px solid #ddd;
+    border-radius:12px;
 }
 
-
-.jogador h3 {
-
-    font-size: 22px;
-
-    margin-bottom: 20px;
-
+.jogador h3{
+    font-size:22px;
+    margin-bottom:20px;
 }
 
-
-.pontos {
-
-    font-size: 70px;
-
-    font-weight: bold;
-
-    color: #0b5ed7;
-
+.pontos{
+    font-size:70px;
+    font-weight:bold;
+    color:#0b5ed7;
 }
 
-
-.versus {
-
-    font-size: 30px;
-
-    font-weight: bold;
-
-    color: #dc3545;
-
+.versus{
+    font-size:30px;
+    font-weight:bold;
+    color:#dc3545;
 }
 
-
-.sets {
-
-    margin-top: 35px;
-
-    padding: 20px;
-
-    border-top: 1px solid #ddd;
-
+.sets{
+    margin-top:35px;
+    padding:20px;
+    border-top:1px solid #ddd;
 }
 
-
-.placar-set {
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    gap: 40px;
-
+.placar-set{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:40px;
 }
 
-
-.placar-set strong {
-
-    font-size: 40px;
-
-    color: #198754;
-
+.placar-set strong{
+    font-size:40px;
+    color:#198754;
 }
 
-
-.acoes {
-
-    margin-top: 30px;
-
-    display: flex;
-
-    justify-content: center;
-
-    gap: 15px;
-
+.tabela-marcacao{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:40px;
+    margin-top:25px;
 }
 
-
-.btn-ponto {
-
-    padding: 14px 25px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background: #198754;
-
-    color: white;
-
-    font-size: 16px;
-
-    cursor: pointer;
-
+.coluna-jogador{
+    width:320px;
+    padding:25px;
+    border:2px solid #ddd;
+    border-radius:15px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
 }
 
-
-.btn-ponto:hover {
-
-    opacity: 0.85;
-
+.coluna-jogador:first-child{
+    border-top:5px solid #0b5ed7;
 }
 
-
-.btn-ponto.adversario {
-
-    background: #dc3545;
-
+.coluna-jogador:last-child{
+    border-top:5px solid #dc3545;
 }
 
-
-.btn-voltar {
-
-    display: inline-block;
-
-    margin-top: 30px;
-
-    padding: 10px 20px;
-
-    background: #6c757d;
-
-    color: white;
-
-    text-decoration: none;
-
-    border-radius: 6px;
-
+.coluna-jogador h3{
+    font-size:22px;
+    margin-bottom:20px;
 }
 
-
-.btn-voltar:hover {
-
-    background: #5a6268;
-
+.grupos-botoes{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    width:100%;
 }
 
-.registro-ponto {
-
-    margin-top: 30px;
-
-    padding: 25px;
-
-    border-top: 1px solid #ddd;
-
+.grupo{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    width:120px;
 }
 
-
-.registro-ponto label {
-
-    display: block;
-
-    text-align: left;
-
-    margin-top: 15px;
-
-    margin-bottom: 5px;
-
-    font-weight: bold;
-
+.coluna-jogador h4{
+    width:100%;
+    margin:10px 0;
+    padding:8px;
+    border-radius:6px;
+    background:#198754;
+    color:white;
+    font-size:14px;
 }
 
-
-.registro-ponto select,
-.registro-ponto textarea {
-
-    width: 100%;
-
-    padding: 10px;
-
-    border: 1px solid #ccc;
-
-    border-radius: 6px;
-
+.coluna-jogador .titulo-erro{
+    background:#dc3545;
+    margin-top:10px;
 }
 
-
-.registro-ponto textarea {
-
-    height: 80px;
-
-    resize: none;
-
+.btn-marcacao{
+    width:110px;
+    height:38px;
+    margin:5px 0;
+    border:none;
+    border-radius:8px;
+    background:#0b5ed7;
+    color:white;
+    font-size:13px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
 }
 
-
-.btn-registrar {
-
-    margin-top: 20px;
-
-    padding: 14px 30px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background: #198754;
-
-    color: white;
-
-    font-size: 16px;
-
-    cursor: pointer;
-
+.btn-marcacao:hover{
+    background:#084298;
+    transform:scale(1.03);
 }
 
-
-.historico {
-
-    margin-top: 30px;
-
-    text-align: left;
-
+.btn-erro{
+    background:#dc3545;
 }
 
-
-.jogada {
-
-    padding: 15px;
-
-    margin-top: 10px;
-
-    border-left: 5px solid #0b5ed7;
-
-    background: #f8f8f8;
-
-    border-radius: 5px;
-
+.btn-erro:hover{
+    background:#b02a37;
 }
 
-/* Fundo escuro do pop-up */
-
-.popup-overlay {
-
-    display: none;
-
-    position: fixed;
-
-    top: 0;
-
-    left: 0;
-
-    width: 100%;
-
-    height: 100%;
-
-    background: rgba(0, 0, 0, 0.7);
-
-    justify-content: center;
-
-    align-items: center;
-
-    z-index: 1000;
-
+.botoes-corrigir{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin-top:20px;
 }
 
-
-/* Caixa do pop-up */
-
-.popup {
-
-    background: white;
-
-    padding: 40px;
-
-    border-radius: 15px;
-
-    text-align: center;
-
-    width: 400px;
-
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-
-    animation: aparecer 0.4s ease;
-
+.btn-corrigir{
+    width:140px;
+    height:38px;
+    border:none;
+    border-radius:8px;
+    background:#6c757d;
+    color:white;
+    font-size:14px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
 }
 
-
-/* Troféu */
-
-.trofeu {
-
-    font-size: 70px;
-
-    margin-bottom: 10px;
-
+.btn-corrigir:hover{
+    background:#5a6268;
+    transform:scale(1.03);
 }
 
-
-/* Título */
-
-.popup h2 {
-
-    color: #198754;
-
-    margin-bottom: 15px;
-
+.btn-voltar{
+    display:inline-block;
+    margin-top:30px;
+    padding:10px 20px;
+    background:#6c757d;
+    color:white;
+    text-decoration:none;
+    border-radius:6px;
 }
 
-
-/* Mensagem */
-
-.popup p {
-
-    font-size: 20px;
-
-    margin-bottom: 25px;
-
+.btn-voltar:hover{
+    background:#5a6268;
 }
 
-
-/* Botão */
-
-.btn-fechar {
-
-    padding: 12px 30px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background: #0b5ed7;
-
-    color: white;
-
-    font-size: 16px;
-
-    cursor: pointer;
-
+.popup-overlay{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.7);
+    justify-content:center;
+    align-items:center;
+    z-index:1000;
 }
 
+.popup{
+    background:white;
+    padding:40px;
+    border-radius:15px;
+    text-align:center;
+    width:400px;
+    box-shadow:0 0 20px rgba(0,0,0,.4);
+    animation:aparecer .4s ease;
+}
 
-/* Animação */
+.trofeu{
+    font-size:70px;
+    margin-bottom:10px;
+}
 
-@keyframes aparecer {
+.popup h2{
+    color:#198754;
+    margin-bottom:15px;
+}
 
-    from {
+.popup p{
+    font-size:20px;
+    margin-bottom:25px;
+}
 
-        transform: scale(0.5);
+.btn-fechar{
+    padding:12px 30px;
+    border:none;
+    border-radius:8px;
+    background:#0b5ed7;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
 
-        opacity: 0;
+.btn-fechar:hover{
+    background:#084298;
+}
 
+@keyframes aparecer{
+    from{
+        transform:scale(.5);
+        opacity:0;
     }
 
-    to {
-
-        transform: scale(1);
-
-        opacity: 1;
-
+    to{
+        transform:scale(1);
+        opacity:1;
     }
-
-}
-
-.tabela-marcacao {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 80px;
-    margin-top: 20px;
-}
-
-.coluna-jogador {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-.coluna-jogador button {
-    width: 110px;
-    height: 42px;
-    margin: 5px;
-    border: none;
-    border-radius: 8px;
-    background: #0b5ed7;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.coluna-jogador button:hover {
-    background: #084298;
-    transform: scale(1.05);
 }
