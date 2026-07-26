@@ -4,91 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='partida.css') }}">
-
-    <title>Cadastro de Partidas</title>
+    <title>TT Performance - Cadastro de Partidas</title>
 </head>
 
-<body>
+    <body>
 
-<div class="container">
+        <div class="container">
 
-    <h1>TT Performance</h1>
-    <h2>Cadastro de Partidas</h2>
+            <h1>🏓 TT Performance</h1>
+                <h2>Cadastro de Partidas</h2>
+            <p class="descricao">
+            Preencha os dados abaixo para iniciar uma nova partida.
+            </p>
+                <form action="/salvar_partida" method="POST">
 
-    <a href="/" class="btn-voltar">
-        ← Voltar para Jogadores
-    </a>
+                    <input type="text" name="nome" placeholder="Seu nome" required>
 
+                    <input type="text" name="clube" placeholder="Seu clube" required>
 
-    <form action="/salvar_partida" method="POST">
+                    <input type="text" name="adversario" placeholder="Nome do adversário" required>
 
-        <select name="jogador_id" required>
+                    <input type="date" name="data_partida" required>
 
-            <option value="">Selecione um jogador</option>
+                <button type="submit">Cadastrar Partida</button>
 
-            {% for jogador in jogadores %}
-                <option value="{{ jogador.id }}">
-                    {{ jogador.nome }}
-                </option>
+            </form>
+
+        <hr>
+
+        <h2>Partidas Cadastradas</h2>
+
+            <table border="1">
+
+                <tr>
+                    <th>ID</th>
+                    <th>Jogador</th>
+                    <th>Clube</th>
+                    <th>Adversário</th>
+                    <th>Data</th>
+                    <th>Ação</th>
+                </tr>
+
+            {% for partida in partidas %}
+
+            <tr>
+
+                <td>{{ partida.id }}</td>
+                <td>{{ partida.nome }}</td>
+                <td>{{ partida.clube }}</td>
+                <td>{{ partida.adversario }}</td>
+                <td>{{ partida.data_partida }}</td>
+
+                <td>
+                <a href="/iniciar_partida/{{ partida.id }}" class="btn-iniciar">
+                ⚡ Iniciar Partida
+                </a>
+                </td>
+
+            </tr>
+
             {% endfor %}
 
-        </select>
+            </table>
 
-        <input
-            type="text"
-            name="adversario"
-            placeholder="Nome do adversário"
-            required
-        >
+        </div>
 
-        <input
-            type="date"
-            name="data_partida"
-            required
-        >
-
-        <button type="submit">Cadastrar Partida</button>
-
-    </form>
-
-    <br>
-
-    <a href="/">
-        <button class="partida">Voltar para Jogadores</button>
-    </a>
-
-    <hr>
-
-    <h2>Partidas Cadastradas</h2>
-
-    <table>
-
-        <tr>
-            <th>ID</th>
-            <th>Jogador</th>
-            <th>Adversário</th>
-            <th>Data</th>
-        </tr>
-
-        {% for partida in partidas %}
-
-        <tr>
-
-            <td>{{ partida.id }}</td>
-            <td>{{ partida.nome }}</td>
-            <td>{{ partida.adversario }}</td>
-            <td>{{ partida.data_partida }}</td>
-            <td>
-                   <a href="/iniciar_partida/{{ partida.id }}" class="btn-iniciar">
-                    ⚡ Iniciar Partida
-                    </a>
-                </td>
-        </tr>
-
-        {% endfor %}
-
-    </table>
-</div>
-
-</body>
+    </body>
 </html>

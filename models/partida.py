@@ -1,44 +1,60 @@
 from database import conectar
 
 
-
-# Cadastrar partida
-
-def cadastrar_partida(jogador_id, adversario, data_partida):
+def cadastrar_partida(nome, clube, adversario, data_partida):
 
     banco = conectar()
-
     cursor = banco.cursor()
 
-
-    sql = """
-        INSERT INTO partida
-        (jogador_id, adversario, data_partida)
-        VALUES (%s,%s,%s)
+    # Procurar o jogador pelo nome e clube
+    sql_jogador = """
+        SELECT id
+        FROM jogador
+        WHERE nome = %s
+        AND clube = %s
     """
 
+    cursor.execute(sql_jogador, (nome, clube))
 
-    valores = (
-        jogador_id,
-        adversario,
-        data_partida
+    jogador = cursor.fetchone()
+
+    # Se o jogador não existir, cadastrar
+    if jogador is None:
+
+        sql_cadastrar_jogador = """
+            INSERT INTO jogador
+            (nome, idade, clube)
+            VALUES (%s, %s, %s)
+        """
+
+        cursor.execute(
+            sql_cadastrar_jogador,
+            (nome, 19, clube)
+        )
+
+        jogador_id = cursor.lastrowid
+
+    else:
+
+        jogador_id = jogador[0]
+
+    # Cadastrar a partida
+    sql_partida = """
+        INSERT INTO partida
+        (jogador_id, adversario, data_partida)
+        VALUES (%s, %s, %s)
+    """
+
+    cursor.execute(
+        sql_partida,
+        (jogador_id, adversario, data_partida)
     )
 
-
-    cursor.execute(sql,valores)
-
-
     banco.commit()
-
 
     cursor.close()
     banco.close()
 
-
-
-
-
-# Listar partidas
 
 def listar_partida():
 
@@ -46,33 +62,31 @@ def listar_partida():
 
     cursor = banco.cursor(dictionary=True)
 
-
     sql = """
-    SELECT 
-        partida.id,
-        jogador.nome,
-        partida.adversario,
-        partida.data_partida
+        SELECT
+            p.id,
+            j.nome,
+            j.clube,
+            p.adversario,
+            p.data_partida
 
-    FROM partida
+        FROM partida p
 
-    INNER JOIN jogador
+        INNER JOIN jogador j
+            ON p.jogador_id = j.id
 
-    ON partida.jogador_id = jogador.id
+        ORDER BY p.id DESC
     """
-
 
     cursor.execute(sql)
 
-
     partidas = cursor.fetchall()
-
 
     cursor.close()
     banco.close()
 
-
     return partidas
+
 
 def buscar_partida(id):
 
@@ -82,18 +96,18 @@ def buscar_partida(id):
 
     sql = """
         SELECT
-            partida.id,
-            partida.jogador_id,
-            jogador.nome,
-            partida.adversario,
-            partida.data_partida
+            p.id,
+            j.nome,
+            j.clube,
+            p.adversario,
+            p.data_partida
 
-        FROM partida
+        FROM partida p
 
-        INNER JOIN jogador
-            ON partida.jogador_id = jogador.id
+        INNER JOIN jogador j
+            ON p.jogador_id = j.id
 
-        WHERE partida.id = %s
+        WHERE p.id = %s
     """
 
     cursor.execute(sql, (id,))
