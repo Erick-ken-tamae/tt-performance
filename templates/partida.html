@@ -26,6 +26,13 @@
 
                     <input type="date" name="data_partida" required>
 
+                    <label for="melhor_de">Melhor de quantos sets?</label>
+                    <select name="melhor_de" id="melhor_de" required>
+                        <option value="3">Melhor de 3</option>
+                        <option value="5">Melhor de 5</option>
+                        <option value="7">Melhor de 7</option>
+                    </select>
+
                 <button type="submit">Cadastrar Partida</button>
 
             </form>
@@ -49,11 +56,9 @@
 
             <tr>
 
-                <td>{{ partida.id }}</td>
-                <td>{{ partida.nome }}</td>
-                <td>{{ partida.clube }}</td>
-                <td>{{ partida.adversario }}</td>
-                <td>{{ partida.data_partida }}</td>
+                <td>{{ partida.nome_jogador }}</td>
+                <td>{{ partida.clube_jogador }}</td>
+                <td>{{ partida.nome_adversario }}</td>
 
                 <td>
                 <a href="/iniciar_partida/{{ partida.id }}" class="btn-iniciar">

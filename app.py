@@ -23,12 +23,14 @@ def salvar_partida():
     clube = request.form["clube"]
     adversario = request.form["adversario"]
     data_partida = request.form["data_partida"]
+    quantidade_sets = request.form["melhor_de"]
 
     cadastrar_partida(
         nome,
         clube,
         adversario,
-        data_partida
+        data_partida,
+         quantidade_sets
     )
 
     return redirect("/")

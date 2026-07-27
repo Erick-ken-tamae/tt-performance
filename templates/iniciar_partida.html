@@ -19,14 +19,14 @@
     <div class="placar">
 
         <div class="jogador">
-            <h3>{{ partida.nome }}</h3>
+            <h3>{{ partida.nome_jogador }}</h3>
             <div class="pontos" id="pontosJogador">0</div>
         </div>
 
         <div class="versus">VS</div>
 
         <div class="jogador">
-            <h3>{{ partida.adversario }}</h3>
+            <h3>{{ partida.nome_adversario }}</h3>
             <div class="pontos" id="pontosAdversario">0</div>
         </div>
 
@@ -39,14 +39,14 @@
         <div class="placar-set">
 
             <div>
-                <h3>{{ partida.nome }}</h3>
+                <h3>{{ partida.nome_jogador }}</h3>
                 <strong>0</strong>
             </div>
 
             <div class="versus">×</div>
 
             <div>
-                <h3>{{ partida.adversario }}</h3>
+                <h3>{{ partida.nome_adversario }}</h3>
                 <strong>0</strong>
             </div>
 
@@ -58,7 +58,7 @@
 
     <div class="coluna-jogador">
 
-        <h3>{{ partida.nome }}</h3>
+        <h3>{{ partida.nome_jogador }}</h3>
 
         <div class="grupos-botoes">
 
@@ -107,14 +107,14 @@
         class="btn-corrigir"
         onclick="corrigirPonto('jogador')"
     >
-        -1 {{ partida.nome }}
+        -1 {{ partida.nome_jogador }}
     </button>
 
     <button
         class="btn-corrigir"
         onclick="corrigirPonto('adversario')"
     >
-        -1 {{ partida.adversario }}
+        -1 {{ partida.nome_adversario }}
     </button>
 
 </div>
