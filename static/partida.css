@@ -119,3 +119,50 @@ table tr:hover{
     margin-bottom:30px;
     font-size:16px;
 }
+
+label{
+    font-size:16px;
+    font-weight:bold;
+    color:#444;
+    align-self:center;
+}
+
+
+select{
+    padding:14px;
+    font-size:16px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    background:white;
+    color:#333;
+    cursor:pointer;
+    outline:none;
+    transition:.3s;
+
+    appearance:none;
+
+    background-image:
+    linear-gradient(45deg, transparent 50%, #0d6efd 50%),
+    linear-gradient(135deg, #0d6efd 50%, transparent 50%);
+
+    background-position:
+    calc(100% - 20px) 18px,
+    calc(100% - 15px) 18px;
+
+    background-size:
+    6px 6px,
+    6px 6px;
+
+    background-repeat:no-repeat;
+}
+
+
+select:hover{
+    border-color:#0d6efd;
+}
+
+
+select:focus{
+    border-color:#0d6efd;
+    box-shadow:0 0 8px rgba(13,110,253,.3);
+}

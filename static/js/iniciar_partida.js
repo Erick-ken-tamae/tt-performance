@@ -1,14 +1,25 @@
 let pontosJogador = 0;
 let pontosAdversario = 0;
+
+let setsJogador = 0;
+let setsAdversario = 0;
+
 let encerrarPartida = false;
+
+const setsParaVencer = Math.ceil(melhorDe / 2);
 
 function atualizarPlacar(){
 
-    document.getElementById("pontosJogador").innerText =
-        pontosJogador;
+    document.getElementById("pontosJogador").innerText = pontosJogador;
 
-    document.getElementById("pontosAdversario").innerText =
-        pontosAdversario;
+    document.getElementById("pontosAdversario").innerText = pontosAdversario;
+}
+
+function atualizarSets(){
+
+    document.getElementById("setsJogador").innerText = setsJogador;
+
+    document.getElementById("setsAdversario").innerText = setsAdversario;
 }
 
 function marcarPonto(jogador, tipoMarcacao){
@@ -22,22 +33,17 @@ function marcarPonto(jogador, tipoMarcacao){
     if(jogador === "jogador"){
 
         pontosJogador++;
-
         nome = nomeJogador;
 
     }else{
 
         pontosAdversario++;
-
         nome = nomeAdversario;
     }
 
     atualizarPlacar();
 
-    adicionarHistoricoPonto(
-        nome,
-        tipoMarcacao
-    );
+    adicionarHistoricoPonto(nome, tipoMarcacao);
 
     verificarVencedor();
 }
@@ -57,19 +63,7 @@ function corrigirPonto(jogador){
         }
     }
 
-    encerrarPartida = false;
-
     atualizarPlacar();
-
-    document
-        .querySelectorAll(".btn-marcacao")
-        .forEach(function(botao){
-
-            botao.disabled = false;
-
-        });
-
-    verificarVencedor();
 }
 
 function registrarErro(jogador, tipoErro){
@@ -84,7 +78,6 @@ function registrarErro(jogador, tipoErro){
     if(jogador === "jogador"){
 
         nomeErro = nomeJogador;
-
         nomePonto = nomeAdversario;
 
         pontosAdversario++;
@@ -92,7 +85,6 @@ function registrarErro(jogador, tipoErro){
     }else{
 
         nomeErro = nomeAdversario;
-
         nomePonto = nomeJogador;
 
         pontosJogador++;
@@ -109,98 +101,66 @@ function registrarErro(jogador, tipoErro){
     verificarVencedor();
 }
 
-function adicionarHistoricoPonto(
-    nome,
-    tipoMarcacao
-){
+function adicionarHistoricoPonto(nome, tipoMarcacao){
 
-    let tipo;
+    let tipo = "";
 
     if(tipoMarcacao === "F"){
         tipo = "Forehand";
     }
-
     else if(tipoMarcacao === "B"){
         tipo = "Backhand";
     }
-
     else if(tipoMarcacao === "S"){
         tipo = "Saque";
     }
 
-    const lista =
-        document.getElementById("listaJogadas");
+    const lista = document.getElementById("listaJogadas");
 
     if(!lista){
         return;
     }
 
-    const jogada =
-        document.createElement("div");
+    const jogada = document.createElement("div");
 
     jogada.classList.add("jogada");
 
     jogada.innerHTML = `
-
-        <strong>
-            🏓 Ponto para: ${nome}
-        </strong>
-
-        <br>
-
+        <strong>🏓 Ponto para: ${nome}</strong><br>
         Tipo do ponto: ${tipo}
-
     `;
 
     lista.prepend(jogada);
 }
 
-function adicionarHistoricoErro(
-    nomePonto,
-    nomeErro,
-    tipoErro
-){
+function adicionarHistoricoErro(nomePonto, nomeErro, tipoErro){
 
-    let tipo;
+    let tipo = "";
 
     if(tipoErro === "F"){
         tipo = "Forehand";
     }
-
     else if(tipoErro === "B"){
         tipo = "Backhand";
     }
-
     else if(tipoErro === "S"){
         tipo = "Saque";
     }
 
-    const lista =
-        document.getElementById("listaJogadas");
+    const lista = document.getElementById("listaJogadas");
 
     if(!lista){
         return;
     }
 
-    const jogada =
-        document.createElement("div");
+    const jogada = document.createElement("div");
 
     jogada.classList.add("jogada");
 
     jogada.innerHTML = `
-
-        <strong>
-            🏓 Ponto para: ${nomePonto}
-        </strong>
-
-        <br>
-
-        ❌ Erro de: ${nomeErro}
-
-        <br>
-
+        <strong>🏓 Ponto para: ${nomePonto}</strong><br>
+        ❌ Erro de: ${nomeErro}<br>
         Tipo do erro: ${tipo}
-
     `;
 
     lista.prepend(jogada);
@@ -213,6 +173,35 @@ function verificarVencedor(){
         pontosJogador - pontosAdversario >= 2
     ){
 
+        finalizarSet("jogador");
+        return;
+    }
+
+    if(
+        pontosAdversario >= 11 &&
+        pontosAdversario - pontosJogador >= 2
+    ){
+
+        finalizarSet("adversario");
+        return;
+    }
+}
+
+function finalizarSet(vencedor){
+
+    if(vencedor === "jogador"){
+
+        setsJogador++;
+
+    }else{
+
+        setsAdversario++;
+    }
+
+    atualizarSets();
+
+    if(setsJogador >= setsParaVencer){
+
         encerrarPartida = true;
 
         mostrarVitoria(nomeJogador);
@@ -222,10 +211,7 @@ function verificarVencedor(){
         return;
     }
 
-    if(
-        pontosAdversario >= 11 &&
-        pontosAdversario - pontosJogador >= 2
-    ){
+    if(setsAdversario >= setsParaVencer){
 
         encerrarPartida = true;
 
@@ -235,53 +221,39 @@ function verificarVencedor(){
 
         return;
     }
+
+    pontosJogador = 0;
+    pontosAdversario = 0;
+
+    atualizarPlacar();
+
+    alert("Fim do set! O próximo set vai começar.");
 }
 
 function desabilitarBotoes(){
 
-    document
-        .querySelectorAll(".btn-marcacao")
-        .forEach(function(botao){
+    document.querySelectorAll(".btn-marcacao").forEach(function(botao){
 
-            botao.disabled = true;
+        botao.disabled = true;
 
-        });
+    });
 }
 
 function mostrarVitoria(vencedor){
 
-    const popup =
-        document.getElementById(
-            "popupVitoria"
-        );
+    const popup = document.getElementById("popupVitoria");
 
-    const mensagem =
-        document.getElementById(
-            "mensagemVitoria"
-        );
+    const mensagem = document.getElementById("mensagemVitoria");
 
     mensagem.innerHTML = `
-
         🏆
-
-        <strong>
-            ${vencedor}
-        </strong>
-
-        VENCEU A PARTIDA!
+        <strong>${vencedor}</strong>
+        venceu a partida!
 
         <br><br>
 
-        <strong>
-
-            ${pontosJogador}
-
-            X
-
-            ${pontosAdversario}
-
-        </strong>
-
+        Sets:
+        <strong>${setsJogador} x ${setsAdversario}</strong>
     `;
 
     popup.style.display = "flex";
@@ -289,9 +261,5 @@ function mostrarVitoria(vencedor){
 
 function fecharPopup(){
 
-    document
-        .getElementById(
-            "popupVitoria"
-        )
-        .style.display = "none";
+    document.getElementById("popupVitoria").style.display = "none";
 }

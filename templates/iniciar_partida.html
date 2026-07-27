@@ -38,21 +38,19 @@
 
         <div class="placar-set">
 
-            <div>
-                <h3>{{ partida.nome_jogador }}</h3>
-                <strong>0</strong>
-            </div>
-
-            <div class="versus">×</div>
-
-            <div>
-                <h3>{{ partida.nome_adversario }}</h3>
-                <strong>0</strong>
-            </div>
-
+        <div>
+            <h3>{{ partida.nome_jogador }}</h3>
+            <strong id="setsJogador">0</strong>
         </div>
 
-    </div>
+        <div class="versus">×</div>
+
+        <div>
+            <h3>{{ partida.nome_adversario }}</h3>
+            <strong id="setsAdversario">0</strong>
+        </div>
+
+</div>
 
  <div class="tabela-marcacao">
 
@@ -141,8 +139,10 @@
 </div>
 
 <script>
-    const nomeJogador = "{{ partida.nome }}";
-    const nomeAdversario = "{{ partida.adversario }}";
+    const nomeJogador = "{{ partida.nome_jogador }}";
+    const nomeAdversario = "{{ partida.nome_adversario }}";
+    const melhorDe = {{ partida.quantidade_sets }};
+
 </script>
 
 <script src="{{ url_for('static', filename='js/iniciar_partida.js') }}"></script>
