@@ -92,3 +92,23 @@ def buscar_partida(id):
     banco.close()
 
     return partida
+
+def listar_historico():
+    banco = conectar()
+    cursor = banco.cursor(dictionary=True)
+    
+    sql = """
+    SELECT *
+    FROM partida
+    WHERE status='Finalizada'
+    ORDER BY id DESC
+    """
+    
+    cursor.execute(sql)
+
+    partidas = cursor.fetchall()
+
+    cursor.close()
+    banco.close()
+
+    return partidas

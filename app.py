@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-from models.partida import cadastrar_partida, listar_partida, buscar_partida
+from models.partida import cadastrar_partida, listar_partida, buscar_partida, listar_historico
 
 app = Flask(__name__)
 
@@ -45,6 +45,15 @@ def iniciar_partida(id):
         partida=partida
     )
 
+#Histórico de partida
+@app.route("/historico")
+def historico():
+    partidas = listar_historico()
+
+    return render_template(
+        "historico.html",
+        partidas=partidas
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
