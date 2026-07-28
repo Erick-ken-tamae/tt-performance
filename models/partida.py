@@ -4,6 +4,7 @@ from database import conectar
 def cadastrar_partida(nome_jogador,
                       clube_jogador,
                       nome_adversario,
+                      clube_adversario,
                       data_partida,
                       quantidade_sets):
 
@@ -16,17 +17,19 @@ def cadastrar_partida(nome_jogador,
         nome_jogador,
         clube_jogador,
         nome_adversario,
+        clube_adversario,
         quantidade_sets,
         data_partida
     )
     VALUES
-    (%s,%s,%s,%s,%s)
+    (%s,%s,%s,%s,%s,%s)
     """
 
     valores = (
         nome_jogador,
         clube_jogador,
         nome_adversario,
+        clube_adversario,
         quantidade_sets,
         data_partida
     )
@@ -139,3 +142,18 @@ def finalizar_partida(id, vencedor, sets_jogador, sets_adversario):
 
     cursor.close()
     banco.close()
+
+def excluir_partida(id):
+
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        DELETE FROM partida
+        WHERE id = %s
+    """, (id,))
+
+    conexao.commit()
+
+    cursor.close()
+    conexao.close()

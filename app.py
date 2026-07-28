@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, jsonify
-from models.partida import cadastrar_partida, listar_partida, buscar_partida, finalizar_partida
+from models.partida import cadastrar_partida, listar_partida, buscar_partida, finalizar_partida, excluir_partida
 
 app = Flask(__name__)
 
@@ -22,6 +22,7 @@ def salvar_partida():
     nome = request.form["nome"]
     clube = request.form["clube"]
     adversario = request.form["adversario"]
+    clube_adversario = request.form["clube_adversario"]
     data_partida = request.form["data_partida"]
     quantidade_sets = request.form["melhor_de"]
 
@@ -29,8 +30,9 @@ def salvar_partida():
         nome,
         clube,
         adversario,
+        clube_adversario,
         data_partida,
-         quantidade_sets
+        quantidade_sets
     )
 
     return redirect("/")
@@ -61,6 +63,15 @@ def finalizar():
     )
 
     return jsonify({"mensagem":"Partida finalizada"})
+
+#excluir partida
+@app.route("/excluir_partida/<int:id>")
+def excluir(id):
+
+    excluir_partida(id)
+
+    return redirect("/")
+
 
 #Histórico de partida
 @app.route("/historico/<int:id>")
