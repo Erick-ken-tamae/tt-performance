@@ -40,6 +40,9 @@ def iniciar_partida(id):
 
     partida = buscar_partida(id)
 
+    if partida["status"] == "FINALIZADA":
+        return redirect(f"/historico/{id}")
+
     return render_template(
         "iniciar_partida.html",
         partida=partida

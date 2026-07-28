@@ -166,3 +166,17 @@ select:focus{
     border-color:#0d6efd;
     box-shadow:0 0 8px rgba(13,110,253,.3);
 }
+
+.btn-historico{
+    display:inline-block;
+    text-decoration:none;
+    background:#000;
+    color:#fff;
+    padding:8px 16px;
+    border-radius:6px;
+    transition:.3s;
+}
+
+.btn-historico:hover{
+    background:#333;
+}

@@ -63,9 +63,16 @@
                 <td>{{ partida.data_partida }}</td>
 
                 <td>
-                <a href="/iniciar_partida/{{ partida.id }}" class="btn-iniciar">
-                ⚡ Iniciar Partida
-                </a>
+
+                    {% if partida.status == "EM_ANDAMENTO" %}
+
+                    <a href="/iniciar_partida/{{ partida.id }}" class="btn-iniciar"> ⚡ Iniciar Partida</a>
+                    {% else %}
+
+                    <a href="/historico/{{ partida.id }}" class="btn-historico">📊 Ver Histórico</a>
+
+                    {% endif %}
+
                 </td>
 
             </tr>
