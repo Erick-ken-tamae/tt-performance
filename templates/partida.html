@@ -13,9 +13,7 @@
 
     <h1>🏓 TT Performance</h1>
 
-    <p class="descricao">
-        Sistema de gerenciamento e análise de partidas de Tênis de Mesa.
-    </p>
+    <p class="descricao"> Sistema de gerenciamento e análise de partidas de Tênis de Mesa.</p>
 
     <div class="acoes">
         <button type="button" class="btn-nova" onclick="abrirPopup()">
@@ -24,13 +22,9 @@
     </div>
 
     <hr>
-
     <h2>Partidas Cadastradas</h2>
-
     <table>
-
         <thead>
-
             <tr>
                 <th>ID</th>
                 <th>Jogador</th>
@@ -49,35 +43,14 @@
             {% for partida in partidas %}
 
             <tr>
-
-                <td data-label="ID">
-                    {{ loop.index }}
-                </td>
-
-                <td data-label="Jogador">
-                    {{ partida.nome_jogador }}
-                </td>
-
-                <td data-label="Clube">
-                    {{ partida.clube_jogador }}
-                </td>
-
-                <td data-label="Adversário">
-                    {{ partida.nome_adversario }}
-                </td>
-
-                <td data-label="Clube Adv.">
-                    {{ partida.clube_adversario }}
-                </td>
-
-                <td data-label="Data">
-                    {{ partida.data_partida }}
-                </td>
-
+                <td data-label="ID">{{ loop.index }}</td>
+                <td data-label="Jogador">{{ partida.nome_jogador }}</td>
+                <td data-label="Clube">{{ partida.clube_jogador }}</td>
+                <td data-label="Adversário">{{ partida.nome_adversario }}</td>
+                <td data-label="Clube Adv.">{{ partida.clube_adversario }}</td>
+                <td data-label="Data">{{ partida.data_partida }}</td>
                 <td data-label="Ações">
-
                     {% if partida.status == "EM_ANDAMENTO" %}
-
                     <a href="/iniciar_partida/{{ partida.id }}" class="btn-iniciar">
                         ⚡ Iniciar Partida
                     </a>
@@ -94,24 +67,14 @@
 
                 <td data-label="Excluir">
 
-                    <a href="/excluir_partida/{{ partida.id }}"
-                       class="btn-excluir"
-                       onclick="return confirm('Deseja excluir esta partida?')">
-
+                    <a href="/excluir_partida/{{ partida.id }}" class="btn-excluir" onclick="return confirm('Deseja excluir esta partida?')">
                         🗑 Excluir
-
                     </a>
-
                 </td>
-
             </tr>
-
             {% endfor %}
-
         </tbody>
-
     </table>
-
 </div>
 
 <div id="popupPartida" class="popup">
@@ -126,44 +89,17 @@
 
         <form action="/salvar_partida" method="POST">
 
-            <input
-                type="text"
-                name="nome"
-                placeholder="Seu nome"
-                required
-            >
+            <input type="text" name="nome" placeholder="Seu nome" required>
 
-            <input
-                type="text"
-                name="clube"
-                placeholder="Seu clube"
-                required
-            >
+            <input type="text" name="clube" placeholder="Seu clube" required>
 
-            <input
-                type="text"
-                name="adversario"
-                placeholder="Nome do adversário"
-                required
-            >
+            <input type="text" name="adversario" placeholder="Nome do adversário" required>
 
-            <input
-                type="text"
-                name="clube_adversario"
-                placeholder="Clube do adversário"
-                required
-            >
+            <input type="text" name="clube_adversario" placeholder="Clube do adversário" required>
 
-            <input
-                type="date"
-                name="data_partida"
-                required
-            >
+            <input type="date" name="data_partida" required>
 
-            <select
-                name="melhor_de"
-                required
-            >
+            <select name="melhor_de" required>
 
                 <option value="3">
                     Melhor de 3
@@ -172,7 +108,7 @@
                 <option value="5">
                     Melhor de 5
                 </option>
-
+                
                 <option value="7">
                     Melhor de 7
                 </option>
