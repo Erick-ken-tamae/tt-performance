@@ -116,7 +116,14 @@
     </button>
 
 </div>
-
+        <a
+            id="btnHistorico"
+            href="/historico/{{ partida.id }}"
+            class="btn-historico"
+            style="display:none;"
+        >
+            📊 Ver Histórico da Partida
+        </a>
 
     <div id="popupVitoria" class="popup-overlay">
 
@@ -139,6 +146,7 @@
 </div>
 
 <script>
+    const partidaId = {{ partida.id }};
     const nomeJogador = "{{ partida.nome_jogador }}";
     const nomeAdversario = "{{ partida.nome_adversario }}";
     const melhorDe = {{ partida.quantidade_sets }};

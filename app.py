@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, redirect
-from models.partida import cadastrar_partida, listar_partida, buscar_partida, listar_historico
+from flask import Flask, render_template, request, redirect, jsonify
+from models.partida import cadastrar_partida, listar_partida, buscar_partida, finalizar_partida
 
 app = Flask(__name__)
 
@@ -45,14 +45,29 @@ def iniciar_partida(id):
         partida=partida
     )
 
+@app.route("/finalizar_partida", methods=["POST"])
+def finalizar():
+
+    dados = request.get_json()
+
+    finalizar_partida(
+        dados["partida_id"],
+        dados["vencedor"],
+        dados["sets_jogador"],
+        dados["sets_adversario"]
+    )
+
+    return jsonify({"mensagem":"Partida finalizada"})
+
 #Histórico de partida
-@app.route("/historico")
-def historico():
-    partidas = listar_historico()
+@app.route("/historico/<int:id>")
+def historico(id):
+
+    partida = buscar_partida(id)
 
     return render_template(
         "historico.html",
-        partidas=partidas
+        partida=partida
     )
 
 if __name__ == "__main__":

@@ -294,3 +294,19 @@ h2{
         opacity:1;
     }
 }
+
+.btn-historico{
+    display:inline-block;
+    margin-top:20px;
+    padding:12px 25px;
+    background:#0d6efd;
+    color:#fff;
+    text-decoration:none;
+    border-radius:8px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.btn-historico:hover{
+    background:#0b5ed7;
+}

@@ -204,6 +204,8 @@ function finalizarSet(vencedor){
 
         encerrarPartida = true;
 
+        salvarResultado(nomeJogador);
+
         mostrarVitoria(nomeJogador);
 
         desabilitarBotoes();
@@ -215,6 +217,7 @@ function finalizarSet(vencedor){
 
         encerrarPartida = true;
 
+        salvarResultado(nomeAdversario);
         mostrarVitoria(nomeAdversario);
 
         desabilitarBotoes();
@@ -239,10 +242,30 @@ function desabilitarBotoes(){
     });
 }
 
+function salvarResultado(vencedor){
+
+    fetch("/finalizar_partida",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body: JSON.stringify({
+            partida_id: partidaId,
+            vencedor: vencedor,
+            sets_jogador: setsJogador,
+            sets_adversario: setsAdversario
+})
+
+    });
+
+}
+
 function mostrarVitoria(vencedor){
 
     const popup = document.getElementById("popupVitoria");
-
     const mensagem = document.getElementById("mensagemVitoria");
 
     mensagem.innerHTML = `
@@ -257,9 +280,12 @@ function mostrarVitoria(vencedor){
     `;
 
     popup.style.display = "flex";
+
+    document.getElementById("btnHistorico").style.display = "inline-block";
 }
 
 function fecharPopup(){
 
-    document.getElementById("popupVitoria").style.display = "none";
+    window.location.href = "/historico/" + partidaId;
+
 }

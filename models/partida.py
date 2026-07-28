@@ -112,3 +112,30 @@ def listar_historico():
     banco.close()
 
     return partidas
+
+def finalizar_partida(id, vencedor, sets_jogador, sets_adversario):
+
+    banco = conectar()
+    cursor = banco.cursor()
+
+    sql = """
+        UPDATE partida
+        SET
+            vencedor=%s,
+            sets_jogador=%s,
+            sets_adversario=%s,
+            status='FINALIZADA'
+        WHERE id=%s
+    """
+
+    cursor.execute(sql, (
+        vencedor,
+        sets_jogador,
+        sets_adversario,
+        id
+    ))
+
+    banco.commit()
+
+    cursor.close()
+    banco.close()
