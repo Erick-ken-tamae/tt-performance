@@ -1,291 +1,248 @@
-let pontosJogador = 0;
-let pontosAdversario = 0;
+console.log("JS DA PARTIDA CARREGADO");
 
-let setsJogador = 0;
-let setsAdversario = 0;
+let pontosJogador=0;
+let pontosAdversario=0;
+let setsJogador=0;
+let setsAdversario=0;
+let numeroSetAtual=1;
+let encerrarPartida=false;
 
-let encerrarPartida = false;
-
-const setsParaVencer = Math.ceil(melhorDe / 2);
+const setsParaVencer=Math.ceil(melhorDe/2);
 
 function atualizarPlacar(){
-
-    document.getElementById("pontosJogador").innerText = pontosJogador;
-
-    document.getElementById("pontosAdversario").innerText = pontosAdversario;
+    document.getElementById("pontosJogador").innerText=pontosJogador;
+    document.getElementById("pontosAdversario").innerText=pontosAdversario;
 }
 
 function atualizarSets(){
-
-    document.getElementById("setsJogador").innerText = setsJogador;
-
-    document.getElementById("setsAdversario").innerText = setsAdversario;
+    document.getElementById("setsJogador").innerText=setsJogador;
+    document.getElementById("setsAdversario").innerText=setsAdversario;
 }
 
-function marcarPonto(jogador, tipoMarcacao){
-
-    if(encerrarPartida){
-        return;
-    }
+function marcarPonto(jogador,tipo){
+    if(encerrarPartida)return;
 
     let nome;
 
-    if(jogador === "jogador"){
-
+    if(jogador==="jogador"){
         pontosJogador++;
-        nome = nomeJogador;
-
+        nome=nomeJogador;
     }else{
-
         pontosAdversario++;
-        nome = nomeAdversario;
+        nome=nomeAdversario;
     }
 
     atualizarPlacar();
-
-    adicionarHistoricoPonto(nome, tipoMarcacao);
-
+    adicionarHistoricoPonto(nome,tipo);
     verificarVencedor();
 }
 
 function corrigirPonto(jogador){
-
-    if(jogador === "jogador"){
-
-        if(pontosJogador > 0){
-            pontosJogador--;
-        }
-
+    if(jogador==="jogador"){
+        if(pontosJogador>0)pontosJogador--;
     }else{
-
-        if(pontosAdversario > 0){
-            pontosAdversario--;
-        }
+        if(pontosAdversario>0)pontosAdversario--;
     }
 
     atualizarPlacar();
 }
 
-function registrarErro(jogador, tipoErro){
+function registrarErro(jogador,tipo){
 
-    if(encerrarPartida){
-        return;
-    }
+    if(encerrarPartida)return;
 
-    let nomeErro;
-    let nomePonto;
+    let erro;
+    let ponto;
 
-    if(jogador === "jogador"){
-
-        nomeErro = nomeJogador;
-        nomePonto = nomeAdversario;
-
+    if(jogador==="jogador"){
+        erro=nomeJogador;
+        ponto=nomeAdversario;
         pontosAdversario++;
-
     }else{
-
-        nomeErro = nomeAdversario;
-        nomePonto = nomeJogador;
-
+        erro=nomeAdversario;
+        ponto=nomeJogador;
         pontosJogador++;
     }
 
     atualizarPlacar();
-
-    adicionarHistoricoErro(
-        nomePonto,
-        nomeErro,
-        tipoErro
-    );
-
+    adicionarHistoricoErro(ponto,erro,tipo);
     verificarVencedor();
-}
-
-function adicionarHistoricoPonto(nome, tipoMarcacao){
-
-    let tipo = "";
-
-    if(tipoMarcacao === "F"){
-        tipo = "Forehand";
-    }
-    else if(tipoMarcacao === "B"){
-        tipo = "Backhand";
-    }
-    else if(tipoMarcacao === "S"){
-        tipo = "Saque";
-    }
-
-    const lista = document.getElementById("listaJogadas");
-
-    if(!lista){
-        return;
-    }
-
-    const jogada = document.createElement("div");
-
-    jogada.classList.add("jogada");
-
-    jogada.innerHTML = `
-        <strong>🏓 Ponto para: ${nome}</strong><br>
-        Tipo do ponto: ${tipo}
-    `;
-
-    lista.prepend(jogada);
-}
-
-function adicionarHistoricoErro(nomePonto, nomeErro, tipoErro){
-
-    let tipo = "";
-
-    if(tipoErro === "F"){
-        tipo = "Forehand";
-    }
-    else if(tipoErro === "B"){
-        tipo = "Backhand";
-    }
-    else if(tipoErro === "S"){
-        tipo = "Saque";
-    }
-
-    const lista = document.getElementById("listaJogadas");
-
-    if(!lista){
-        return;
-    }
-
-    const jogada = document.createElement("div");
-
-    jogada.classList.add("jogada");
-
-    jogada.innerHTML = `
-        <strong>🏓 Ponto para: ${nomePonto}</strong><br>
-        ❌ Erro de: ${nomeErro}<br>
-        Tipo do erro: ${tipo}
-    `;
-
-    lista.prepend(jogada);
 }
 
 function verificarVencedor(){
 
-    if(
-        pontosJogador >= 11 &&
-        pontosJogador - pontosAdversario >= 2
-    ){
-
+    if(pontosJogador>=11 && pontosJogador-pontosAdversario>=2){
         finalizarSet("jogador");
         return;
     }
 
-    if(
-        pontosAdversario >= 11 &&
-        pontosAdversario - pontosJogador >= 2
-    ){
-
+    if(pontosAdversario>=11 && pontosAdversario-pontosJogador>=2){
         finalizarSet("adversario");
-        return;
     }
 }
 
 function finalizarSet(vencedor){
 
-    if(vencedor === "jogador"){
+    salvarSetBanco(vencedor);
 
+    if(vencedor==="jogador"){
         setsJogador++;
-
     }else{
-
         setsAdversario++;
     }
 
     atualizarSets();
 
-    if(setsJogador >= setsParaVencer){
-
-        encerrarPartida = true;
-
+    if(setsJogador>=setsParaVencer){
+        encerrarPartida=true;
         salvarResultado(nomeJogador);
-
         mostrarVitoria(nomeJogador);
-
         desabilitarBotoes();
-
         return;
     }
 
-    if(setsAdversario >= setsParaVencer){
-
-        encerrarPartida = true;
-
+    if(setsAdversario>=setsParaVencer){
+        encerrarPartida=true;
         salvarResultado(nomeAdversario);
         mostrarVitoria(nomeAdversario);
-
         desabilitarBotoes();
-
         return;
     }
 
-    pontosJogador = 0;
-    pontosAdversario = 0;
+    numeroSetAtual++;
+
+    pontosJogador=0;
+    pontosAdversario=0;
 
     atualizarPlacar();
 
-    alert("Fim do set! O próximo set vai começar.");
+    alert("Fim do set!");
 }
 
-function desabilitarBotoes(){
+function salvarSetBanco(vencedor){
 
-    document.querySelectorAll(".btn-marcacao").forEach(function(botao){
+    let nomeVencedor;
 
-        botao.disabled = true;
+    if(vencedor==="jogador"){
+        nomeVencedor=nomeJogador;
+    }else{
+        nomeVencedor=nomeAdversario;
+    }
 
+    let dados={
+        partida_id:partidaId,
+        numero_set:numeroSetAtual,
+        pontos_jogador:pontosJogador,
+        pontos_adversario:pontosAdversario,
+        vencedor:nomeVencedor
+    };
+
+    console.log("Enviando set:",dados);
+
+    fetch("/salvar_set",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(dados)
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        console.log(data);
+    })
+    .catch(erro=>{
+        console.log(erro);
     });
 }
 
 function salvarResultado(vencedor){
 
     fetch("/finalizar_partida",{
-
         method:"POST",
-
         headers:{
             "Content-Type":"application/json"
         },
-
-        body: JSON.stringify({
-            partida_id: partidaId,
-            vencedor: vencedor,
-            sets_jogador: setsJogador,
-            sets_adversario: setsAdversario
-})
-
+        body:JSON.stringify({
+            partida_id:partidaId,
+            vencedor:vencedor,
+            sets_jogador:setsJogador,
+            sets_adversario:setsAdversario
+        })
     });
+}
 
+function desabilitarBotoes(){
+    document.querySelectorAll(".btn-marcacao")
+    .forEach(botao=>{
+        botao.disabled=true;
+    });
 }
 
 function mostrarVitoria(vencedor){
 
-    const popup = document.getElementById("popupVitoria");
-    const mensagem = document.getElementById("mensagemVitoria");
+    const popup=document.getElementById("popupVitoria");
+    const mensagem=document.getElementById("mensagemVitoria");
 
-    mensagem.innerHTML = `
-        🏆
-        <strong>${vencedor}</strong>
-        venceu a partida!
-
-        <br><br>
-
-        Sets:
-        <strong>${setsJogador} x ${setsAdversario}</strong>
+    mensagem.innerHTML=`
+    🏆 <strong>${vencedor}</strong> venceu!
+    <br><br>
+    Sets: ${setsJogador} x ${setsAdversario}
     `;
 
-    popup.style.display = "flex";
+    popup.style.display="flex";
 
-    document.getElementById("btnHistorico").style.display = "inline-block";
+    document.getElementById("btnHistorico").style.display="inline-block";
 }
 
 function fecharPopup(){
+    window.location.href="/historico/"+partidaId;
+}
 
-    window.location.href = "/historico/" + partidaId;
+function adicionarHistoricoPonto(nome,tipo){
 
+    let tecnica={
+        F:"Forehand",
+        B:"Backhand",
+        S:"Saque"
+    }[tipo];
+
+    let lista=document.getElementById("listaJogadas");
+
+    if(!lista)return;
+
+    let div=document.createElement("div");
+
+    div.classList.add("jogada");
+
+    div.innerHTML=`
+    🏓 Ponto para ${nome}<br>
+    Técnica: ${tecnica}
+    `;
+
+    lista.prepend(div);
+}
+
+function adicionarHistoricoErro(ponto,erro,tipo){
+
+    let tecnica={
+        F:"Forehand",
+        B:"Backhand",
+        S:"Saque"
+    }[tipo];
+
+    let lista=document.getElementById("listaJogadas");
+
+    if(!lista)return;
+
+    let div=document.createElement("div");
+
+    div.classList.add("jogada");
+
+    div.innerHTML=`
+    🏓 Ponto para ${ponto}<br>
+    ❌ Erro de ${erro}<br>
+    Técnica: ${tecnica}
+    `;
+
+    lista.prepend(div);
 }

@@ -97,6 +97,7 @@ def buscar_partida(id):
 
     return partida
 
+
 def listar_historico():
     banco = conectar()
     cursor = banco.cursor(dictionary=True)
@@ -145,16 +146,150 @@ def finalizar_partida(id, vencedor, sets_jogador, sets_adversario):
     banco.close()
 
 def excluir_partida(id):
-
     conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
+        DELETE FROM jogada
+        WHERE partida_id=%s
+    """,(id,))
+
+    cursor.execute("""
         DELETE FROM partida
-        WHERE id = %s
-    """, (id,))
+        WHERE id=%s
+    """,(id,))
 
     conexao.commit()
 
     cursor.close()
     conexao.close()
+    
+def salvar_jogada(partida_id, set_numero, jogador, tecnica, resultado, observacao):
+    banco = conectar()
+    cursor = banco.cursor()
+    
+    sql="""
+    INSERT INTO jogada
+    (
+        partida_id,
+        set_numero,
+        jogador,
+        tecnica,
+        resultado,
+        observacao
+    )
+    VALUES
+    (%s,%s,%s,%s,%s,%s)
+    """
+    
+    cursor.execute(
+        sql,
+        (
+            partida_id,
+            set_numero,
+            jogador,
+            tecnica,
+            resultado,
+            observacao
+        )
+    )
+    
+    banco.commit()
+    cursor.close()
+    banco.close()
+    
+def listar_sets(partida_id):
+
+    banco = conectar()
+
+    cursor = banco.cursor(dictionary=True)
+
+    sql = """
+    SELECT
+        numero_set,
+        pontos_jogador,
+        pontos_adversario,
+        vencedor
+    FROM set_partida
+    WHERE partida_id=%s
+    ORDER BY numero_set ASC
+    """
+
+    cursor.execute(sql,(partida_id,))
+
+    sets = cursor.fetchall()
+
+    cursor.close()
+    banco.close()
+
+    return sets
+
+def salvar_set(
+    partida_id,
+    numero_set,
+    pontos_jogador,
+    pontos_adversario,
+    vencedor
+):
+
+    banco = conectar()
+    cursor = banco.cursor()
+
+    sql = """
+    INSERT INTO set_partida
+    (
+        partida_id,
+        numero_set,
+        pontos_jogador,
+        pontos_adversario,
+        vencedor
+    )
+
+    VALUES
+    (%s,%s,%s,%s,%s)
+    """
+
+    cursor.execute(
+        sql,
+        (
+            partida_id,
+            numero_set,
+            pontos_jogador,
+            pontos_adversario,
+            vencedor
+        )
+    )
+
+    banco.commit()
+
+    cursor.close()
+    banco.close()
+
+def estatistica_partida(id):
+
+    banco = conectar()
+    cursor = banco.cursor(dictionary=True)
+
+    sql = """
+    SELECT
+    tecnica,
+    SUM(resultado='ACERTO') AS acertos,
+    SUM(resultado='ERRO') AS erros,
+    ROUND(
+        (
+        SUM(resultado='ACERTO') / COUNT(*)
+        ) * 100,
+        2
+    ) AS aproveitamento
+    FROM jogada
+    WHERE partida_id=%s
+    GROUP BY tecnica
+    """
+
+    cursor.execute(sql,(id,))
+    estatisticas = cursor.fetchall()
+
+    cursor.close()
+    banco.close()
+
+    return estatisticas

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, jsonify
-from models.partida import cadastrar_partida, listar_partida, buscar_partida, finalizar_partida, excluir_partida
+from models.partida import cadastrar_partida, listar_partida, buscar_partida, finalizar_partida, excluir_partida, salvar_jogada, estatistica_partida, listar_sets, salvar_set
 
 app = Flask(__name__)
 
@@ -19,6 +19,7 @@ def inicio():
 @app.route("/salvar_partida", methods=["POST"])
 def salvar_partida():
 
+    
     nome = request.form["nome"]
     clube = request.form["clube"]
     adversario = request.form["adversario"]
@@ -79,10 +80,56 @@ def historico(id):
 
     partida = buscar_partida(id)
 
+    sets = listar_sets(id)
+
+    print("SETS:", sets)
     return render_template(
         "historico.html",
-        partida=partida
+        partida=partida,
+        sets=sets
     )
+
+@app.route("/salvar_jogada", methods=["POST"])
+def salvar_jogada_api():
+
+    dados=request.get_json()
+
+
+    salvar_jogada(
+
+        dados["partida_id"],
+        dados["set_numero"],
+        dados["jogador"],
+        dados["tecnica"],
+        dados["resultado"],
+        dados["observacao"]
+
+    )
+
+
+    return jsonify({
+        "status":"ok"
+    })
+
+@app.route("/salvar_set", methods=["POST"])
+def salvar_set_api():
+
+    dados = request.get_json()
+
+    print("DADOS RECEBIDOS:", dados)
+
+    salvar_set(
+        dados["partida_id"],
+        dados["numero_set"],
+        dados["pontos_jogador"],
+        dados["pontos_adversario"],
+        dados["vencedor"]
+    )
+
+
+    return jsonify({
+        "status":"ok"
+    })
 
 if __name__ == "__main__":
     app.run(debug=True)
