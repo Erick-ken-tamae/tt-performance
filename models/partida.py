@@ -50,19 +50,20 @@ def listar_partida():
     cursor = banco.cursor(dictionary=True)
 
     sql = """
-    SELECT
-        id,
-        nome_jogador,
-        clube_jogador,
-        nome_adversario,
-        quantidade_sets,
-        sets_jogador,
-        sets_adversario,
-        status,
-        data_partida
-    FROM partida
-    ORDER BY id DESC
-    """
+        SELECT
+            id,
+            nome_jogador,
+            clube_jogador,
+            nome_adversario,
+            clube_adversario,
+            quantidade_sets,
+            sets_jogador,
+            sets_adversario,
+            status,
+            data_partida
+        FROM partida
+        ORDER BY id ASC
+        """
 
     cursor.execute(sql)
 

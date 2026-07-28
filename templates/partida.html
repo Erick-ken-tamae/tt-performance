@@ -10,18 +10,27 @@
 <body>
 
 <div class="container">
+
     <h1>🏓 TT Performance</h1>
-    <p class="descricao">Sistema de gerenciamento e análise de partidas de Tênis de Mesa.</p>
+
+    <p class="descricao">
+        Sistema de gerenciamento e análise de partidas de Tênis de Mesa.
+    </p>
 
     <div class="acoes">
-
-        <button type="button" class="btn-nova" onclick="abrirPopup()">➕ Nova Partida</button></div>
+        <button type="button" class="btn-nova" onclick="abrirPopup()">
+            ➕ Nova Partida
+        </button>
+    </div>
 
     <hr>
 
     <h2>Partidas Cadastradas</h2>
+
     <table>
+
         <thead>
+
             <tr>
                 <th>ID</th>
                 <th>Jogador</th>
@@ -30,60 +39,80 @@
                 <th>Clube Adversário</th>
                 <th>Data</th>
                 <th>Ações</th>
+                <th>Excluir</th>
             </tr>
+
         </thead>
+
         <tbody>
-        {% for partida in partidas %}
+
+            {% for partida in partidas %}
+
             <tr>
-                <td>{{ partida.id }}</td>
-                <td>{{ partida.nome_jogador }}</td>
-                <td>{{ partida.clube_jogador }}</td>
-                <td>{{ partida.nome_adversario }}</td>
-                <td>{{ partida.clube_adversario }}</td>
-                <td>{{ partida.data_partida }}</td>
-                <td>
+
+                <td data-label="ID">
+                    {{ loop.index }}
+                </td>
+
+                <td data-label="Jogador">
+                    {{ partida.nome_jogador }}
+                </td>
+
+                <td data-label="Clube">
+                    {{ partida.clube_jogador }}
+                </td>
+
+                <td data-label="Adversário">
+                    {{ partida.nome_adversario }}
+                </td>
+
+                <td data-label="Clube Adv.">
+                    {{ partida.clube_adversario }}
+                </td>
+
+                <td data-label="Data">
+                    {{ partida.data_partida }}
+                </td>
+
+                <td data-label="Ações">
 
                     {% if partida.status == "EM_ANDAMENTO" %}
 
-                        <a href="/iniciar_partida/{{ partida.id }}" class="btn-iniciar">
-                            ⚡ Iniciar Partida
-                        </a>
-
-                    {% else %}
-
-                        <a href="/historico/{{ partida.id }}" class="btn-historico">
-                            📊 Ver Histórico
-                        </a>
-
-                    {% endif %}
-
-                </td>
-                <td>
-
-                {% if partida.status == "FINALIZADA" %}
-
-                    <a href="/excluir_partida/{{ partida.id }}" class="btn-excluir" onclick="return confirm('Deseja excluir esta partida?')">
-                            🗑 Excluir
+                    <a href="/iniciar_partida/{{ partida.id }}" class="btn-iniciar">
+                        ⚡ Iniciar Partida
                     </a>
 
                     {% else %}
 
-                        -
+                    <a href="/historico/{{ partida.id }}" class="btn-historico">
+                        📊 Ver Histórico
+                    </a>
 
                     {% endif %}
 
-</td>
+                </td>
+
+                <td data-label="Excluir">
+
+                    <a href="/excluir_partida/{{ partida.id }}"
+                       class="btn-excluir"
+                       onclick="return confirm('Deseja excluir esta partida?')">
+
+                        🗑 Excluir
+
+                    </a>
+
+                </td>
+
             </tr>
 
-        {% endfor %}
+            {% endfor %}
 
         </tbody>
 
     </table>
 
 </div>
-
-<!-- POPUP -->
 
 <div id="popupPartida" class="popup">
 
@@ -97,20 +126,57 @@
 
         <form action="/salvar_partida" method="POST">
 
-            <input type="text" name="nome"placeholder="Seu nome"required>
+            <input
+                type="text"
+                name="nome"
+                placeholder="Seu nome"
+                required
+            >
 
-            <input type="text" name="clube" placeholder="Seu clube" required>
+            <input
+                type="text"
+                name="clube"
+                placeholder="Seu clube"
+                required
+            >
 
-            <input type="text" name="adversario" placeholder="Nome do adversário" required >
+            <input
+                type="text"
+                name="adversario"
+                placeholder="Nome do adversário"
+                required
+            >
 
-            <input type="text" name="clube_adversario" placeholder="Clube do adversário" required >
+            <input
+                type="text"
+                name="clube_adversario"
+                placeholder="Clube do adversário"
+                required
+            >
 
-            <input type="date" name="data_partida" required >
+            <input
+                type="date"
+                name="data_partida"
+                required
+            >
 
-            <select name="melhor_de" required >
-                <option value="3">Melhor de 3</option>
-                <option value="5">Melhor de 5</option>
-                <option value="7">Melhor de 7</option>
+            <select
+                name="melhor_de"
+                required
+            >
+
+                <option value="3">
+                    Melhor de 3
+                </option>
+
+                <option value="5">
+                    Melhor de 5
+                </option>
+
+                <option value="7">
+                    Melhor de 7
+                </option>
+
             </select>
 
             <button type="submit">

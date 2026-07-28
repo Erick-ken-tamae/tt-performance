@@ -6,7 +6,7 @@
 }
 
 body{
-    background:#eef2f7;
+    background:#17283d;
 }
 
 .container{
@@ -75,7 +75,7 @@ table{
 }
 
 table thead th{
-    background:#111;
+    background:#111111;
     color:#fff;
     padding:16px;
     font-size:14px;
@@ -92,7 +92,7 @@ table thead th:last-child{
 
 table tbody tr{
     background:#fff;
-    box-shadow:0 4px 12px rgba(0,0,0,.06);
+    box-shadow:0 4px 12px rgba(4, 4, 4, 0.06);
     transition:.25s;
 }
 
@@ -105,7 +105,7 @@ table td{
     padding:18px 14px;
     text-align:center;
     font-size:14px;
-    color:#444;
+    color:#000000;
 }
 
 table td:first-child{
@@ -255,4 +255,109 @@ table td:last-child{
 .popup-conteudo button:hover{
     background:#2a2a2a;
     transform:translateY(-2px);
+}
+
+@media(max-width:768px){
+
+body{
+    padding:15px;
+}
+
+.container{
+    width:100%;
+    margin:15px auto;
+    padding:20px;
+    border-radius:15px;
+}
+
+h1{
+    font-size:30px;
+}
+
+h2{
+    font-size:24px;
+    text-align:center;
+}
+
+.descricao{
+    font-size:14px;
+    margin-bottom:20px;
+}
+
+.acoes{
+    justify-content:center;
+}
+
+.btn-nova{
+    width:100%;
+    height:48px;
+}
+
+table,
+thead,
+tbody,
+th,
+td,
+tr{
+    display:block;
+}
+
+thead{
+    display:none;
+}
+
+tbody tr{
+    margin-bottom:20px;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+tbody td{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    padding:12px 15px;
+    border-bottom:1px solid #ececec;
+    text-align:right;
+}
+
+tbody td:last-child{
+    border-bottom:none;
+}
+
+tbody td::before{
+    content:attr(data-label);
+    font-weight:bold;
+    color:#111;
+    text-align:left;
+}
+
+.btn-iniciar,
+.btn-historico{
+    width:150px;
+    height:42px;
+    font-size:13px;
+}
+
+.btn-excluir{
+    width:95px;
+    height:42px;
+    font-size:13px;
+}
+
+.popup-conteudo{
+    width:95%;
+    padding:20px;
+}
+
+.popup-conteudo form{
+    grid-template-columns:1fr;
+}
+
+.popup-conteudo button{
+    grid-column:auto;
+}
+
 }
