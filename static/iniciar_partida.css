@@ -109,11 +109,11 @@ h2{
     align-items:center;
 }
 
-.coluna-jogador:first-child{
+.tabela-marcacao .coluna-jogador:nth-child(1){
     border-top:5px solid #0b5ed7;
 }
 
-.coluna-jogador:last-child{
+.tabela-marcacao .coluna-jogador:nth-child(2){
     border-top:5px solid #dc3545;
 }
 

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise da Partida</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='analise.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🏓 TT PERFORMANCE</h1>
+    <h2>Análise da Partida</h2>
+
+    <div class="card">
+
+        <h3>{{ partida.nome_jogador }} × {{ partida.nome_adversario }}</h3>
+
+        <p><strong>Data:</strong> {{ partida.data_partida.strftime('%d/%m/%Y') }}</p>
+
+        <p><strong>Vencedor:</strong> {{ partida.vencedor }}</p>
+
+        <p>
+            <strong>Resultado:</strong>
+            {{ partida.sets_jogador }}
+            ×
+            {{ partida.sets_adversario }}
+        </p>
+
+    </div>
+
+    <br>
+
+    <div class="card">
+
+        <h2>Resultado dos Sets</h2>
+
+        <table>
+
+            <tr>
+                <th>Set</th>
+                <th>Placar</th>
+                <th>Vencedor</th>
+            </tr>
+
+            {% for set in sets %}
+
+            <tr>
+
+                <td>{{ set.numero_set }}</td>
+
+                <td>
+                    {{ set.pontos_jogador }}
+                    ×
+                    {{ set.pontos_adversario }}
+                </td>
+
+                <td>{{ set.vencedor }}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <br>
+
+    <div class="card">
+
+        <h2>Histórico das Jogadas</h2>
+
+        <table>
+
+            <tr>
+                <th>Set</th>
+                <th>Jogador</th>
+                <th>Técnica</th>
+                <th>Resultado</th>
+                <th>Momento</th>
+            </tr>
+
+            {% for jogada in jogadas %}
+
+            <tr>
+
+                <td>{{ jogada.numero_set }}</td>
+
+                <td>{{ jogada.jogador }}</td>
+
+                <td>{{ jogada.tecnica }}</td>
+
+                <td>{{ jogada.resultado }}</td>
+
+                <td>{{ jogada.data_registro.strftime('%H:%M:%S') }}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <br>
+
+    <div class="card">
+
+        <h2>Estatísticas por Técnica</h2>
+
+        <table>
+
+            <tr>
+                <th>Técnica</th>
+                <th>Acertos</th>
+                <th>Erros</th>
+                <th>Aproveitamento</th>
+            </tr>
+
+            {% for item in estatistica %}
+
+            <tr>
+
+                <td>{{ item.tecnica }}</td>
+
+                <td>{{ item.acertos }}</td>
+
+                <td>{{ item.erros }}</td>
+
+                <td>{{ item.aproveitamento }}%</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <br>
+
+    <a href="/" class="botao">
+        ⬅ Voltar
+    </a>
+
+</div>
+
+</body>
+</html>

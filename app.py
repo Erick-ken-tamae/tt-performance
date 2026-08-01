@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, jsonify
 from models.partida import cadastrar_partida, listar_partida, buscar_partida, finalizar_partida, excluir_partida, salvar_jogada, estatistica_partida, listar_sets, salvar_set
-
+from models.jogada import listar_jogadas
 app = Flask(__name__)
 
 # Página inicial
@@ -92,23 +92,20 @@ def historico(id):
 @app.route("/salvar_jogada", methods=["POST"])
 def salvar_jogada_api():
 
-    dados=request.get_json()
+    dados = request.get_json()
 
+    print(dados)
 
     salvar_jogada(
-
         dados["partida_id"],
         dados["set_numero"],
         dados["jogador"],
         dados["tecnica"],
-        dados["resultado"],
-        dados["observacao"]
-
+        dados["resultado"]
     )
 
-
     return jsonify({
-        "status":"ok"
+        "status": "ok"
     })
 
 @app.route("/salvar_set", methods=["POST"])
@@ -130,6 +127,21 @@ def salvar_set_api():
     return jsonify({
         "status":"ok"
     })
+
+@app.route("/analise/<int:id>")
+def analise(id):
+    partida =buscar_partida(id)
+    estatistica = estatistica_partida(id)
+    sets=listar_sets(id)
+    jogadas = listar_jogadas(id)
+    
+    return render_template(
+        'analise.html',
+        partida=partida,
+        estatistica=estatistica,
+        sets = sets,
+        jogadas = jogadas
+        )
 
 if __name__ == "__main__":
     app.run(

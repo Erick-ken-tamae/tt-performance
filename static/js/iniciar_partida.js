@@ -33,6 +33,19 @@ function marcarPonto(jogador,tipo){
     }
 
     atualizarPlacar();
+
+        let tecnica={
+        F:"Forehand",
+        B:"Backhand",
+        S:"Saque"
+    }[tipo];
+
+    salvarJogadaBanco(
+        nome,
+        tecnica,
+        "Acerto"
+    );
+
     adicionarHistoricoPonto(nome,tipo);
     verificarVencedor();
 }
@@ -155,6 +168,32 @@ function salvarSetBanco(vencedor){
     });
 }
 
+function salvarJogadaBanco(jogador,tecnica,resultado){
+
+    fetch("/salvar_jogada",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            partida_id:partidaId,
+            set_numero:numeroSetAtual,
+            jogador:jogador,
+            tecnica:tecnica,
+            resultado:resultado,
+            observacao:""
+        })
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        console.log(data);
+    })
+    .catch(erro=>{
+        console.log(erro);
+    });
+
+}
+
 function salvarResultado(vencedor){
 
     fetch("/finalizar_partida",{
@@ -246,3 +285,4 @@ function adicionarHistoricoErro(ponto,erro,tipo){
 
     lista.prepend(div);
 }
+

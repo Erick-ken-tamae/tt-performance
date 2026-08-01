@@ -78,6 +78,7 @@
 
             </div>
 
+
             <div class="grupo">
 
                 <h4 class="titulo-erro">ERROS</h4>
@@ -99,6 +100,56 @@
         </div>
 
     </div>
+
+
+    <div class="coluna-jogador">
+
+        <h3>{{ partida.nome_adversario }}</h3>
+
+        <div class="grupos-botoes">
+
+            <div class="grupo">
+
+                <h4>CERTOS</h4>
+
+                <button class="btn-marcacao" onclick="marcarPonto('adversario','F')">
+                    Forehand
+                </button>
+
+                <button class="btn-marcacao" onclick="marcarPonto('adversario','B')">
+                    Backhand
+                </button>
+
+                <button class="btn-marcacao" onclick="marcarPonto('adversario','S')">
+                    Saque
+                </button>
+
+            </div>
+
+
+            <div class="grupo">
+
+                <h4 class="titulo-erro">ERROS</h4>
+
+                <button class="btn-marcacao btn-erro" onclick="registrarErro('adversario','F')">
+                    Forehand
+                </button>
+
+                <button class="btn-marcacao btn-erro" onclick="registrarErro('adversario','B')">
+                    Backhand
+                </button>
+
+                <button class="btn-marcacao btn-erro" onclick="registrarErro('adversario','S')">
+                    Saque
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 <div class="botoes-corrigir">
 
     <button
