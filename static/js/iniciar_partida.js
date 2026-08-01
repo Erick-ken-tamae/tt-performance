@@ -41,7 +41,8 @@ function marcarPonto(jogador,tipo){
     }[tipo];
 
     salvarJogadaBanco(
-        nome,
+        nome,      // quem fez a jogada
+        nome,      // quem ganhou o ponto
         tecnica,
         "Acerto"
     );
@@ -78,6 +79,18 @@ function registrarErro(jogador,tipo){
     }
 
     atualizarPlacar();
+        let tecnica = {
+            F: "Forehand",
+            B: "Backhand",
+            S: "Saque"
+        }[tipo];
+
+        salvarJogadaBanco(
+            erro,
+            ponto,         // quem errou
+            tecnica,
+            "Erro"
+        );
     adicionarHistoricoErro(ponto,erro,tipo);
     verificarVencedor();
 }
@@ -168,7 +181,7 @@ function salvarSetBanco(vencedor){
     });
 }
 
-function salvarJogadaBanco(jogador,tecnica,resultado){
+function salvarJogadaBanco(jogador, vencedorPonto, tecnica, resultado){
 
     fetch("/salvar_jogada",{
         method:"POST",
@@ -179,19 +192,11 @@ function salvarJogadaBanco(jogador,tecnica,resultado){
             partida_id:partidaId,
             set_numero:numeroSetAtual,
             jogador:jogador,
+            vencedor_ponto:vencedorPonto,
             tecnica:tecnica,
-            resultado:resultado,
-            observacao:""
+            resultado:resultado
         })
-    })
-    .then(res=>res.json())
-    .then(data=>{
-        console.log(data);
-    })
-    .catch(erro=>{
-        console.log(erro);
     });
-
 }
 
 function salvarResultado(vencedor){

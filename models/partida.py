@@ -164,7 +164,7 @@ def excluir_partida(id):
     cursor.close()
     conexao.close()
     
-def salvar_jogada(partida_id,set_numero,jogador,tecnica,resultado):
+def salvar_jogada(partida_id,set_numero,jogador, vencedor_ponto,tecnica,resultado):
 
     banco=conectar()
     cursor=banco.cursor()
@@ -175,23 +175,22 @@ def salvar_jogada(partida_id,set_numero,jogador,tecnica,resultado):
         partida_id,
         numero_set,
         jogador,
+        vencedor_ponto,
         tecnica,
         resultado
     )
     VALUES
-    (%s,%s,%s,%s,%s)
+    (%s,%s,%s,%s,%s, %s)
     """
 
-    cursor.execute(
-        sql,
-        (
-            partida_id,
-            set_numero,
-            jogador,
-            tecnica,
-            resultado
-        )
-    )
+    cursor.execute(sql,(
+        partida_id,
+        set_numero,
+        jogador,
+        vencedor_ponto,
+        tecnica,
+        resultado
+    ))
 
     banco.commit()
 

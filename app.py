@@ -94,19 +94,17 @@ def salvar_jogada_api():
 
     dados = request.get_json()
 
-    print(dados)
-
     salvar_jogada(
         dados["partida_id"],
         dados["set_numero"],
         dados["jogador"],
+        dados["vencedor_ponto"],
         dados["tecnica"],
         dados["resultado"]
     )
 
-    return jsonify({
-        "status": "ok"
-    })
+    return jsonify({"status":"ok"})
+
 
 @app.route("/salvar_set", methods=["POST"])
 def salvar_set_api():
