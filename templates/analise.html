@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='analise.css') }}">
 </head>
+
 <body>
 
 <div class="container">
@@ -14,24 +16,39 @@
     <h1>🏓 TT PERFORMANCE</h1>
     <h2>Análise da Partida</h2>
 
+    <!-- Informações da partida -->
+
     <div class="card">
 
         <h3>{{ partida.nome_jogador }} × {{ partida.nome_adversario }}</h3>
 
-        <p><strong>Data:</strong> {{ partida.data_partida.strftime('%d/%m/%Y') }}</p>
+        <div class="info-grid">
 
-        <p><strong>Vencedor:</strong> {{ partida.vencedor }}</p>
+            <div class="info">
+                <span>📅 Data</span>
+                <strong>{{ partida.data_partida.strftime('%d/%m/%Y') }}</strong>
+            </div>
 
-        <p>
-            <strong>Resultado:</strong>
-            {{ partida.sets_jogador }}
-            ×
-            {{ partida.sets_adversario }}
-        </p>
+            <div class="info">
+                <span>🏆 Vencedor</span>
+                <strong>{{ partida.vencedor }}</strong>
+            </div>
+
+            <div class="info">
+                <span>🎯 Resultado</span>
+                <strong>{{ partida.sets_jogador }} × {{ partida.sets_adversario }}</strong>
+            </div>
+
+            <div class="info">
+                <span>🏓 Melhor de</span>
+                <strong>{{ partida.quantidade_sets }} Sets</strong>
+            </div>
+
+        </div>
 
     </div>
 
-    <br>
+    <!-- Resultado dos Sets -->
 
     <div class="card">
 
@@ -51,11 +68,7 @@
 
                 <td>{{ set.numero_set }}</td>
 
-                <td>
-                    {{ set.pontos_jogador }}
-                    ×
-                    {{ set.pontos_adversario }}
-                </td>
+                <td>{{ set.pontos_jogador }} × {{ set.pontos_adversario }}</td>
 
                 <td>{{ set.vencedor }}</td>
 
@@ -67,57 +80,21 @@
 
     </div>
 
-    <br>
+    <!-- Estatísticas -->
 
     <div class="card">
 
-        <h2>Histórico das Jogadas</h2>
+        <h2>Estatísticas</h2>
 
         <table>
 
             <tr>
-                <th>Set</th>
-                <th>Jogador</th>
-                <th>Técnica</th>
-                <th>Resultado</th>
-                <th>Momento</th>
-            </tr>
 
-            {% for jogada in jogadas %}
-
-            <tr>
-
-                <td>{{ jogada.numero_set }}</td>
-
-                <td>{{ jogada.jogador }}</td>
-
-                <td>{{ jogada.tecnica }}</td>
-
-                <td>{{ jogada.resultado }}</td>
-
-                <td>{{ jogada.data_registro.strftime('%H:%M:%S') }}</td>
-
-            </tr>
-
-            {% endfor %}
-
-        </table>
-
-    </div>
-
-    <br>
-
-    <div class="card">
-
-        <h2>Estatísticas por Técnica</h2>
-
-        <table>
-
-            <tr>
                 <th>Técnica</th>
                 <th>Acertos</th>
                 <th>Erros</th>
                 <th>Aproveitamento</th>
+
             </tr>
 
             {% for item in estatistica %}
@@ -140,13 +117,52 @@
 
     </div>
 
-    <br>
+    <!-- Histórico -->
+<div class="card">
+    <h2>📜 Histórico das Jogadas</h2>
+    {% for numero_set in range(1, partida.quantidade_sets + 1) %}
+    <details class="set-card">
+        <summary>
+            <span>🏓 SET {{ numero_set }}</span>
+        </summary>
+        {% set encontrou = false %}
+        {% for jogada in jogadas %}
+            {% if jogada.numero_set == numero_set %}
+            <div class="jogada">
+                <div class="hora">{{ jogada.data_registro.strftime('%H:%M:%S') }}</div>
+                <div class="conteudo">
+                    <strong>{{ jogada.tecnica }}</strong>
+                    {% if jogada.resultado == "Acerto" %}
+                        <p><span class="acerto">✅</span>{{ jogada.jogador }}realizou um <strong>Acerto</strong></p>
+                    {% else %}
+                        <p>
+                            <span class="erro">❌</span>
+                            {{ jogada.jogador }}
+                            realizou um <strong>Erro</strong>
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+            {% set encontrou = true %}
+            {% endif %}
+        {% endfor %}
+        {% if not encontrou %}
+            <div class="sem-jogada">
+                Nenhuma jogada registrada neste set.
+            </div>
+        {% endif %}
+    </details>
+    {% endfor %}
+</div>
 
+  <div class="voltar">
     <a href="/" class="botao">
-        ⬅ Voltar
+        ⬅ Voltar para Partidas
     </a>
+</div>
 
 </div>
 
 </body>
+
 </html>
