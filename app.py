@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, jsonify
+from flask import Flask, render_template, request, redirect, jsonify, flash
 from models.partida import cadastrar_partida, listar_partida, buscar_partida, finalizar_partida, excluir_partida, salvar_jogada, estatistica_partida, listar_sets, salvar_set
 from models.jogada import listar_jogadas
 app = Flask(__name__)
+app.secret_key = "tt_performance_secret_key"
 
 # Página inicial
 @app.route("/")
@@ -70,6 +71,8 @@ def finalizar():
 def excluir(id):
 
     excluir_partida(id)
+
+    flash("Partida excluída com sucesso!")
 
     return redirect("/")
 

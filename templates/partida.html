@@ -13,6 +13,14 @@
 
     <h1>🏓 TT Performance</h1>
 
+    {% with mensagens = get_flashed_messages() %}
+      {% if mensagens %}
+        <div class="toast" id="toastNotificacao">
+          {{ mensagens[0] }}
+        </div>
+      {% endif %}
+    {% endwith %}
+
     <p class="descricao"> Sistema de gerenciamento e análise de partidas de Tênis de Mesa.</p>
 
     <div class="acoes">

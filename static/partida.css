@@ -156,6 +156,30 @@ table td:last-child{
     transform:translateY(-2px);
 }
 
+.toast{
+    position:fixed;
+    top:24px;
+    right:24px;
+    background:#111;
+    color:#fff;
+    padding:16px 24px;
+    border-radius:10px;
+    box-shadow:0 8px 24px rgba(0,0,0,.2);
+    font-size:14px;
+    font-weight:600;
+    z-index:1000;
+    animation:slideIn .3s ease, fadeOut .5s ease 3s forwards;
+}
+
+@keyframes slideIn{
+    from{ transform:translateX(120%); opacity:0; }
+    to{ transform:translateX(0); opacity:1; }
+}
+
+@keyframes fadeOut{
+    to{ opacity:0; visibility:hidden; }
+}
+
 .popup{
     display:none;
     position:fixed;
