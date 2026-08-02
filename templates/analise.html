@@ -13,16 +13,31 @@
 
 <div class="container">
 
-    <h1>🏓 TT PERFORMANCE</h1>
-    <h2>Análise da Partida</h2>
+    <header>
 
-    <!-- Informações da partida -->
+        <h1>🏓 TT PERFORMANCE</h1>
 
-    <div class="card">
+        <p class="subtitulo">Análise Completa da Partida</p>
 
-        <h3>{{ partida.nome_jogador }} × {{ partida.nome_adversario }}</h3>
+    </header>
+
+    <!-- ================= DADOS DA PARTIDA ================= -->
+
+    <section class="card">
+
+        <h2>📋 Informações da Partida</h2>
 
         <div class="info-grid">
+
+            <div class="info">
+                <span>👤 Jogador</span>
+                <strong>{{ partida.nome_jogador }}</strong>
+            </div>
+
+            <div class="info">
+                <span>🥊 Adversário</span>
+                <strong>{{ partida.nome_adversario }}</strong>
+            </div>
 
             <div class="info">
                 <span>📅 Data</span>
@@ -46,120 +61,345 @@
 
         </div>
 
-    </div>
+    </section>
 
-    <!-- Resultado dos Sets -->
+    <!-- ================= RESULTADO DOS SETS ================= -->
 
-    <div class="card">
+    <section class="card">
 
-        <h2>Resultado dos Sets</h2>
+        <h2>🏓 Resultado dos Sets</h2>
 
+        <div class="tabela-wrapper">
         <table>
 
-            <tr>
-                <th>Set</th>
-                <th>Placar</th>
-                <th>Vencedor</th>
-            </tr>
+            <thead>
+
+                <tr>
+
+                    <th>Set</th>
+                    <th>Placar</th>
+                    <th>Vencedor</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
 
             {% for set in sets %}
 
-            <tr>
+                <tr>
 
-                <td>{{ set.numero_set }}</td>
+                    <td>{{ set.numero_set }}</td>
 
-                <td>{{ set.pontos_jogador }} × {{ set.pontos_adversario }}</td>
+                    <td>{{ set.pontos_jogador }} × {{ set.pontos_adversario }}</td>
 
-                <td>{{ set.vencedor }}</td>
+                    <td>{{ set.vencedor }}</td>
 
-            </tr>
+                </tr>
 
             {% endfor %}
 
+            </tbody>
+
         </table>
+        </div>
 
-    </div>
+    </section>
 
-    <!-- Estatísticas -->
+    <!-- ================= RESUMO ================= -->
 
-    <div class="card">
+    <section class="card">
 
-        <h2>Estatísticas</h2>
+        <h2>📊 Resumo Geral</h2>
 
+        <h3 class="nome-divisor">{{ partida.nome_jogador }}</h3>
+
+        <div class="cards-estatisticas">
+
+            <div class="card-est">
+
+                <h3>✅ Acertos</h3>
+
+                <span>{{ resumo_jogador.total_acertos }}</span>
+
+            </div>
+
+            <div class="card-est">
+
+                <h3>❌ Erros</h3>
+
+                <span>{{ resumo_jogador.total_erros }}</span>
+
+            </div>
+
+            <div class="card-est">
+
+                <h3>🎯 Aproveitamento</h3>
+
+                <span>{{ resumo_jogador.aproveitamento }}%</span>
+
+            </div>
+
+        </div>
+
+        <h3 class="nome-divisor">{{ partida.nome_adversario }}</h3>
+
+        <div class="cards-estatisticas">
+
+            <div class="card-est">
+
+                <h3>✅ Acertos</h3>
+
+                <span>{{ resumo_adversario.total_acertos }}</span>
+
+            </div>
+
+            <div class="card-est">
+
+                <h3>❌ Erros</h3>
+
+                <span>{{ resumo_adversario.total_erros }}</span>
+
+            </div>
+
+            <div class="card-est">
+
+                <h3>🎯 Aproveitamento</h3>
+
+                <span>{{ resumo_adversario.aproveitamento }}%</span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= ESTATÍSTICAS ================= -->
+
+    <section class="card">
+
+        <h2>📈 Estatísticas por Técnica</h2>
+
+        <h3 class="nome-divisor">{{ partida.nome_jogador }}</h3>
+
+        <div class="tabela-wrapper">
         <table>
 
-            <tr>
+            <thead>
 
-                <th>Técnica</th>
-                <th>Acertos</th>
-                <th>Erros</th>
-                <th>Aproveitamento</th>
+                <tr>
 
-            </tr>
+                    <th>Técnica</th>
 
-            {% for item in estatistica %}
+                    <th>Acertos</th>
 
-            <tr>
+                    <th>Erros</th>
 
-                <td>{{ item.tecnica }}</td>
+                    <th>Aproveitamento</th>
 
-                <td>{{ item.acertos }}</td>
+                </tr>
 
-                <td>{{ item.erros }}</td>
+            </thead>
 
-                <td>{{ item.aproveitamento }}%</td>
+            <tbody>
 
-            </tr>
+            {% for item in estatistica_jogador %}
+
+                <tr>
+
+                    <td>{{ item.tecnica }}</td>
+
+                    <td>{{ item.acertos }}</td>
+
+                    <td>{{ item.erros }}</td>
+
+                    <td>{{ item.aproveitamento }}%</td>
+
+                </tr>
 
             {% endfor %}
 
+            </tbody>
+
         </table>
+        </div>
 
-    </div>
+        <h3 class="nome-divisor">{{ partida.nome_adversario }}</h3>
 
-    <!-- Histórico -->
-<div class="card">
-    <h2>📜 Histórico das Jogadas</h2>
-    {% for numero_set in range(1, partida.quantidade_sets + 1) %}
-    <details class="set-card">
-        <summary>
-            <span>🏓 SET {{ numero_set }}</span>
-        </summary>
-        {% set encontrou = false %}
-        {% for jogada in jogadas %}
-            {% if jogada.numero_set == numero_set %}
-            <div class="jogada">
-                <div class="hora">{{ jogada.data_registro.strftime('%H:%M:%S') }}</div>
-                <div class="conteudo">
-                    <strong>{{ jogada.tecnica }}</strong>
-                    {% if jogada.resultado == "Acerto" %}
-                        <p><span class="acerto">✅</span>{{ jogada.jogador }}realizou um <strong>Acerto</strong></p>
-                    {% else %}
-                        <p>
-                            <span class="erro">❌</span>
-                            {{ jogada.jogador }}
-                            realizou um <strong>Erro</strong>
-                        </p>
-                    {% endif %}
+        <div class="tabela-wrapper">
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Técnica</th>
+
+                    <th>Acertos</th>
+
+                    <th>Erros</th>
+
+                    <th>Aproveitamento</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for item in estatistica_adversario %}
+
+                <tr>
+
+                    <td>{{ item.tecnica }}</td>
+
+                    <td>{{ item.acertos }}</td>
+
+                    <td>{{ item.erros }}</td>
+
+                    <td>{{ item.aproveitamento }}%</td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+        </div>
+
+    </section>
+
+    <!-- ================= DESTAQUES ================= -->
+
+    <section class="card">
+
+        <h2>⭐ Destaques da Partida</h2>
+
+        <h3 class="nome-divisor">{{ partida.nome_jogador }}</h3>
+
+        <div class="destaques">
+
+            <div class="destaque verde">
+
+                <h3>🏆 Melhor Técnica</h3>
+
+                <p>{{ resumo_jogador.melhor_tecnica }}</p>
+
+            </div>
+
+            <div class="destaque azul">
+
+                <h3>🔥 Mais Utilizada</h3>
+
+                <p>{{ resumo_jogador.tecnica_mais_utilizada }}</p>
+
+            </div>
+
+            <div class="destaque vermelho">
+
+                <h3>⚠️ Precisa Melhorar</h3>
+
+                <p>{{ resumo_jogador.pior_tecnica }}</p>
+
+            </div>
+
+        </div>
+
+        <h3 class="nome-divisor">{{ partida.nome_adversario }}</h3>
+
+        <div class="destaques">
+
+            <div class="destaque verde">
+
+                <h3>🏆 Melhor Técnica</h3>
+
+                <p>{{ resumo_adversario.melhor_tecnica }}</p>
+
+            </div>
+
+            <div class="destaque azul">
+
+                <h3>🔥 Mais Utilizada</h3>
+
+                <p>{{ resumo_adversario.tecnica_mais_utilizada }}</p>
+
+            </div>
+
+            <div class="destaque vermelho">
+
+                <h3>⚠️ Precisa Melhorar</h3>
+
+                <p>{{ resumo_adversario.pior_tecnica }}</p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= HISTÓRICO ================= -->
+
+    <section class="card">
+
+        <h2>📜 Histórico das Jogadas</h2>
+
+        {% for numero_set in range(1, partida.quantidade_sets + 1) %}
+
+        <details class="set-card">
+
+            <summary>
+
+                <span>🏓 SET {{ numero_set }}</span>
+
+            </summary>
+
+            {% for jogada in jogadas %}
+
+                {% if jogada.numero_set == numero_set %}
+
+                <div class="jogada">
+
+                    <div class="hora">
+
+                        {{ jogada.data_registro.strftime('%H:%M:%S') }}
+
+                    </div>
+
+                    <div class="conteudo">
+
+                        <strong>{{ jogada.tecnica }}</strong>
+
+                        {% if jogada.resultado == "Acerto" %}
+
+                            <p>✅ {{ jogada.jogador }} realizou um Acerto</p>
+
+                        {% else %}
+
+                            <p>❌ {{ jogada.jogador }} realizou um Erro</p>
+
+                        {% endif %}
+
+                    </div>
+
                 </div>
-            </div>
-            {% set encontrou = true %}
-            {% endif %}
-        {% endfor %}
-        {% if not encontrou %}
-            <div class="sem-jogada">
-                Nenhuma jogada registrada neste set.
-            </div>
-        {% endif %}
-    </details>
-    {% endfor %}
-</div>
 
-  <div class="voltar">
+                {% endif %}
+
+            {% endfor %}
+
+        </details>
+
+        {% endfor %}
+
+    </section>
+
     <a href="/" class="botao">
-        ⬅ Voltar para Partidas
+
+        ⬅ Voltar
+
     </a>
-</div>
 
 </div>
 

@@ -128,17 +128,60 @@ def salvar_set_api():
 
 @app.route("/analise/<int:id>")
 def analise(id):
-    partida =buscar_partida(id)
+    partida = buscar_partida(id)
     estatistica = estatistica_partida(id)
-    sets=listar_sets(id)
+    sets = listar_sets(id)
     jogadas = listar_jogadas(id)
-    
+
+    estatistica_jogador = [
+        item for item in estatistica if item["jogador"] == partida["nome_jogador"]
+    ]
+    estatistica_adversario = [
+        item for item in estatistica if item["jogador"] == partida["nome_adversario"]
+    ]
+
+    def calcular_resumo(lista):
+        total_acertos = sum(item["acertos"] for item in lista)
+        total_erros = sum(item["erros"] for item in lista)
+        total_jogadas = total_acertos + total_erros
+
+        if total_jogadas > 0:
+            aproveitamento = round((total_acertos / total_jogadas) * 100, 2)
+        else:
+            aproveitamento = 0
+
+        if lista:
+            melhor = max(lista, key=lambda item: item["aproveitamento"])["tecnica"]
+            pior = min(lista, key=lambda item: item["aproveitamento"])["tecnica"]
+            mais_utilizada = max(
+                lista, key=lambda item: item["acertos"] + item["erros"]
+            )["tecnica"]
+        else:
+            melhor = "-"
+            pior = "-"
+            mais_utilizada = "-"
+
+        return {
+            "total_acertos": total_acertos,
+            "total_erros": total_erros,
+            "aproveitamento": aproveitamento,
+            "melhor_tecnica": melhor,
+            "pior_tecnica": pior,
+            "tecnica_mais_utilizada": mais_utilizada
+        }
+
+    resumo_jogador = calcular_resumo(estatistica_jogador)
+    resumo_adversario = calcular_resumo(estatistica_adversario)
+
     return render_template(
         'analise.html',
         partida=partida,
-        estatistica=estatistica,
-        sets = sets,
-        jogadas = jogadas
+        sets=sets,
+        jogadas=jogadas,
+        estatistica_jogador=estatistica_jogador,
+        estatistica_adversario=estatistica_adversario,
+        resumo_jogador=resumo_jogador,
+        resumo_adversario=resumo_adversario
         )
 
 if __name__ == "__main__":

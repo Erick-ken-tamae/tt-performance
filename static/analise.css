@@ -1,59 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
+    font-family:'Poppins',Arial,Helvetica,sans-serif;
 }
 
 body{
     background:#eef3f8;
-    padding:30px;
+    padding:0 0 50px;
 }
 
 .container{
-    max-width:1100px;
+    width:100%;
+    max-width:1600px;
     margin:auto;
+    padding:0 40px;
+}
+
+/* ================= HEADER ================= */
+
+header{
+    background:linear-gradient(120deg,#0f4c81,#1c6bb5);
+    margin:0 -40px 30px;
+    padding:45px 40px;
+    text-align:center;
+    border-radius:0 0 24px 24px;
+    box-shadow:0 8px 20px rgba(15,76,129,.2);
 }
 
 h1{
-    text-align:center;
-    color:#0f4c81;
-    margin-bottom:10px;
+    color:#fff;
+    font-size:34px;
+    font-weight:700;
+    letter-spacing:1px;
+    margin-bottom:8px;
+}
+
+header .subtitulo{
+    color:#dceafd;
+    font-size:15px;
+    font-weight:400;
+    letter-spacing:.5px;
 }
 
 h2{
-    text-align:center;
-    color:#333;
-    margin-bottom:30px;
+    text-align:left;
+    color:#0f4c81;
+    font-size:20px;
+    font-weight:600;
+    margin-bottom:22px;
+    padding-bottom:14px;
+    border-bottom:2px solid #eef3f8;
 }
 
 .card{
     background:#fff;
-    padding:25px;
-    border-radius:12px;
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    padding:30px 35px;
+    border-radius:16px;
+    box-shadow:0 5px 18px rgba(15,76,129,.07);
     margin-bottom:25px;
+    transition:.25s;
+}
+
+.card:hover{
+    box-shadow:0 8px 26px rgba(15,76,129,.12);
 }
 
 table{
     width:100%;
     border-collapse:collapse;
+    border-radius:10px;
+    overflow:hidden;
 }
 
 th{
     background:#0f4c81;
-    color:white;
-    padding:12px;
+    color:#fff;
+    padding:14px;
+    font-weight:500;
+    font-size:14px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
 }
 
 td{
-    padding:12px;
-    border-bottom:1px solid #ddd;
+    padding:14px;
+    border-bottom:1px solid #eef1f5;
     text-align:center;
+    color:#333;
+    font-size:15px;
 }
 
 tr:nth-child(even){
-    background:#f8f8f8;
+    background:#f8fafc;
+}
+
+tr:hover td{
+    background:#eef6ff;
 }
 
 
@@ -166,4 +211,258 @@ tr:nth-child(even){
     background:#09365b;
     transform:translateY(-3px);
     box-shadow:0 10px 20px rgba(15,76,129,.3);
+}
+
+/* ================= INFO DA PARTIDA ================= */
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:16px;
+}
+
+.info{
+    background:#f8f9fb;
+    border:1px solid #e3e8ee;
+    border-radius:12px;
+    padding:16px 18px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    transition:.2s;
+}
+
+.info:hover{
+    border-color:#0f4c81;
+    transform:translateY(-2px);
+}
+
+.info span{
+    font-size:13px;
+    color:#7a8699;
+    font-weight:500;
+}
+
+.info strong{
+    font-size:18px;
+    color:#0f4c81;
+    font-weight:600;
+}
+
+/* ================= DIVISOR JOGADOR x ADVERSÁRIO ================= */
+
+.nome-divisor{
+    color:#0f4c81;
+    font-size:16px;
+    font-weight:600;
+    margin:22px 0 14px;
+    padding-bottom:10px;
+    border-bottom:2px solid #eef3f8;
+}
+
+.nome-divisor:first-of-type{
+    margin-top:0;
+}
+
+/* ================= RESUMO / CARDS ESTATÍSTICA ================= */
+
+.cards-estatisticas{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:16px;
+    margin-bottom:28px;
+}
+
+.cards-estatisticas:last-child{
+    margin-bottom:0;
+}
+
+.card-est{
+    background:#f8f9fb;
+    border:1px solid #e3e8ee;
+    border-radius:14px;
+    padding:20px;
+    text-align:center;
+    transition:.2s;
+}
+
+.card-est:hover{
+    transform:translateY(-3px);
+    border-color:#0f4c81;
+}
+
+.card-est h3{
+    font-size:13px;
+    color:#7a8699;
+    font-weight:500;
+    margin-bottom:10px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+}
+
+.card-est span{
+    font-size:28px;
+    font-weight:700;
+    color:#0f4c81;
+}
+
+/* ================= DESTAQUES ================= */
+
+.destaques{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:16px;
+    margin-bottom:28px;
+}
+
+.destaques:last-child{
+    margin-bottom:0;
+}
+
+.destaque{
+    border-radius:14px;
+    padding:20px;
+    text-align:center;
+    color:#fff;
+    transition:.2s;
+}
+
+.destaque:hover{
+    transform:translateY(-3px);
+}
+
+.destaque h3{
+    font-size:13px;
+    font-weight:500;
+    margin-bottom:10px;
+    color:#fff;
+    opacity:.9;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+}
+
+.destaque p{
+    font-size:18px;
+    font-weight:700;
+    color:#fff;
+}
+
+.destaque.verde{
+    background:linear-gradient(135deg,#198754,#20a866);
+}
+
+.destaque.azul{
+    background:linear-gradient(135deg,#0f4c81,#1c6bb5);
+}
+
+.destaque.vermelho{
+    background:linear-gradient(135deg,#dc3545,#e6606f);
+}
+
+/* ================= TABELA COM SCROLL (MOBILE) ================= */
+
+.tabela-wrapper{
+    width:100%;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+}
+
+.tabela-wrapper table{
+    min-width:480px;
+}
+
+/* ================= RESPONSIVO ================= */
+
+@media (max-width:900px){
+    .container{
+        padding:0 24px;
+    }
+
+    header{
+        margin:0 -24px 24px;
+    }
+}
+
+@media (max-width:600px){
+    .container{
+        padding:0 16px;
+    }
+
+    header{
+        margin:0 -16px 24px;
+        padding:32px 20px;
+        border-radius:0 0 18px 18px;
+    }
+
+    h1{
+        font-size:24px;
+    }
+
+    header .subtitulo{
+        font-size:13px;
+    }
+
+    h2{
+        font-size:17px;
+    }
+
+    .card{
+        padding:20px 16px;
+        border-radius:14px;
+    }
+
+    .info-grid,
+    .cards-estatisticas,
+    .destaques{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+    }
+
+    .info,
+    .card-est,
+    .destaque{
+        padding:14px;
+    }
+
+    .info strong{
+        font-size:16px;
+    }
+
+    .card-est span{
+        font-size:22px;
+    }
+
+    .destaque p{
+        font-size:16px;
+    }
+
+    .set-card summary{
+        padding:14px 16px;
+        font-size:15px;
+    }
+
+    .jogada{
+        flex-wrap:wrap;
+        gap:6px;
+        padding:12px 14px;
+    }
+
+    .hora{
+        width:auto;
+        font-size:13px;
+    }
+
+    .botao{
+        display:block;
+        text-align:center;
+        padding:14px 20px;
+    }
+}
+
+@media (max-width:400px){
+    .info-grid,
+    .cards-estatisticas,
+    .destaques{
+        grid-template-columns:1fr;
+    }
 }

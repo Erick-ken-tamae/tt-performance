@@ -271,18 +271,19 @@ def estatistica_partida(id):
 
     sql = """
     SELECT
+    jogador,
     tecnica,
-    SUM(resultado='ACERTO') AS acertos,
-    SUM(resultado='ERRO') AS erros,
+    SUM(resultado='Acerto') AS acertos,
+    SUM(resultado='Erro') AS erros,
     ROUND(
         (
-        SUM(resultado='ACERTO') / COUNT(*)
+        SUM(resultado='Acerto') / COUNT(*)
         ) * 100,
         2
     ) AS aproveitamento
     FROM jogada
     WHERE partida_id=%s
-    GROUP BY tecnica
+    GROUP BY jogador, tecnica
     """
 
     cursor.execute(sql,(id,))
