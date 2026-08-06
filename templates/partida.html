@@ -13,7 +13,12 @@
 
     <div class="topo">
         <h1>🏓 TT Performance</h1>
-        <a href="/logout" class="btn-sair">Sair</a>
+        <div class="topo-acoes">
+            {% if session.get('usuario_tipo') == 'Administrador' %}
+            <a href="/admin" class="btn-admin">🛠️ Admin</a>
+            {% endif %}
+            <a href="/logout" class="btn-sair">Sair</a>
+        </div>
     </div>
 
     {% with mensagens = get_flashed_messages(with_categories=true) %}

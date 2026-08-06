@@ -3,7 +3,7 @@ from functools import wraps
 from flask import Flask, render_template, request, redirect, jsonify, flash, session, url_for
 from models.partida import cadastrar_partida, listar_partida, buscar_partida, finalizar_partida, excluir_partida, salvar_jogada, estatistica_partida, listar_sets, salvar_set
 from models.jogada import listar_jogadas
-from models.usuario import criar_usuario, validar_login, email_existe
+from models.usuario import criar_usuario, validar_login, email_existe, listar_usuarios, contar_usuarios, excluir_usuario, buscar_usuario_por_id
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "tt_performance_secret_key")
@@ -15,6 +15,19 @@ def login_required(f):
     def decorated_function(*args, **kwargs):
         if "usuario_id" not in session:
             return redirect(url_for("login"))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+def admin_required(f):
+    """Decorator para proteger rotas que exigem administrador."""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "usuario_id" not in session:
+            return redirect(url_for("login"))
+        if session.get("usuario_tipo") != "Administrador":
+            flash("Acesso restrito a administradores.", "error")
+            return redirect(url_for("inicio"))
         return f(*args, **kwargs)
     return decorated_function
 
@@ -32,6 +45,7 @@ def login():
         if usuario:
             session["usuario_id"] = usuario["id"]
             session["usuario_nome"] = usuario["nome"]
+            session["usuario_tipo"] = usuario["tipo"]
             flash("Login realizado com sucesso!", "success")
             return redirect(url_for("inicio"))
         else:
@@ -48,6 +62,7 @@ def cadastro():
         email = request.form.get("email")
         senha = request.form.get("senha")
         confirmar_senha = request.form.get("confirmar_senha")
+        tipo = request.form.get("tipo", "Jogador")
 
         if senha != confirmar_senha:
             flash("As senhas não coincidem.", "error")
@@ -57,7 +72,7 @@ def cadastro():
             flash("Este email já está cadastrado.", "error")
             return redirect(url_for("cadastro"))
 
-        criar_usuario(nome, email, senha)
+        criar_usuario(nome, email, senha, tipo)
         flash("Conta criada com sucesso! Faça login.", "success")
         return redirect(url_for("login"))
 
@@ -267,6 +282,39 @@ def analise(id):
         resumo_jogador=resumo_jogador,
         resumo_adversario=resumo_adversario
     )
+
+
+# ---------------- ADMINISTRAÇÃO ----------------
+
+@app.route("/admin")
+@admin_required
+def admin():
+    usuarios = listar_usuarios()
+    total_usuarios = contar_usuarios()
+
+    return render_template(
+        "admin.html",
+        usuarios=usuarios,
+        total_usuarios=total_usuarios
+    )
+
+
+@app.route("/admin/excluir_usuario/<int:id>")
+@admin_required
+def admin_excluir_usuario(id):
+
+    if id == session.get("usuario_id"):
+        flash("Você não pode excluir sua própria conta.", "error")
+        return redirect(url_for("admin"))
+
+    usuario = buscar_usuario_por_id(id)
+    if not usuario:
+        flash("Usuário não encontrado.", "error")
+        return redirect(url_for("admin"))
+
+    excluir_usuario(id)
+    flash("Usuário excluído com sucesso!", "success")
+    return redirect(url_for("admin"))
 
 
 if __name__ == "__main__":

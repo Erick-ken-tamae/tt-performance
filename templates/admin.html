@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+    <title>TT Performance - Administração</title>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="topo">
+        <h1>🛠️ Administração</h1>
+        <div class="topo-acoes">
+            <a href="/" class="btn-voltar-inicio">← Início</a>
+            <a href="/logout" class="btn-sair">Sair</a>
+        </div>
+    </div>
+
+    {% with mensagens = get_flashed_messages(with_categories=true) %}
+      {% if mensagens %}
+        <div class="toast {{ mensagens[0][0] }}" id="toastNotificacao">
+          {{ mensagens[0][1] }}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <p class="descricao">Gerenciamento de contas cadastradas no sistema.</p>
+
+    <div class="card-resumo">
+        <span class="numero">{{ total_usuarios }}</span>
+        <span class="rotulo">Contas criadas</span>
+    </div>
+
+    <hr>
+    <h2>Usuários Cadastrados</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Tipo</th>
+                <th>Cadastrado em</th>
+                <th>Excluir</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for usuario in usuarios %}
+            <tr>
+                <td data-label="ID">{{ usuario.id }}</td>
+                <td data-label="Nome">{{ usuario.nome }}</td>
+                <td data-label="Email">{{ usuario.email }}</td>
+                <td data-label="Tipo">
+                    <span class="badge {{ 'admin' if usuario.tipo == 'Administrador' else ('treinador' if usuario.tipo == 'Treinador' else 'jogador') }}">
+                        {{ usuario.tipo }}
+                    </span>
+                </td>
+                <td data-label="Cadastrado em">{{ usuario.data_cadastro }}</td>
+                <td data-label="Excluir">
+                    <a href="/admin/excluir_usuario/{{ usuario.id }}"
+                       class="btn-excluir"
+                       onclick="return confirm('Deseja excluir a conta de {{ usuario.nome }}?')">
+                        🗑 Excluir
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

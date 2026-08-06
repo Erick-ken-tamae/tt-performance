@@ -35,8 +35,8 @@ body{
     gap:10px;
 }
 
-.btn-sair,
-.btn-admin{
+.btn-voltar-inicio,
+.btn-sair{
     text-decoration:none;
     background:#fff;
     color:#111;
@@ -48,8 +48,8 @@ body{
     transition:.25s;
 }
 
-.btn-sair:hover,
-.btn-admin:hover{
+.btn-voltar-inicio:hover,
+.btn-sair:hover{
     background:#111;
     color:#fff;
 }
@@ -71,30 +71,30 @@ h2{
     text-align:center;
     color:#666;
     font-size:16px;
-    margin-bottom:35px;
+    margin:20px 0 35px;
 }
 
-.acoes{
-    display:flex;
-    justify-content:flex-end;
-    margin-bottom:25px;
-}
-
-.btn-nova{
-    background:#000;
+.card-resumo{
+    width:220px;
+    margin:0 auto 35px;
+    background:#111;
     color:#fff;
-    border:none;
-    border-radius:10px;
-    padding:14px 28px;
-    font-size:15px;
-    font-weight:600;
-    cursor:pointer;
-    transition:.25s;
+    border-radius:14px;
+    padding:25px;
+    text-align:center;
 }
 
-.btn-nova:hover{
-    background:#222;
-    transform:translateY(-2px);
+.card-resumo .numero{
+    display:block;
+    font-size:42px;
+    font-weight:700;
+}
+
+.card-resumo .rotulo{
+    display:block;
+    font-size:14px;
+    color:#ccc;
+    margin-top:6px;
 }
 
 hr{
@@ -127,7 +127,7 @@ table thead th:last-child{
 
 table tbody tr{
     background:#fff;
-    box-shadow:0 4px 12px rgba(4, 4, 4, 0.06);
+    box-shadow:0 4px 12px rgba(4,4,4,.06);
     transition:.25s;
 }
 
@@ -140,7 +140,7 @@ table td{
     padding:18px 14px;
     text-align:center;
     font-size:14px;
-    color:#000000;
+    color:#000;
 }
 
 table td:first-child{
@@ -152,8 +152,29 @@ table td:last-child{
     border-radius:0 10px 10px 0;
 }
 
-.btn-iniciar,
-.btn-historico,
+.badge{
+    display:inline-block;
+    padding:6px 14px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.badge.admin{
+    background:#fdecea;
+    color:#c0392b;
+}
+
+.badge.treinador{
+    background:#e8eefc;
+    color:#1c4e9c;
+}
+
+.badge.jogador{
+    background:#eafaf1;
+    color:#1e7e34;
+}
+
 .btn-excluir{
     display:inline-flex;
     align-items:center;
@@ -164,26 +185,10 @@ table td:last-child{
     font-weight:600;
     border-radius:8px;
     height:42px;
-    transition:.25s;
-}
-
-.btn-iniciar,
-.btn-historico{
-    width:145px;
-    background:#111;
-    color:#fff;
-}
-
-.btn-iniciar:hover,
-.btn-historico:hover{
-    background:#2a2a2a;
-    transform:translateY(-2px);
-}
-
-.btn-excluir{
     width:95px;
     background:#e53935;
     color:#fff;
+    transition:.25s;
 }
 
 .btn-excluir:hover{
@@ -223,123 +228,6 @@ table td:last-child{
     to{ opacity:0; visibility:hidden; }
 }
 
-.popup{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.55);
-    justify-content:center;
-    align-items:center;
-    z-index:999;
-}
-
-.popup-conteudo{
-    width:760px;
-    background:#fff;
-    border-radius:18px;
-    padding:35px;
-    position:relative;
-    box-shadow:0 15px 40px rgba(0,0,0,.25);
-}
-
-.popup-conteudo h2{
-    text-align:center;
-    margin-bottom:30px;
-    font-size:28px;
-}
-
-.fechar{
-    position:absolute;
-    top:18px;
-    right:22px;
-    font-size:30px;
-    cursor:pointer;
-    color:#777;
-    transition:.25s;
-}
-
-.fechar:hover{
-    color:#e53935;
-}
-
-.popup-conteudo form{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:20px;
-}
-
-.popup-conteudo input,
-.popup-conteudo select{
-    width:100%;
-    height:50px;
-    padding:0 15px;
-    border:1px solid #d9d9d9;
-    border-radius:10px;
-    font-size:15px;
-    background:#fafafa;
-    outline:none;
-    transition:.25s;
-}
-
-.popup-conteudo input:hover,
-.popup-conteudo select:hover{
-    border-color:#999;
-}
-
-.popup-conteudo input:focus,
-.popup-conteudo select:focus{
-    background:#fff;
-    border-color:#000;
-    box-shadow:0 0 0 4px rgba(0,0,0,.08);
-}
-
-.popup-conteudo select{
-    appearance:none;
-    cursor:pointer;
-    background-image:
-    linear-gradient(45deg,transparent 50%,#000 50%),
-    linear-gradient(135deg,#000 50%,transparent 50%);
-    background-position:
-    calc(100% - 18px) center,
-    calc(100% - 13px) center;
-    background-size:6px 6px;
-    background-repeat:no-repeat;
-}
-
-.popup-conteudo .btn-cancelar{
-    height:50px;
-    border:1px solid #111;
-    border-radius:10px;
-    background:#fff;
-    color:#111;
-    font-size:16px;
-    font-weight:600;
-    cursor:pointer;
-    transition:.25s;
-}
-
-.popup-conteudo .btn-cancelar:hover{
-    background:#f2f2f2;
-    transform:translateY(-2px);
-}
-
-.popup-conteudo .btn-cadastrar{
-    height:50px;
-    border:none;
-    border-radius:10px;
-    background:#111;
-    color:#fff;
-    font-size:16px;
-    font-weight:600;
-    cursor:pointer;
-    transition:.25s;
-}
-
-.popup-conteudo .btn-cadastrar:hover{
-    background:#2a2a2a;
-    transform:translateY(-2px);
-}
-
 @media(max-width:768px){
 
 body{
@@ -365,6 +253,19 @@ h1{
 .topo-acoes{
     position:static;
     transform:none;
+    width:100%;
+    justify-content:center;
+}
+
+.btn-voltar-inicio,
+.btn-sair{
+    flex:1;
+    text-align:center;
+}
+
+.card-resumo{
+    width:100%;
+    max-width:220px;
 }
 
 h2{
@@ -374,16 +275,6 @@ h2{
 
 .descricao{
     font-size:14px;
-    margin-bottom:20px;
-}
-
-.acoes{
-    justify-content:center;
-}
-
-.btn-nova{
-    width:100%;
-    height:48px;
 }
 
 table,
@@ -427,31 +318,34 @@ tbody td::before{
     text-align:left;
 }
 
-.btn-iniciar,
-.btn-historico{
-    width:150px;
-    height:42px;
-    font-size:13px;
-}
-
 .btn-excluir{
     width:95px;
     height:42px;
     font-size:13px;
 }
 
-.popup-conteudo{
-    width:95%;
-    padding:20px;
 }
 
-.popup-conteudo form{
-    grid-template-columns:1fr;
+@media(max-width:420px){
+
+.container{
+    padding:15px;
 }
 
-.popup-conteudo .btn-cancelar,
-.popup-conteudo .btn-cadastrar{
-    grid-column:auto;
+h1{
+    font-size:24px;
+}
+
+.descricao{
+    font-size:13px;
+}
+
+.topo-acoes{
+    flex-direction:column;
+}
+
+table td{
+    font-size:13px;
 }
 
 }
