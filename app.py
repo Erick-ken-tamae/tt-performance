@@ -32,6 +32,15 @@ def admin_required(f):
     return decorated_function
 
 
+def eh_dono_da_partida(partida):
+    """Verifica se a partida pertence ao usuário logado (admins têm acesso a tudo)."""
+    if partida is None:
+        return False
+    if session.get("usuario_tipo") == "Administrador":
+        return True
+    return partida.get("usuario_id") == session.get("usuario_id")
+
+
 # ---------------- LOGIN / CADASTRO / LOGOUT ----------------
 
 @app.route("/login", methods=["GET", "POST"])
@@ -92,7 +101,7 @@ def logout():
 @login_required
 def inicio():
 
-    partidas = listar_partida()
+    partidas = listar_partida(session["usuario_id"])
 
     return render_template(
         "partida.html",
@@ -113,6 +122,7 @@ def salvar_partida():
     quantidade_sets = request.form["melhor_de"]
 
     cadastrar_partida(
+        session["usuario_id"],
         nome,
         clube,
         adversario,
@@ -131,6 +141,10 @@ def iniciar_partida(id):
 
     partida = buscar_partida(id)
 
+    if not eh_dono_da_partida(partida):
+        flash("Você não tem acesso a essa partida.", "error")
+        return redirect("/")
+
     if partida["status"] == "FINALIZADA":
         return redirect(f"/historico/{id}")
 
@@ -145,6 +159,10 @@ def iniciar_partida(id):
 def finalizar():
 
     dados = request.get_json()
+
+    partida = buscar_partida(dados["partida_id"])
+    if not eh_dono_da_partida(partida):
+        return jsonify({"erro": "Acesso negado"}), 403
 
     finalizar_partida(
         dados["partida_id"],
@@ -161,6 +179,12 @@ def finalizar():
 @login_required
 def excluir(id):
 
+    partida = buscar_partida(id)
+
+    if not eh_dono_da_partida(partida):
+        flash("Você não tem acesso a essa partida.", "error")
+        return redirect("/")
+
     excluir_partida(id)
 
     flash("Partida excluída com sucesso!", "success")
@@ -174,6 +198,10 @@ def excluir(id):
 def historico(id):
 
     partida = buscar_partida(id)
+
+    if not eh_dono_da_partida(partida):
+        flash("Você não tem acesso a essa partida.", "error")
+        return redirect("/")
 
     sets = listar_sets(id)
 
@@ -190,6 +218,10 @@ def historico(id):
 def salvar_jogada_api():
 
     dados = request.get_json()
+
+    partida = buscar_partida(dados["partida_id"])
+    if not eh_dono_da_partida(partida):
+        return jsonify({"erro": "Acesso negado"}), 403
 
     salvar_jogada(
         dados["partida_id"],
@@ -208,6 +240,10 @@ def salvar_jogada_api():
 def salvar_set_api():
 
     dados = request.get_json()
+
+    partida = buscar_partida(dados["partida_id"])
+    if not eh_dono_da_partida(partida):
+        return jsonify({"erro": "Acesso negado"}), 403
 
     print("DADOS RECEBIDOS:", dados)
 
@@ -228,6 +264,11 @@ def salvar_set_api():
 @login_required
 def analise(id):
     partida = buscar_partida(id)
+
+    if not eh_dono_da_partida(partida):
+        flash("Você não tem acesso a essa partida.", "error")
+        return redirect("/")
+
     estatistica = estatistica_partida(id)
     sets = listar_sets(id)
     jogadas = listar_jogadas(id)

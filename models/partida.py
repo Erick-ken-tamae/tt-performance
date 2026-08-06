@@ -1,7 +1,8 @@
 from database import conectar
 
 # Cadastrar partida
-def cadastrar_partida(nome_jogador,
+def cadastrar_partida(usuario_id,
+                      nome_jogador,
                       clube_jogador,
                       nome_adversario,
                       clube_adversario,
@@ -14,6 +15,7 @@ def cadastrar_partida(nome_jogador,
     sql = """
     INSERT INTO partida
     (
+        usuario_id,
         nome_jogador,
         clube_jogador,
         nome_adversario,
@@ -22,10 +24,11 @@ def cadastrar_partida(nome_jogador,
         data_partida
     )
     VALUES
-    (%s,%s,%s,%s,%s,%s)
+    (%s,%s,%s,%s,%s,%s,%s)
     """
 
     valores = (
+        usuario_id,
         nome_jogador,
         clube_jogador,
         nome_adversario,
@@ -43,7 +46,7 @@ def cadastrar_partida(nome_jogador,
 
 
 # Listar partidas
-def listar_partida():
+def listar_partida(usuario_id):
 
     banco = conectar()
 
@@ -52,6 +55,7 @@ def listar_partida():
     sql = """
         SELECT
             id,
+            usuario_id,
             nome_jogador,
             clube_jogador,
             nome_adversario,
@@ -62,10 +66,11 @@ def listar_partida():
             status,
             data_partida
         FROM partida
+        WHERE usuario_id = %s
         ORDER BY id ASC
         """
 
-    cursor.execute(sql)
+    cursor.execute(sql, (usuario_id,))
 
     partidas = cursor.fetchall()
 
