@@ -11,13 +11,19 @@
 
 <div class="container">
 
-    <div class="topo">
-        <h1>🛠️ Administração</h1>
-        <div class="topo-acoes">
-            <a href="/" class="btn-voltar-inicio">← Início</a>
-            <a href="/logout" class="btn-sair">Sair</a>
+    <header class="topo">
+        <div class="topo-titulo">
+            <span class="icone-titulo">🛠️</span>
+            <div>
+                <h1>Administração</h1>
+                <p class="descricao">Gerenciamento de contas cadastradas no sistema</p>
+            </div>
         </div>
-    </div>
+        <div class="topo-acoes">
+            <a href="/" class="btn btn-outline">← Início</a>
+            <a href="/logout" class="btn btn-outline">Sair</a>
+        </div>
+    </header>
 
     {% with mensagens = get_flashed_messages(with_categories=true) %}
       {% if mensagens %}
@@ -27,50 +33,69 @@
       {% endif %}
     {% endwith %}
 
-    <p class="descricao">Gerenciamento de contas cadastradas no sistema.</p>
+    <section class="stats">
+        <div class="stat-card">
+            <span class="stat-numero">{{ total_usuarios }}</span>
+            <span class="stat-rotulo">Total de contas</span>
+        </div>
+        <div class="stat-card stat-admin">
+            <span class="stat-numero">{{ usuarios | selectattr('tipo', 'equalto', 'Administrador') | list | length }}</span>
+            <span class="stat-rotulo">Administradores</span>
+        </div>
+        <div class="stat-card stat-treinador">
+            <span class="stat-numero">{{ usuarios | selectattr('tipo', 'equalto', 'Treinador') | list | length }}</span>
+            <span class="stat-rotulo">Treinadores</span>
+        </div>
+        <div class="stat-card stat-jogador">
+            <span class="stat-numero">{{ usuarios | selectattr('tipo', 'equalto', 'Jogador') | list | length }}</span>
+            <span class="stat-rotulo">Jogadores</span>
+        </div>
+    </section>
 
-    <div class="card-resumo">
-        <span class="numero">{{ total_usuarios }}</span>
-        <span class="rotulo">Contas criadas</span>
-    </div>
+    <section class="secao-tabela">
+        <h2>Usuários Cadastrados</h2>
 
-    <hr>
-    <h2>Usuários Cadastrados</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Tipo</th>
-                <th>Cadastrado em</th>
-                <th>Excluir</th>
-            </tr>
-        </thead>
+        <div class="tabela-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Usuário</th>
+                        <th>Email</th>
+                        <th>Tipo</th>
+                        <th>Cadastrado em</th>
+                        <th></th>
+                    </tr>
+                </thead>
 
-        <tbody>
-            {% for usuario in usuarios %}
-            <tr>
-                <td data-label="ID">{{ usuario.id }}</td>
-                <td data-label="Nome">{{ usuario.nome }}</td>
-                <td data-label="Email">{{ usuario.email }}</td>
-                <td data-label="Tipo">
-                    <span class="badge {{ 'admin' if usuario.tipo == 'Administrador' else ('treinador' if usuario.tipo == 'Treinador' else 'jogador') }}">
-                        {{ usuario.tipo }}
-                    </span>
-                </td>
-                <td data-label="Cadastrado em">{{ usuario.data_cadastro }}</td>
-                <td data-label="Excluir">
-                    <a href="/admin/excluir_usuario/{{ usuario.id }}"
-                       class="btn-excluir"
-                       onclick="return confirm('Deseja excluir a conta de {{ usuario.nome }}?')">
-                        🗑 Excluir
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                <tbody>
+                    {% for usuario in usuarios %}
+                    <tr>
+                        <td data-label="Usuário">
+                            <div class="usuario-info">
+                                <span class="avatar">{{ usuario.nome[0] | upper }}</span>
+                                <span>{{ usuario.nome }}</span>
+                            </div>
+                        </td>
+                        <td data-label="Email">{{ usuario.email }}</td>
+                        <td data-label="Tipo">
+                            <span class="badge {{ 'admin' if usuario.tipo == 'Administrador' else ('treinador' if usuario.tipo == 'Treinador' else 'jogador') }}">
+                                {{ usuario.tipo }}
+                            </span>
+                        </td>
+                        <td data-label="Cadastrado em">{{ usuario.data_cadastro }}</td>
+                        <td data-label="">
+                            <a href="/admin/excluir_usuario/{{ usuario.id }}"
+                               class="btn-excluir"
+                               onclick="return confirm('Deseja excluir a conta de {{ usuario.nome }}?')">
+                                🗑 Excluir
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
 </div>
 
 </body>
