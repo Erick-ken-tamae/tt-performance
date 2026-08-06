@@ -67,8 +67,45 @@ button:hover {
 }
 
 .flash {
-    color: #e94560;
     text-align: center;
     margin-top: 10px;
+    margin-bottom: 4px;
+    padding: 10px;
+    border-radius: 6px;
     font-size: 14px;
+}
+
+.flash.error {
+    color: #c0392b;
+    background: #fdecea;
+    border: 1px solid #f5c2c0;
+}
+
+.flash.success {
+    color: #1e7e34;
+    background: #e6f7ec;
+    border: 1px solid #b7e4c7;
+}
+
+@media (max-width: 480px) {
+    body {
+        align-items: flex-start;
+        padding-top: 60px;
+        box-sizing: border-box;
+    }
+
+    .card {
+        width: 90%;
+        max-width: 340px;
+        padding: 30px 24px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    input,
+    button {
+        font-size: 16px;
+    }
 }

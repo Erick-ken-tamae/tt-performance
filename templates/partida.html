@@ -11,12 +11,15 @@
 
 <div class="container">
 
-    <h1>🏓 TT Performance</h1>
+    <div class="topo">
+        <h1>🏓 TT Performance</h1>
+        <a href="/logout" class="btn-sair">Sair</a>
+    </div>
 
-    {% with mensagens = get_flashed_messages() %}
+    {% with mensagens = get_flashed_messages(with_categories=true) %}
       {% if mensagens %}
-        <div class="toast" id="toastNotificacao">
-          {{ mensagens[0] }}
+        <div class="toast {{ mensagens[0][0] }}" id="toastNotificacao">
+          {{ mensagens[0][1] }}
         </div>
       {% endif %}
     {% endwith %}
@@ -123,7 +126,11 @@
 
             </select>
 
-            <button type="submit">
+            <button type="button" class="btn-cancelar" onclick="fecharPopup()">
+                ← Voltar
+            </button>
+
+            <button type="submit" class="btn-cadastrar">
                 Cadastrar Partida
             </button>
 

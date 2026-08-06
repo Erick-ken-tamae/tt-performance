@@ -32,9 +32,10 @@ def login():
         if usuario:
             session["usuario_id"] = usuario["id"]
             session["usuario_nome"] = usuario["nome"]
+            flash("Login realizado com sucesso!", "success")
             return redirect(url_for("inicio"))
         else:
-            flash("Email ou senha incorretos.")
+            flash("Email ou senha incorretos.", "error")
             return redirect(url_for("login"))
 
     return render_template("login.html")
@@ -49,15 +50,15 @@ def cadastro():
         confirmar_senha = request.form.get("confirmar_senha")
 
         if senha != confirmar_senha:
-            flash("As senhas não coincidem.")
+            flash("As senhas não coincidem.", "error")
             return redirect(url_for("cadastro"))
 
         if email_existe(email):
-            flash("Este email já está cadastrado.")
+            flash("Este email já está cadastrado.", "error")
             return redirect(url_for("cadastro"))
 
         criar_usuario(nome, email, senha)
-        flash("Conta criada com sucesso! Faça login.")
+        flash("Conta criada com sucesso! Faça login.", "success")
         return redirect(url_for("login"))
 
     return render_template("cadastro.html")
@@ -147,7 +148,7 @@ def excluir(id):
 
     excluir_partida(id)
 
-    flash("Partida excluída com sucesso!")
+    flash("Partida excluída com sucesso!", "success")
 
     return redirect("/")
 
