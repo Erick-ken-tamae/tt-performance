@@ -48,7 +48,11 @@ def cadastrar_partida(usuario_id,
 
 
 def listar_partida(usuario_id):
-    partidas = list(_partidas().find({"usuario_id": usuario_id}).sort("_id", 1))
+    """Lista só as partidas EM ANDAMENTO do usuário (pra tela principal)."""
+    partidas = list(_partidas().find({
+        "usuario_id": usuario_id,
+        "status": {"$ne": "FINALIZADA"}
+    }).sort("_id", 1))
     return [_formatar(p) for p in partidas]
 
 
@@ -57,8 +61,12 @@ def buscar_partida(id):
     return _formatar(partida)
 
 
-def listar_historico():
-    partidas = list(_partidas().find({"status": "Finalizada"}).sort("_id", -1))
+def listar_historico_usuario(usuario_id):
+    """Lista as partidas FINALIZADAS do usuário, mais recentes primeiro (pra tela de histórico)."""
+    partidas = list(_partidas().find({
+        "usuario_id": usuario_id,
+        "status": "FINALIZADA"
+    }).sort("data_partida", -1))
     return [_formatar(p) for p in partidas]
 
 

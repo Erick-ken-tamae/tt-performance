@@ -1,7 +1,7 @@
 import os
 from functools import wraps
 from flask import Flask, render_template, request, redirect, jsonify, flash, session, url_for
-from models.partida import cadastrar_partida, listar_partida, buscar_partida, finalizar_partida, excluir_partida, salvar_jogada, estatistica_partida, listar_sets, salvar_set
+from models.partida import cadastrar_partida, listar_partida, buscar_partida, finalizar_partida, excluir_partida, salvar_jogada, estatistica_partida, listar_sets, salvar_set, listar_historico_usuario
 from models.jogada import listar_jogadas
 from models.usuario import criar_usuario, validar_login, email_existe, listar_usuarios, contar_usuarios, excluir_usuario, buscar_usuario_por_id
 
@@ -190,6 +190,19 @@ def excluir(id):
     flash("Partida excluída com sucesso!", "success")
 
     return redirect("/")
+
+
+# Histórico geral do usuário (lista todas as partidas finalizadas)
+@app.route("/historico")
+@login_required
+def historico_lista():
+
+    partidas = listar_historico_usuario(session["usuario_id"])
+
+    return render_template(
+        "historico_lista.html",
+        partidas=partidas
+    )
 
 
 # Histórico de partida
