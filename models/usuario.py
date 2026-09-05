@@ -1,32 +1,33 @@
-from database import conectar
+from datetime import datetime
+
+from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
+
+from database import conectar
+
+
+def _usuarios():
+    return conectar()["usuarios"]
 
 
 def criar_usuario(nome, email, senha, tipo="Jogador"):
-    banco = conectar()
-    cursor = banco.cursor()
-
     senha_hash = generate_password_hash(senha)
 
-    cursor.execute(
-        "INSERT INTO usuario (nome, email, senha, tipo) VALUES (%s, %s, %s, %s)",
-        (nome, email, senha_hash, tipo)
-    )
-
-    banco.commit()
-    cursor.close()
-    banco.close()
+    _usuarios().insert_one({
+        "nome": nome,
+        "email": email,
+        "senha": senha_hash,
+        "tipo": tipo,
+        "data_cadastro": datetime.utcnow()
+    })
 
 
 def buscar_usuario_por_email(email):
-    banco = conectar()
-    cursor = banco.cursor(dictionary=True)
+    usuario = _usuarios().find_one({"email": email})
 
-    cursor.execute("SELECT * FROM usuario WHERE email = %s", (email,))
-    usuario = cursor.fetchone()
+    if usuario:
+        usuario["id"] = str(usuario["_id"])
 
-    cursor.close()
-    banco.close()
     return usuario
 
 
@@ -44,49 +45,30 @@ def email_existe(email):
 
 
 def listar_usuarios():
-    banco = conectar()
-    cursor = banco.cursor(dictionary=True)
-
-    cursor.execute(
-        "SELECT id, nome, email, tipo, data_cadastro FROM usuario ORDER BY data_cadastro DESC"
+    usuarios = list(
+        _usuarios()
+        .find({}, {"nome": 1, "email": 1, "tipo": 1, "data_cadastro": 1})
+        .sort("data_cadastro", -1)
     )
-    usuarios = cursor.fetchall()
 
-    cursor.close()
-    banco.close()
+    for usuario in usuarios:
+        usuario["id"] = str(usuario["_id"])
+
     return usuarios
 
 
 def contar_usuarios():
-    banco = conectar()
-    cursor = banco.cursor()
-
-    cursor.execute("SELECT COUNT(*) FROM usuario")
-    total = cursor.fetchone()[0]
-
-    cursor.close()
-    banco.close()
-    return total
+    return _usuarios().count_documents({})
 
 
 def buscar_usuario_por_id(usuario_id):
-    banco = conectar()
-    cursor = banco.cursor(dictionary=True)
+    usuario = _usuarios().find_one({"_id": ObjectId(usuario_id)})
 
-    cursor.execute("SELECT * FROM usuario WHERE id = %s", (usuario_id,))
-    usuario = cursor.fetchone()
+    if usuario:
+        usuario["id"] = str(usuario["_id"])
 
-    cursor.close()
-    banco.close()
     return usuario
 
 
 def excluir_usuario(usuario_id):
-    banco = conectar()
-    cursor = banco.cursor()
-
-    cursor.execute("DELETE FROM usuario WHERE id = %s", (usuario_id,))
-
-    banco.commit()
-    cursor.close()
-    banco.close()
+    _usuarios().delete_one({"_id": ObjectId(usuario_id)})

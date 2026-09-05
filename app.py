@@ -135,7 +135,7 @@ def salvar_partida():
 
 
 # Iniciar partida
-@app.route("/iniciar_partida/<int:id>")
+@app.route("/iniciar_partida/<id>")
 @login_required
 def iniciar_partida(id):
 
@@ -175,7 +175,7 @@ def finalizar():
 
 
 # excluir partida
-@app.route("/excluir_partida/<int:id>")
+@app.route("/excluir_partida/<id>")
 @login_required
 def excluir(id):
 
@@ -193,7 +193,7 @@ def excluir(id):
 
 
 # Histórico de partida
-@app.route("/historico/<int:id>")
+@app.route("/historico/<id>")
 @login_required
 def historico(id):
 
@@ -260,7 +260,7 @@ def salvar_set_api():
     })
 
 
-@app.route("/analise/<int:id>")
+@app.route("/analise/<id>")
 @login_required
 def analise(id):
     partida = buscar_partida(id)
@@ -340,7 +340,7 @@ def admin():
     )
 
 
-@app.route("/admin/excluir_usuario/<int:id>")
+@app.route("/admin/excluir_usuario/<id>")
 @admin_required
 def admin_excluir_usuario(id):
 

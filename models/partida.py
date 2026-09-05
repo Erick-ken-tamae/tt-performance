@@ -1,300 +1,141 @@
+from datetime import datetime
+
+from bson.objectid import ObjectId
+
 from database import conectar
 
-# Cadastrar partida
-def cadastrar_partida(usuario_id,
-                      nome_jogador,
-                      clube_jogador,
-                      nome_adversario,
-                      clube_adversario,
-                      data_partida,
-                      quantidade_sets):
 
-    banco = conectar()
-    cursor = banco.cursor()
-
-    sql = """
-    INSERT INTO partida
-    (
-        usuario_id,
-        nome_jogador,
-        clube_jogador,
-        nome_adversario,
-        clube_adversario,
-        quantidade_sets,
-        data_partida
-    )
-    VALUES
-    (%s,%s,%s,%s,%s,%s,%s)
-    """
-
-    valores = (
-        usuario_id,
-        nome_jogador,
-        clube_jogador,
-        nome_adversario,
-        clube_adversario,
-        quantidade_sets,
-        data_partida
-    )
-
-    cursor.execute(sql, valores)
-
-    banco.commit()
-
-    cursor.close()
-    banco.close()
+def _partidas():
+    return conectar()["partidas"]
 
 
-# Listar partidas
-def listar_partida(usuario_id):
-
-    banco = conectar()
-
-    cursor = banco.cursor(dictionary=True)
-
-    sql = """
-        SELECT
-            id,
-            usuario_id,
-            nome_jogador,
-            clube_jogador,
-            nome_adversario,
-            clube_adversario,
-            quantidade_sets,
-            sets_jogador,
-            sets_adversario,
-            status,
-            data_partida
-        FROM partida
-        WHERE usuario_id = %s
-        ORDER BY id ASC
-        """
-
-    cursor.execute(sql, (usuario_id,))
-
-    partidas = cursor.fetchall()
-
-    cursor.close()
-    banco.close()
-
-    return partidas
-
-
-# Buscar uma partida
-def buscar_partida(id):
-
-    banco = conectar()
-
-    cursor = banco.cursor(dictionary=True)
-
-    sql = """
-    SELECT *
-    FROM partida
-    WHERE id=%s
-    """
-
-    cursor.execute(sql, (id,))
-
-    partida = cursor.fetchone()
-
-    cursor.close()
-    banco.close()
-
+def _formatar(partida):
+    """Adiciona um campo 'id' em texto (string) equivalente ao _id do Mongo."""
+    if partida:
+        partida["id"] = str(partida["_id"])
     return partida
 
 
+def cadastrar_partida(usuario_id,
+                       nome_jogador,
+                       clube_jogador,
+                       nome_adversario,
+                       clube_adversario,
+                       data_partida,
+                       quantidade_sets):
+
+    _partidas().insert_one({
+        "usuario_id": usuario_id,
+        "nome_jogador": nome_jogador,
+        "clube_jogador": clube_jogador,
+        "nome_adversario": nome_adversario,
+        "clube_adversario": clube_adversario,
+        "quantidade_sets": quantidade_sets,
+        "sets_jogador": 0,
+        "sets_adversario": 0,
+        "vencedor": None,
+        "status": "EM_ANDAMENTO",
+        "data_partida": data_partida,
+        "sets": [],
+        "jogadas": []
+    })
+
+
+def listar_partida(usuario_id):
+    partidas = list(_partidas().find({"usuario_id": usuario_id}).sort("_id", 1))
+    return [_formatar(p) for p in partidas]
+
+
+def buscar_partida(id):
+    partida = _partidas().find_one({"_id": ObjectId(id)})
+    return _formatar(partida)
+
+
 def listar_historico():
-    banco = conectar()
-    cursor = banco.cursor(dictionary=True)
-    
-    sql = """
-    SELECT *
-    FROM partida
-    WHERE status='Finalizada'
-    ORDER BY id DESC
-    """
-    
-    cursor.execute(sql)
+    partidas = list(_partidas().find({"status": "Finalizada"}).sort("_id", -1))
+    return [_formatar(p) for p in partidas]
 
-    partidas = cursor.fetchall()
-
-    cursor.close()
-    banco.close()
-
-    return partidas
 
 def finalizar_partida(id, vencedor, sets_jogador, sets_adversario):
+    _partidas().update_one(
+        {"_id": ObjectId(id)},
+        {"$set": {
+            "vencedor": vencedor,
+            "sets_jogador": sets_jogador,
+            "sets_adversario": sets_adversario,
+            "status": "FINALIZADA"
+        }}
+    )
 
-    banco = conectar()
-    cursor = banco.cursor()
-
-    sql = """
-        UPDATE partida
-        SET
-            vencedor=%s,
-            sets_jogador=%s,
-            sets_adversario=%s,
-            status='FINALIZADA'
-        WHERE id=%s
-    """
-
-    cursor.execute(sql, (
-        vencedor,
-        sets_jogador,
-        sets_adversario,
-        id
-    ))
-
-    banco.commit()
-
-    cursor.close()
-    banco.close()
 
 def excluir_partida(id):
-    conexao = conectar()
-    cursor = conexao.cursor()
+    # Antes eram 2 DELETEs (jogada + partida); agora as jogadas já estão
+    # dentro do próprio documento da partida, então um só remove tudo.
+    _partidas().delete_one({"_id": ObjectId(id)})
 
-    cursor.execute("""
-        DELETE FROM jogada
-        WHERE partida_id=%s
-    """,(id,))
 
-    cursor.execute("""
-        DELETE FROM partida
-        WHERE id=%s
-    """,(id,))
-
-    conexao.commit()
-
-    cursor.close()
-    conexao.close()
-    
-def salvar_jogada(partida_id,set_numero,jogador, vencedor_ponto,tecnica,resultado):
-
-    banco=conectar()
-    cursor=banco.cursor()
-
-    sql="""
-    INSERT INTO jogada
-    (
-        partida_id,
-        numero_set,
-        jogador,
-        vencedor_ponto,
-        tecnica,
-        resultado
+def salvar_jogada(partida_id, set_numero, jogador, vencedor_ponto, tecnica, resultado):
+    _partidas().update_one(
+        {"_id": ObjectId(partida_id)},
+        {"$push": {
+            "jogadas": {
+                "numero_set": set_numero,
+                "jogador": jogador,
+                "vencedor_ponto": vencedor_ponto,
+                "tecnica": tecnica,
+                "resultado": resultado,
+                "data_registro": datetime.utcnow()
+            }
+        }}
     )
-    VALUES
-    (%s,%s,%s,%s,%s, %s)
-    """
 
-    cursor.execute(sql,(
-        partida_id,
-        set_numero,
-        jogador,
-        vencedor_ponto,
-        tecnica,
-        resultado
-    ))
-
-    banco.commit()
-
-    cursor.close()
-    banco.close()
 
 def listar_sets(partida_id):
+    partida = _partidas().find_one({"_id": ObjectId(partida_id)}, {"sets": 1})
+    sets = partida.get("sets", []) if partida else []
+    return sorted(sets, key=lambda s: s["numero_set"])
 
-    banco = conectar()
 
-    cursor = banco.cursor(dictionary=True)
-
-    sql = """
-    SELECT
-        numero_set,
-        pontos_jogador,
-        pontos_adversario,
-        vencedor
-    FROM set_partida
-    WHERE partida_id=%s
-    ORDER BY numero_set ASC
-    """
-
-    cursor.execute(sql,(partida_id,))
-
-    sets = cursor.fetchall()
-
-    cursor.close()
-    banco.close()
-
-    return sets
-
-def salvar_set(
-    partida_id,
-    numero_set,
-    pontos_jogador,
-    pontos_adversario,
-    vencedor
-):
-
-    banco = conectar()
-    cursor = banco.cursor()
-
-    sql = """
-    INSERT INTO set_partida
-    (
-        partida_id,
-        numero_set,
-        pontos_jogador,
-        pontos_adversario,
-        vencedor
+def salvar_set(partida_id, numero_set, pontos_jogador, pontos_adversario, vencedor):
+    _partidas().update_one(
+        {"_id": ObjectId(partida_id)},
+        {"$push": {
+            "sets": {
+                "numero_set": numero_set,
+                "pontos_jogador": pontos_jogador,
+                "pontos_adversario": pontos_adversario,
+                "vencedor": vencedor
+            }
+        }}
     )
 
-    VALUES
-    (%s,%s,%s,%s,%s)
-    """
-
-    cursor.execute(
-        sql,
-        (
-            partida_id,
-            numero_set,
-            pontos_jogador,
-            pontos_adversario,
-            vencedor
-        )
-    )
-
-    banco.commit()
-
-    cursor.close()
-    banco.close()
 
 def estatistica_partida(id):
+    partida = _partidas().find_one({"_id": ObjectId(id)}, {"jogadas": 1})
+    jogadas = partida.get("jogadas", []) if partida else []
 
-    banco = conectar()
-    cursor = banco.cursor(dictionary=True)
+    # Agrupa por (jogador, tecnica), reproduzindo o GROUP BY do SQL original.
+    resumo = {}
+    for jogada in jogadas:
+        chave = (jogada["jogador"], jogada["tecnica"])
+        grupo = resumo.setdefault(chave, {"acertos": 0, "erros": 0})
 
-    sql = """
-    SELECT
-    jogador,
-    tecnica,
-    SUM(resultado='Acerto') AS acertos,
-    SUM(resultado='Erro') AS erros,
-    ROUND(
-        (
-        SUM(resultado='Acerto') / COUNT(*)
-        ) * 100,
-        2
-    ) AS aproveitamento
-    FROM jogada
-    WHERE partida_id=%s
-    GROUP BY jogador, tecnica
-    """
+        if jogada["resultado"] == "Acerto":
+            grupo["acertos"] += 1
+        elif jogada["resultado"] == "Erro":
+            grupo["erros"] += 1
 
-    cursor.execute(sql,(id,))
-    estatisticas = cursor.fetchall()
+    estatisticas = []
+    for (jogador, tecnica), valores in resumo.items():
+        total = valores["acertos"] + valores["erros"]
+        aproveitamento = round((valores["acertos"] / total) * 100, 2) if total else 0
 
-    cursor.close()
-    banco.close()
+        estatisticas.append({
+            "jogador": jogador,
+            "tecnica": tecnica,
+            "acertos": valores["acertos"],
+            "erros": valores["erros"],
+            "aproveitamento": aproveitamento
+        })
 
     return estatisticas

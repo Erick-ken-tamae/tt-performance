@@ -1,13 +1,19 @@
 import os
-import mysql.connector
+from pymongo import MongoClient
+
+# Reaproveita a mesma conexão entre chamadas (recomendado pelo MongoDB
+# para ambientes serverless como a Vercel, ao contrário do MySQL onde
+# abríamos/fechávamos a conexão a cada função).
+_client = None
+
 
 def conectar():
-    banco = mysql.connector.connect(
-        host=os.environ.get("DB_HOST", "localhost"),
-        user=os.environ.get("DB_USER", "root"),
-        password=os.environ.get("DB_PASSWORD", "1005yukio"),
-        database=os.environ.get("DB_NAME", "tt_performance"),
-        port=int(os.environ.get("DB_PORT", 3306))
-    )
+    """Retorna o banco (database) do MongoDB configurado."""
+    global _client
 
-    return banco
+    if _client is None:
+        mongo_uri = os.environ.get("MONGO_URI", "mongodb+srv://erick_ken:erickmongo123@cluster0.uzkctku.mongodb.net/?appName=Cluster0")
+        _client = MongoClient(mongo_uri)
+
+    db_name = os.environ.get("DB_NAME", "tt_performance")
+    return _client[db_name]
