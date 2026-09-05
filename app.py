@@ -119,7 +119,7 @@ def salvar_partida():
     adversario = request.form["adversario"]
     clube_adversario = request.form["clube_adversario"]
     data_partida = request.form["data_partida"]
-    quantidade_sets = request.form["melhor_de"]
+    quantidade_sets = int(request.form["melhor_de"])
 
     cadastrar_partida(
         session["usuario_id"],

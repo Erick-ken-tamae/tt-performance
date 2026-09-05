@@ -24,6 +24,12 @@ def cadastrar_partida(usuario_id,
                        data_partida,
                        quantidade_sets):
 
+    # O formulário HTML manda a data como texto (ex: "2026-09-05").
+    # O MySQL convertia isso pra data automaticamente; no Mongo precisamos
+    # converter na mão pra manter partida.data_partida.strftime(...) funcionando
+    # nos templates (historico.html, analise.html).
+    data_partida_convertida = datetime.strptime(data_partida, "%Y-%m-%d")
+
     _partidas().insert_one({
         "usuario_id": usuario_id,
         "nome_jogador": nome_jogador,
@@ -35,7 +41,7 @@ def cadastrar_partida(usuario_id,
         "sets_adversario": 0,
         "vencedor": None,
         "status": "EM_ANDAMENTO",
-        "data_partida": data_partida,
+        "data_partida": data_partida_convertida,
         "sets": [],
         "jogadas": []
     })
