@@ -2,4 +2,4 @@ flask
 pymongo[srv]
 werkzeug
 dnspython
-openyxl
+openpyxl
