@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desempenho da Partida | TT Performance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_desempenho_partida.css') }}">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="topbar-left">
+            <a href="{{ url_for('admin_desempenho') }}" class="btn-voltar">← Voltar</a>
+
+            <div>
+                <h1>Desempenho da Partida</h1>
+                <p>Análise detalhada</p>
+            </div>
+        </div>
+
+        <a href="{{ url_for('exportar_excel_partida', id=partida.id) }}" class="btn-excel">
+            📊 Exportar Excel
+        </a>
+
+        <div class="admin-badge">👑 Administrador</div>
+    </header>
+
+    <main class="container">
+        <section class="partida-header">
+            <div class="status-area">
+                {% if partida.get("finalizada") %}
+                    <span class="status finalizada">● Finalizada</span>
+                {% else %}
+                    <span class="status andamento">● Em andamento</span>
+                {% endif %}
+            </div>
+
+            <div class="confronto">
+                <div class="jogador destaque">
+                    <span class="label">Jogador</span>
+                    <h2>{{ partida.get("nome_jogador", "-") }}</h2>
+
+                    {% if partida.get("clube_jogador") %}
+                        <p>{{ partida.get("clube_jogador") }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="placar">
+                    <span class="sets">{{ partida.get("sets_jogador", 0) }}</span>
+                    <span class="x">×</span>
+                    <span class="sets">{{ partida.get("sets_adversario", 0) }}</span>
+                </div>
+
+                <div class="jogador adversario">
+                    <span class="label">Adversário</span>
+                    <h2>{{ partida.get("nome_adversario", "-") }}</h2>
+
+                    {% if partida.get("clube_adversario") %}
+                        <p>{{ partida.get("clube_adversario") }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-title">
+                <div>
+                    <span class="section-icon">🏓</span>
+
+                    <div>
+                        <h2>{{ partida.get("nome_jogador", "Jogador") }}</h2>
+                        <p>Resumo de desempenho</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cards">
+                <div class="card">
+                    <span class="card-icon acerto">✓</span>
+
+                    <div>
+                        <span class="card-label">Acertos</span>
+                        <strong>{{ resumo_jogador.total_acertos }}</strong>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon erro">✕</span>
+
+                    <div>
+                        <span class="card-label">Erros</span>
+                        <strong>{{ resumo_jogador.total_erros }}</strong>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon jogadas">🏓</span>
+
+                    <div>
+                        <span class="card-label">Total de jogadas</span>
+                        <strong>{{ resumo_jogador.total_jogadas }}</strong>
+                    </div>
+                </div>
+
+                <div class="card destaque-card">
+                    <span class="card-icon aproveitamento">%</span>
+
+                    <div>
+                        <span class="card-label">Aproveitamento</span>
+                        <strong>{{ resumo_jogador.aproveitamento }}%</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tecnicas-resumo">
+                <div class="tecnica-box">
+                    <span>⭐ Melhor técnica</span>
+                    <strong>{{ resumo_jogador.melhor_tecnica }}</strong>
+                </div>
+
+                <div class="tecnica-box">
+                    <span>📌 Mais utilizada</span>
+                    <strong>{{ resumo_jogador.tecnica_mais_utilizada }}</strong>
+                </div>
+
+                <div class="tecnica-box">
+                    <span>⚠️ Menor aproveitamento</span>
+                    <strong>{{ resumo_jogador.pior_tecnica }}</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-title">
+                <div>
+                    <span class="section-icon">📊</span>
+
+                    <div>
+                        <h2>Desempenho por técnica</h2>
+                        <p>{{ partida.get("nome_jogador", "Jogador") }}</p>
+                    </div>
+                </div>
+            </div>
+
+            {% if estatistica_jogador %}
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Técnica</th>
+                                <th>Acertos</th>
+                                <th>Erros</th>
+                                <th>Total</th>
+                                <th>Aproveitamento</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for item in estatistica_jogador %}
+                                <tr>
+                                    <td class="tecnica">{{ item.tecnica }}</td>
+                                    <td class="acerto-text">{{ item.acertos }}</td>
+                                    <td class="erro-text">{{ item.erros }}</td>
+                                    <td>{{ item.acertos + item.erros }}</td>
+
+                                    <td>
+                                        <div class="progress-area">
+                                            <div class="progress">
+                                                <div
+                                                    class="progress-bar"
+                                                    style="width: {{ item.aproveitamento }}%;"
+                                                >
+                                                </div>
+                                            </div>
+
+                                            <span>{{ item.aproveitamento }}%</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty">Nenhuma estatística registrada para este jogador.</div>
+            {% endif %}
+        </section>
+
+        <section class="section adversario-section">
+            <div class="section-title">
+                <div>
+                    <span class="section-icon">👤</span>
+
+                    <div>
+                        <h2>{{ partida.get("nome_adversario", "Adversário") }}</h2>
+                        <p>Resumo de desempenho</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cards">
+                <div class="card">
+                    <span class="card-icon acerto">✓</span>
+
+                    <div>
+                        <span class="card-label">Acertos</span>
+                        <strong>{{ resumo_adversario.total_acertos }}</strong>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon erro">✕</span>
+
+                    <div>
+                        <span class="card-label">Erros</span>
+                        <strong>{{ resumo_adversario.total_erros }}</strong>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon jogadas">🏓</span>
+
+                    <div>
+                        <span class="card-label">Total de jogadas</span>
+                        <strong>{{ resumo_adversario.total_jogadas }}</strong>
+                    </div>
+                </div>
+
+                <div class="card destaque-card">
+                    <span class="card-icon aproveitamento">%</span>
+
+                    <div>
+                        <span class="card-label">Aproveitamento</span>
+                        <strong>{{ resumo_adversario.aproveitamento }}%</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tecnicas-resumo">
+                <div class="tecnica-box">
+                    <span>⭐ Melhor técnica</span>
+                    <strong>{{ resumo_adversario.melhor_tecnica }}</strong>
+                </div>
+
+                <div class="tecnica-box">
+                    <span>📌 Mais utilizada</span>
+                    <strong>{{ resumo_adversario.tecnica_mais_utilizada }}</strong>
+                </div>
+
+                <div class="tecnica-box">
+                    <span>⚠️ Menor aproveitamento</span>
+                    <strong>{{ resumo_adversario.pior_tecnica }}</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-title">
+                <div>
+                    <span class="section-icon">📊</span>
+
+                    <div>
+                        <h2>Desempenho do adversário</h2>
+                        <p>{{ partida.get("nome_adversario", "Adversário") }}</p>
+                    </div>
+                </div>
+            </div>
+
+            {% if estatistica_adversario %}
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Técnica</th>
+                                <th>Acertos</th>
+                                <th>Erros</th>
+                                <th>Total</th>
+                                <th>Aproveitamento</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for item in estatistica_adversario %}
+                                <tr>
+                                    <td class="tecnica">{{ item.tecnica }}</td>
+                                    <td class="acerto-text">{{ item.acertos }}</td>
+                                    <td class="erro-text">{{ item.erros }}</td>
+                                    <td>{{ item.acertos + item.erros }}</td>
+
+                                    <td>
+                                        <div class="progress-area">
+                                            <div class="progress">
+                                                <div
+                                                    class="progress-bar"
+                                                    style="width: {{ item.aproveitamento }}%;"
+                                                >
+                                                </div>
+                                            </div>
+
+                                            <span>{{ item.aproveitamento }}%</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty">Nenhuma estatística registrada para o adversário.</div>
+            {% endif %}
+        </section>
+
+        <section class="section">
+            <div class="section-title">
+                <div>
+                    <span class="section-icon">🏆</span>
+
+                    <div>
+                        <h2>Sets da partida</h2>
+                        <p>Histórico dos sets registrados</p>
+                    </div>
+                </div>
+            </div>
+
+            {% if sets %}
+                <div class="sets-list">
+                    {% for set in sets %}
+                        <div class="set-card">
+                            <div class="set-number">Set {{ loop.index }}</div>
+
+                            <div class="set-data">
+                                {% for chave, valor in set.items() %}
+                                    {% if chave != "_id" %}
+                                        <div class="set-item">
+                                            <span>{{ chave | replace("_", " ") | title }}</span>
+                                            <strong>{{ valor }}</strong>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty">Nenhum set registrado.</div>
+            {% endif %}
+        </section>
+
+        <section class="section">
+            <div class="section-title">
+                <div>
+                    <span class="section-icon">🏓</span>
+
+                    <div>
+                        <h2>Jogadas registradas</h2>
+                        <p>Histórico completo da partida</p>
+                    </div>
+                </div>
+            </div>
+
+            {% if jogadas %}
+                <div class="jogadas-list">
+                    {% for jogada in jogadas %}
+                        <div class="jogada-card">
+                            <div class="jogada-numero">{{ loop.index }}</div>
+
+                            <div class="jogada-info">
+                                {% for chave, valor in jogada.items() %}
+                                    {% if chave != "_id" %}
+                                        <div class="jogada-item">
+                                            <span>{{ chave | replace("_", " ") | title }}</span>
+                                            <strong>{{ valor }}</strong>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty">Nenhuma jogada registrada nesta partida.</div>
+            {% endif %}
+        </section>
+    </main>
+
+    <footer>
+        <p>TT Performance · Painel Administrativo</p>
+    </footer>
+</body>
+</html>

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -8,145 +9,110 @@
 </head>
 
 <body>
+    <div class="container">
+        <div class="topo">
+            <h1>🏓 TT Performance</h1>
 
-<div class="container">
+            <div class="topo-acoes">
+                {% if session.get('usuario_tipo') == 'Administrador' %}
+                    <a href="/admin" class="btn-admin">🛠️ Admin</a>
+                {% endif %}
 
-    <div class="topo">
-        <h1>🏓 TT Performance</h1>
-        <div class="topo-acoes">
-            {% if session.get('usuario_tipo') == 'Administrador' %}
-            <a href="/admin" class="btn-admin">🛠️ Admin</a>
+                <a href="/historico" class="btn-admin">📜 Histórico</a>
+                <a href="/logout" class="btn-sair">Sair</a>
+            </div>
+        </div>
+
+        {% with mensagens = get_flashed_messages(with_categories=true) %}
+            {% if mensagens %}
+                <div class="toast {{ mensagens[0][0] }}" id="toastNotificacao">{{ mensagens[0][1] }}</div>
             {% endif %}
-            <a href="/historico" class="btn-admin">📜 Histórico</a>
-            <a href="/logout" class="btn-sair">Sair</a>
+        {% endwith %}
+
+        <p class="descricao">Sistema de gerenciamento e análise de partidas de Tênis de Mesa.</p>
+
+        <div class="acoes">
+            <button type="button" class="btn-nova" onclick="abrirPopup()">➕ Nova Partida</button>
+        </div>
+
+        <hr>
+        <h2>Partidas Cadastradas</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Jogador</th>
+                    <th>Clube</th>
+                    <th>Adversário</th>
+                    <th>Clube Adversário</th>
+                    <th>Data</th>
+                    <th>Ações</th>
+                    <th>Excluir</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for partida in partidas %}
+                    <tr>
+                        <td data-label="ID">{{ loop.index }}</td>
+                        <td data-label="Jogador">{{ partida.nome_jogador }}</td>
+                        <td data-label="Clube">{{ partida.clube_jogador }}</td>
+                        <td data-label="Adversário">{{ partida.nome_adversario }}</td>
+                        <td data-label="Clube Adv.">{{ partida.clube_adversario }}</td>
+                        <td data-label="Data">{{ partida.data_partida }}</td>
+
+                        <td data-label="Ações">
+                            {% if partida.status == "EM_ANDAMENTO" %}
+                                <a href="/iniciar_partida/{{ partida.id }}" class="btn-iniciar">
+                                    ⚡ Iniciar Partida
+                                </a>
+                            {% else %}
+                                <a href="/historico/{{ partida.id }}" class="btn-historico">
+                                    📊 Ver Histórico
+                                </a>
+                            {% endif %}
+                        </td>
+
+                        <td data-label="Excluir">
+                            <a
+                                href="/excluir_partida/{{ partida.id }}"
+                                class="btn-excluir"
+                                onclick="return confirm('Deseja excluir esta partida?')"
+                            >
+                                🗑 Excluir
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div id="popupPartida" class="popup">
+        <div class="popup-conteudo">
+            <span class="fechar" onclick="fecharPopup()">&times;</span>
+            <h2>🏓 Nova Partida</h2>
+
+            <form action="/salvar_partida" method="POST">
+                <input type="text" name="nome" placeholder="Seu nome" required>
+                <input type="text" name="clube" placeholder="Seu clube" required>
+                <input type="text" name="adversario" placeholder="Nome do adversário" required>
+                <input type="text" name="clube_adversario" placeholder="Clube do adversário" required>
+                <input type="date" name="data_partida" required>
+
+                <select name="melhor_de" required>
+                    <option value="3">Melhor de 3</option>
+                    <option value="5">Melhor de 5</option>
+                    <option value="7">Melhor de 7</option>
+                </select>
+
+                <button type="button" class="btn-cancelar" onclick="fecharPopup()">← Voltar</button>
+                <button type="submit" class="btn-cadastrar">Cadastrar Partida</button>
+            </form>
         </div>
     </div>
 
-    {% with mensagens = get_flashed_messages(with_categories=true) %}
-      {% if mensagens %}
-        <div class="toast {{ mensagens[0][0] }}" id="toastNotificacao">
-          {{ mensagens[0][1] }}
-        </div>
-      {% endif %}
-    {% endwith %}
-
-    <p class="descricao"> Sistema de gerenciamento e análise de partidas de Tênis de Mesa.</p>
-
-    <div class="acoes">
-        <button type="button" class="btn-nova" onclick="abrirPopup()">
-            ➕ Nova Partida
-        </button>
-    </div>
-
-    <hr>
-    <h2>Partidas Cadastradas</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Jogador</th>
-                <th>Clube</th>
-                <th>Adversário</th>
-                <th>Clube Adversário</th>
-                <th>Data</th>
-                <th>Ações</th>
-                <th>Excluir</th>
-            </tr>
-
-        </thead>
-
-        <tbody>
-
-            {% for partida in partidas %}
-
-            <tr>
-                <td data-label="ID">{{ loop.index }}</td>
-                <td data-label="Jogador">{{ partida.nome_jogador }}</td>
-                <td data-label="Clube">{{ partida.clube_jogador }}</td>
-                <td data-label="Adversário">{{ partida.nome_adversario }}</td>
-                <td data-label="Clube Adv.">{{ partida.clube_adversario }}</td>
-                <td data-label="Data">{{ partida.data_partida }}</td>
-                <td data-label="Ações">
-                    {% if partida.status == "EM_ANDAMENTO" %}
-                    <a href="/iniciar_partida/{{ partida.id }}" class="btn-iniciar">
-                        ⚡ Iniciar Partida
-                    </a>
-
-                    {% else %}
-
-                    <a href="/historico/{{ partida.id }}" class="btn-historico">
-                        📊 Ver Histórico
-                    </a>
-
-                    {% endif %}
-
-                </td>
-
-                <td data-label="Excluir">
-
-                    <a href="/excluir_partida/{{ partida.id }}" class="btn-excluir" onclick="return confirm('Deseja excluir esta partida?')">
-                        🗑 Excluir
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
-<div id="popupPartida" class="popup">
-
-    <div class="popup-conteudo">
-
-        <span class="fechar" onclick="fecharPopup()">
-            &times;
-        </span>
-
-        <h2>🏓 Nova Partida</h2>
-
-        <form action="/salvar_partida" method="POST">
-
-            <input type="text" name="nome" placeholder="Seu nome" required>
-
-            <input type="text" name="clube" placeholder="Seu clube" required>
-
-            <input type="text" name="adversario" placeholder="Nome do adversário" required>
-
-            <input type="text" name="clube_adversario" placeholder="Clube do adversário" required>
-
-            <input type="date" name="data_partida" required>
-
-            <select name="melhor_de" required>
-
-                <option value="3">
-                    Melhor de 3
-                </option>
-
-                <option value="5">
-                    Melhor de 5
-                </option>
-                
-                <option value="7">
-                    Melhor de 7
-                </option>
-
-            </select>
-
-            <button type="button" class="btn-cancelar" onclick="fecharPopup()">
-                ← Voltar
-            </button>
-
-            <button type="submit" class="btn-cadastrar">
-                Cadastrar Partida
-            </button>
-
-        </form>
-
-    </div>
-
-</div>
-
-<script src="{{ url_for('static', filename='js/partida.js') }}"></script>
-
+    <script src="{{ url_for('static', filename='js/partida.js') }}"></script>
 </body>
 </html>

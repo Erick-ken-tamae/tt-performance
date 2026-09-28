@@ -1,0 +1,886 @@
+/* ==========================================
+   RESET
+========================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* ==========================================
+   BASE
+========================================== */
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    background:
+        linear-gradient(
+            135deg,
+            #17283d,
+            #101c2c
+        );
+
+    min-height: 100vh;
+
+    color: #222;
+
+    padding: 30px 15px;
+}
+
+
+/* ==========================================
+   CONTAINER
+========================================== */
+
+.container {
+
+    width: 1100px;
+
+    max-width: 100%;
+
+    margin: 0 auto;
+
+    background: #fff;
+
+    border-radius: 20px;
+
+    padding: 35px;
+
+    box-shadow:
+        0 20px 50px
+        rgba(0, 0, 0, .20);
+}
+
+
+/* ==========================================
+   TOPO
+========================================== */
+
+.topo {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding-bottom: 25px;
+
+    border-bottom:
+        1px solid #e8e8e8;
+}
+
+
+.topo-esquerda {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+}
+
+
+.icone-topo {
+
+    width: 48px;
+
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #f1f2f4;
+
+    border-radius: 12px;
+
+    font-size: 24px;
+}
+
+
+.topo h1 {
+
+    font-size: 24px;
+
+    color: #111;
+}
+
+
+.topo p {
+
+    margin-top: 4px;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+.topo-acoes {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+}
+
+
+.usuario {
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    color: #555;
+
+    margin-right: 5px;
+}
+
+
+/* ==========================================
+   BOTÕES
+========================================== */
+
+.btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 9px 13px;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    transition: .2s;
+}
+
+
+.btn-secundario {
+
+    color: #333;
+
+    background: #fff;
+
+    border: 1px solid #ddd;
+}
+
+
+.btn-secundario:hover {
+
+    background: #f4f4f4;
+}
+
+
+.btn-sair {
+
+    color: #c62828;
+
+    background: #fff;
+
+    border: 1px solid #e4bcbc;
+}
+
+
+.btn-sair:hover {
+
+    background: #fff2f2;
+}
+
+
+/* ==========================================
+   MENU
+========================================== */
+
+.menu {
+
+    display: flex;
+
+    gap: 7px;
+
+    padding: 20px 0 25px;
+
+    margin-bottom: 30px;
+
+    border-bottom:
+        1px solid #e8e8e8;
+
+    overflow-x: auto;
+}
+
+
+.menu a {
+
+    text-decoration: none;
+
+    color: #333;
+
+    padding: 10px 14px;
+
+    border-radius: 9px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    transition: .2s;
+}
+
+
+.menu a:hover {
+
+    background: #f1f2f4;
+}
+
+
+.menu a.ativo {
+
+    background: #111;
+
+    color: white;
+}
+
+
+/* ==========================================
+   TÍTULO
+========================================== */
+
+.titulo {
+
+    margin-bottom: 28px;
+}
+
+
+.mini-label {
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+    color: #777;
+}
+
+
+.titulo h2 {
+
+    margin-top: 5px;
+
+    font-size: 30px;
+
+    color: #111;
+}
+
+
+.titulo p {
+
+    margin-top: 6px;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+/* ==========================================
+   MENSAGEM
+========================================== */
+
+.mensagem {
+
+    padding: 12px 16px;
+
+    border-radius: 9px;
+
+    margin-bottom: 25px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+.mensagem.success {
+
+    background: #e8f7ee;
+
+    color: #19713a;
+
+    border: 1px solid #b8e4c8;
+}
+
+
+.mensagem.error {
+
+    background: #fdecec;
+
+    color: #a52222;
+
+    border: 1px solid #efb8b8;
+}
+
+
+/* ==========================================
+   LISTA
+========================================== */
+
+.lista {
+
+    margin-top: 10px;
+}
+
+
+.lista-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+
+.lista-header h2 {
+
+    font-size: 19px;
+
+    color: #222;
+}
+
+
+.lista-header p {
+
+    margin-top: 5px;
+
+    color: #777;
+
+    font-size: 12px;
+}
+
+
+.contador {
+
+    padding: 7px 11px;
+
+    background: #f2f2f4;
+
+    border-radius: 20px;
+
+    color: #555;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* ==========================================
+   GRID DE PARTIDAS
+========================================== */
+
+.partidas-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+
+/* ==========================================
+   CARD DA PARTIDA
+========================================== */
+
+.partida-card {
+
+    border: 1px solid #e4e7eb;
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    background: #fff;
+
+    transition: .2s;
+}
+
+
+.partida-card:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 30px
+        rgba(0, 0, 0, .08);
+}
+
+
+/* ==========================================
+   TOPO DO CARD
+========================================== */
+
+.partida-topo {
+
+    padding: 14px 16px;
+
+    border-bottom:
+        1px solid #eeeeee;
+}
+
+
+.status {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+.status.finalizada {
+
+    background: #e8f7ee;
+
+    color: #19713a;
+}
+
+
+.status.andamento {
+
+    background: #fff4df;
+
+    color: #9a6500;
+}
+
+
+/* ==========================================
+   CONFRONTO
+========================================== */
+
+.confronto {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 50px 1fr;
+
+    align-items: center;
+
+    padding: 24px 18px 20px;
+
+    text-align: center;
+}
+
+
+.jogador {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+}
+
+
+.avatar {
+
+    width: 52px;
+
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-bottom: 9px;
+
+    background: #17283d;
+
+    color: #fff;
+
+    border-radius: 50%;
+
+    font-size: 18px;
+
+    font-weight: 800;
+}
+
+
+.jogador strong {
+
+    font-size: 13px;
+
+    color: #222;
+
+    word-break: break-word;
+}
+
+
+.jogador small {
+
+    margin-top: 3px;
+
+    color: #888;
+
+    font-size: 10px;
+}
+
+
+.versus {
+
+    color: #aaa;
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+
+/* ==========================================
+   RESULTADO
+========================================== */
+
+.resultado {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    border-top:
+        1px solid #eeeeee;
+
+    border-bottom:
+        1px solid #eeeeee;
+}
+
+
+.resultado > div {
+
+    padding: 13px;
+
+    text-align: center;
+}
+
+
+.resultado > div + div {
+
+    border-left:
+        1px solid #eeeeee;
+}
+
+
+.resultado span {
+
+    display: block;
+
+    color: #888;
+
+    font-size: 10px;
+
+    margin-bottom: 4px;
+}
+
+
+.resultado strong {
+
+    font-size: 14px;
+
+    color: #222;
+}
+
+
+/* ==========================================
+   BOTÃO DE DESEMPENHO
+========================================== */
+
+.btn-desempenho {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin: 14px;
+
+    padding: 12px 14px;
+
+    background: #17283d;
+
+    color: white;
+
+    border-radius: 9px;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    transition: .2s;
+}
+
+
+.btn-desempenho:hover {
+
+    background: #101c2c;
+
+    transform: translateY(-1px);
+}
+
+
+.btn-desempenho span {
+
+    font-size: 16px;
+}
+
+
+/* ==========================================
+   ESTADO VAZIO
+========================================== */
+
+.vazio {
+
+    text-align: center;
+
+    padding: 70px 20px;
+
+    border: 1px dashed #d9dce1;
+
+    border-radius: 16px;
+
+    background: #fafafa;
+}
+
+
+.vazio-icone {
+
+    font-size: 40px;
+
+    margin-bottom: 12px;
+}
+
+
+.vazio h3 {
+
+    font-size: 18px;
+
+    color: #333;
+}
+
+
+.vazio p {
+
+    margin-top: 6px;
+
+    color: #888;
+
+    font-size: 12px;
+}
+
+
+/* ==========================================
+   RODAPÉ
+========================================== */
+
+footer {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    margin-top: 30px;
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid #e8e8e8;
+
+    color: #888;
+
+    font-size: 11px;
+}
+
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media (max-width: 850px) {
+
+    .partidas-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* ==========================================
+   CELULAR
+========================================== */
+
+@media (max-width: 650px) {
+
+    body {
+
+        padding: 0;
+    }
+
+
+    .container {
+
+        width: 100%;
+
+        max-width: 100%;
+
+        min-height: 100vh;
+
+        margin: 0;
+
+        padding: 20px 15px;
+
+        border-radius: 0;
+
+        box-shadow: none;
+    }
+
+
+    .topo {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    .topo-acoes {
+
+        width: 100%;
+    }
+
+
+    .usuario {
+
+        width: 100%;
+
+        margin-bottom: 3px;
+    }
+
+
+    .menu {
+
+        margin-bottom: 25px;
+
+        padding-bottom: 18px;
+    }
+
+
+    .titulo h2 {
+
+        font-size: 25px;
+    }
+
+
+    .lista-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    .contador {
+
+        align-self: flex-start;
+    }
+
+
+    .partidas-grid {
+
+        grid-template-columns: 1fr;
+
+        gap: 14px;
+    }
+
+
+    .confronto {
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            35px
+            minmax(0, 1fr);
+
+        padding-left: 12px;
+
+        padding-right: 12px;
+    }
+
+
+    .jogador strong {
+
+        max-width: 110px;
+    }
+
+
+    .avatar {
+
+        width: 46px;
+
+        height: 46px;
+
+        font-size: 16px;
+    }
+
+
+    .resultado > div {
+
+        padding: 11px 8px;
+    }
+
+
+    footer {
+
+        padding-bottom: 10px;
+    }
+}

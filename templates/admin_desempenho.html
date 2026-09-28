@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TT Performance - Desempenho</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_desempenho.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <header class="topo">
+            <div class="topo-esquerda">
+                <div class="icone-topo">🏓</div>
+
+                <div>
+                    <h1>TT Performance</h1>
+                    <p>Painel de desempenho</p>
+                </div>
+            </div>
+
+            <div class="topo-acoes">
+                <span class="usuario">👤 {{ session.get('usuario_nome', 'Administrador') }}</span>
+                <a href="/admin" class="btn btn-secundario">← Dashboard</a>
+                <a href="/logout" class="btn btn-sair">Sair</a>
+            </div>
+        </header>
+
+        <nav class="menu">
+            <a href="/admin">🏠 Dashboard</a>
+            <a href="/admin#usuarios">👥 Usuários</a>
+            <a href="/">🏓 Partidas</a>
+            <a href="/admin/desempenho" class="ativo">📊 Desempenho</a>
+            <a href="/historico">📜 Histórico</a>
+        </nav>
+
+        <section class="titulo">
+            <span class="mini-label">ADMINISTRADOR</span>
+            <h2>Desempenho dos jogadores</h2>
+            <p>Selecione uma partida para visualizar o desempenho detalhado dos jogadores.</p>
+        </section>
+
+        {% with mensagens = get_flashed_messages(with_categories=true) %}
+            {% if mensagens %}
+                <div class="mensagem {{ mensagens[0][0] }}">{{ mensagens[0][1] }}</div>
+            {% endif %}
+        {% endwith %}
+
+        <section class="lista">
+            <div class="lista-header">
+                <div>
+                    <h2>🏓 Partidas cadastradas</h2>
+                    <p>Escolha uma partida para visualizar as estatísticas.</p>
+                </div>
+
+                <span class="contador">{{ partidas | length }} partidas</span>
+            </div>
+
+            {% if partidas %}
+                <div class="partidas-grid">
+                    {% for partida in partidas %}
+                        <article class="partida-card">
+                            <div class="partida-topo">
+                                {% if partida.status == "FINALIZADA" %}
+                                    <span class="status finalizada">✓ Finalizada</span>
+                                {% else %}
+                                    <span class="status andamento">● Em andamento</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="confronto">
+                                <div class="jogador">
+                                    <div class="avatar">{{ partida.nome_jogador[0] | upper }}</div>
+                                    <strong>{{ partida.nome_jogador }}</strong>
+
+                                    {% if partida.clube_jogador %}
+                                        <small>{{ partida.clube_jogador }}</small>
+                                    {% endif %}
+                                </div>
+
+                                <div class="versus">VS</div>
+
+                                <div class="jogador">
+                                    <div class="avatar">{{ partida.nome_adversario[0] | upper }}</div>
+                                    <strong>{{ partida.nome_adversario }}</strong>
+
+                                    {% if partida.clube_adversario %}
+                                        <small>{{ partida.clube_adversario }}</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="resultado">
+                                <div>
+                                    <span>Resultado</span>
+
+                                    <strong>
+                                        {{ partida.sets_jogador }} × {{ partida.sets_adversario }}
+                                    </strong>
+                                </div>
+
+                                <div>
+                                    <span>Data</span>
+
+                                    <strong>
+                                        {% if partida.data_partida %}
+                                            {{ partida.data_partida.strftime('%d/%m/%Y') }}
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </strong>
+                                </div>
+                            </div>
+
+                            <a
+                                href="{{ url_for('admin_desempenho_partida', id=partida.id) }}"
+                                class="btn-desempenho"
+                            >
+                                📊 Ver desempenho
+                                <span>→</span>
+                            </a>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="vazio">
+                    <div class="vazio-icone">🏓</div>
+                    <h3>Nenhuma partida encontrada</h3>
+                    <p>Ainda não existem partidas cadastradas no sistema.</p>
+                </div>
+            {% endif %}
+        </section>
+
+        <footer><span>TT Performance</span> <span>•</span> <span>Painel Administrativo</span></footer>
+    </div>
+</body>
+</html>

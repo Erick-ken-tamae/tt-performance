@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -6,79 +7,69 @@
     <title>Histórico - TT Performance</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='historico_lista.css') }}">
 </head>
+
 <body>
+    <div class="container">
+        <header>
+            <a href="/" class="btn-voltar">‹ Início</a>
+            <h1>🏓 Histórico de Partidas</h1>
+        </header>
 
-<div class="container">
+        <div class="busca-wrapper">
+            <input type="text" id="buscaHistorico" placeholder="Buscar por jogador, adversário ou data..." autocomplete="off">
+        </div>
 
-    <header>
-        <a href="/" class="btn-voltar">‹ Início</a>
-        <h1>🏓 Histórico de Partidas</h1>
-    </header>
+        <div class="lista" id="listaHistorico">
+            {% for partida in partidas %}
+                <a
+                    href="/historico/{{ partida.id }}"
+                    class="historico-card"
+                    data-search="{{ (partida.nome_jogador ~ ' ' ~ partida.nome_adversario ~ ' ' ~ partida.data_partida.strftime('%d/%m/%Y')) | lower }}"
+                >
+                    <div class="historico-topo">
+                        <span class="historico-data">📅 {{ partida.data_partida.strftime('%d/%m/%Y') }}</span>
+                        <span class="historico-status">{{ partida.status }}</span>
+                    </div>
 
-    <div class="busca-wrapper">
-        <input
-            type="text"
-            id="buscaHistorico"
-            placeholder="Buscar por jogador, adversário ou data..."
-            autocomplete="off"
-        >
+                    <div class="historico-confronto">
+                        <span class="nome-jogador">{{ partida.nome_jogador }}</span>
+
+                        <span class="placar-mini">
+                            {{ partida.sets_jogador }} × {{ partida.sets_adversario }}
+                        </span>
+
+                        <span class="nome-adversario">{{ partida.nome_adversario }}</span>
+                    </div>
+
+                    <div class="historico-rodape">🏆 Vencedor: <strong>{{ partida.vencedor }}</strong></div>
+                </a>
+            {% else %}
+                <p class="vazio">Nenhuma partida finalizada ainda.</p>
+            {% endfor %}
+        </div>
+
+        <p class="vazio" id="semResultado" style="display:none;">
+            Nenhuma partida encontrada pra essa busca.
+        </p>
     </div>
 
-    <div class="lista" id="listaHistorico">
+    <script>
+        const campoBusca = document.getElementById("buscaHistorico");
+        const cards = document.querySelectorAll(".historico-card");
+        const semResultado = document.getElementById("semResultado");
 
-        {% for partida in partidas %}
+        campoBusca.addEventListener("input", function () {
+            const termo = this.value.trim().toLowerCase();
+            let visiveis = 0;
 
-        <a
-            href="/historico/{{ partida.id }}"
-            class="historico-card"
-            data-search="{{ (partida.nome_jogador ~ ' ' ~ partida.nome_adversario ~ ' ' ~ partida.data_partida.strftime('%d/%m/%Y')) | lower }}"
-        >
-            <div class="historico-topo">
-                <span class="historico-data">📅 {{ partida.data_partida.strftime('%d/%m/%Y') }}</span>
-                <span class="historico-status">{{ partida.status }}</span>
-            </div>
+            cards.forEach(function (card) {
+                const corresponde = card.dataset.search.includes(termo);
+                card.style.display = corresponde ? "block" : "none";
+                if (corresponde) visiveis++;
+            });
 
-            <div class="historico-confronto">
-                <span class="nome-jogador">{{ partida.nome_jogador }}</span>
-                <span class="placar-mini">{{ partida.sets_jogador }} × {{ partida.sets_adversario }}</span>
-                <span class="nome-adversario">{{ partida.nome_adversario }}</span>
-            </div>
-
-            <div class="historico-rodape">
-                🏆 Vencedor: <strong>{{ partida.vencedor }}</strong>
-            </div>
-        </a>
-
-        {% else %}
-
-        <p class="vazio">Nenhuma partida finalizada ainda.</p>
-
-        {% endfor %}
-
-    </div>
-
-    <p class="vazio" id="semResultado" style="display:none;">Nenhuma partida encontrada pra essa busca.</p>
-
-</div>
-
-<script>
-    const campoBusca = document.getElementById("buscaHistorico");
-    const cards = document.querySelectorAll(".historico-card");
-    const semResultado = document.getElementById("semResultado");
-
-    campoBusca.addEventListener("input", function () {
-        const termo = this.value.trim().toLowerCase();
-        let visiveis = 0;
-
-        cards.forEach(function (card) {
-            const corresponde = card.dataset.search.includes(termo);
-            card.style.display = corresponde ? "block" : "none";
-            if (corresponde) visiveis++;
+            semResultado.style.display = (visiveis === 0 && termo !== "") ? "block" : "none";
         });
-
-        semResultado.style.display = (visiveis === 0 && termo !== "") ? "block" : "none";
-    });
-</script>
-
+    </script>
 </body>
 </html>

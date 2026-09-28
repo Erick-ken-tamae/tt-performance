@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -6,142 +7,174 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='iniciar_partida.css') }}">
     <title>Iniciar Partida</title>
 </head>
+
 <body>
+    <div class="app">
+        <header class="app-header">
+            <a href="/" class="btn-voltar"><span class="icone-voltar">‹</span> Voltar para Partidas</a>
+            <div class="app-title">🏓 TT PERFORMANCE</div>
+        </header>
 
-<div class="app">
-
-    <!-- ===================== HEADER ===================== -->
-    <header class="app-header">
-        <a href="/" class="btn-voltar">
-            <span class="icone-voltar">‹</span> Voltar para Partidas
-        </a>
-        <div class="app-title">🏓 TT PERFORMANCE</div>
-    </header>
-
-    <div class="app-body">
-
-        <!-- ===================== STATUS ===================== -->
-        <div class="status-bar">
-            <div class="status-left">🏓 <strong>Partida em Andamento</strong></div>
-            <div class="status-live"><span class="dot"></span> Ao vivo</div>
-        </div>
-
-        <!-- ===================== PLACAR ===================== -->
-        <div class="placar">
-
-            <div class="card-placar jogador-azul">
-                <h3>{{ partida.nome_jogador }}</h3>
-                <div class="pontos" id="pontosJogador">0</div>
+        <div class="app-body">
+            <div class="status-bar">
+                <div class="status-left">🏓 <strong>Partida em Andamento</strong></div>
+                <div class="status-live"><span class="dot"></span> Ao vivo</div>
             </div>
 
-            <div class="vs">VS</div>
-
-            <div class="card-placar jogador-vermelho">
-                <h3>{{ partida.nome_adversario }}</h3>
-                <div class="pontos" id="pontosAdversario">0</div>
-            </div>
-
-        </div>
-
-        <!-- ===================== MARCADORES ===================== -->
-        <div class="tabela-marcacao">
-
-            <!-- JOGADOR -->
-            <div class="coluna-jogador azul">
-                <div class="jogador-header">
-                    <span class="icone-jogador">👤</span>
+            <div class="placar">
+                <div class="card-placar jogador-azul">
                     <h3>{{ partida.nome_jogador }}</h3>
+                    <div class="pontos" id="pontosJogador">0</div>
                 </div>
-                <div class="divisoria"></div>
 
-                <div class="grupos-botoes">
-                    <div class="grupo">
-                        <span class="grupo-titulo titulo-certo">CERTOS</span>
-                        <button class="btn-marcacao" onclick="marcarPonto('jogador','F')">🏓 Forehand</button>
-                        <button class="btn-marcacao" onclick="marcarPonto('jogador','B')">🤚 Backhand</button>
-                        <button class="btn-marcacao" onclick="marcarPonto('jogador','S')">✋ Saque</button>
-                    </div>
-                    <div class="grupo">
-                        <span class="grupo-titulo titulo-erro">ERROS</span>
-                        <button class="btn-marcacao btn-erro" onclick="registrarErro('jogador','F')"><span class="icone-erro">⊗</span> Forehand</button>
-                        <button class="btn-marcacao btn-erro" onclick="registrarErro('jogador','B')"><span class="icone-erro">⊗</span> Backhand</button>
-                        <button class="btn-marcacao btn-erro" onclick="registrarErro('jogador','S')"><span class="icone-erro">⊗</span> Saque</button>
-                    </div>
-                </div>
-            </div>
+                <div class="vs">VS</div>
 
-            <!-- ADVERSÁRIO -->
-            <div class="coluna-jogador vermelho">
-                <div class="jogador-header">
-                    <span class="icone-jogador">👤</span>
+                <div class="card-placar jogador-vermelho">
                     <h3>{{ partida.nome_adversario }}</h3>
+                    <div class="pontos" id="pontosAdversario">0</div>
                 </div>
-                <div class="divisoria"></div>
+            </div>
 
-                <div class="grupos-botoes">
-                    <div class="grupo">
-                        <span class="grupo-titulo titulo-certo">CERTOS</span>
-                        <button class="btn-marcacao" onclick="marcarPonto('adversario','F')">🏓 Forehand</button>
-                        <button class="btn-marcacao" onclick="marcarPonto('adversario','B')">🤚 Backhand</button>
-                        <button class="btn-marcacao" onclick="marcarPonto('adversario','S')">✋ Saque</button>
+            <div class="tabela-marcacao">
+                <div class="coluna-jogador azul">
+                    <div class="jogador-header">
+                        <span class="icone-jogador">👤</span>
+                        <h3>{{ partida.nome_jogador }}</h3>
                     </div>
-                    <div class="grupo">
-                        <span class="grupo-titulo titulo-erro">ERROS</span>
-                        <button class="btn-marcacao btn-erro" onclick="registrarErro('adversario','F')"><span class="icone-erro">⊗</span> Forehand</button>
-                        <button class="btn-marcacao btn-erro" onclick="registrarErro('adversario','B')"><span class="icone-erro">⊗</span> Backhand</button>
-                        <button class="btn-marcacao btn-erro" onclick="registrarErro('adversario','S')"><span class="icone-erro">⊗</span> Saque</button>
+
+                    <div class="divisoria"></div>
+
+                    <div class="grupos-botoes">
+                        <div class="grupo">
+                            <span class="grupo-titulo titulo-certo">CERTOS</span>
+
+                            <button class="btn-marcacao" onclick="marcarPonto('jogador','F')">
+                                🏓 Forehand
+                            </button>
+
+                            <button class="btn-marcacao" onclick="marcarPonto('jogador','B')">
+                                🤚 Backhand
+                            </button>
+
+                            <button class="btn-marcacao" onclick="marcarPonto('jogador','S')">✋ Saque</button>
+                        </div>
+
+                        <div class="grupo">
+                            <span class="grupo-titulo titulo-erro">ERROS</span>
+
+                            <button class="btn-marcacao btn-erro" onclick="registrarErro('jogador','F')">
+                                <span class="icone-erro">⊗</span>
+                                Forehand
+                            </button>
+
+                            <button class="btn-marcacao btn-erro" onclick="registrarErro('jogador','B')">
+                                <span class="icone-erro">⊗</span>
+                                Backhand
+                            </button>
+
+                            <button class="btn-marcacao btn-erro" onclick="registrarErro('jogador','S')">
+                                <span class="icone-erro">⊗</span>
+                                Saque
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="coluna-jogador vermelho">
+                    <div class="jogador-header">
+                        <span class="icone-jogador">👤</span>
+                        <h3>{{ partida.nome_adversario }}</h3>
+                    </div>
+
+                    <div class="divisoria"></div>
+
+                    <div class="grupos-botoes">
+                        <div class="grupo">
+                            <span class="grupo-titulo titulo-certo">CERTOS</span>
+
+                            <button class="btn-marcacao" onclick="marcarPonto('adversario','F')">
+                                🏓 Forehand
+                            </button>
+
+                            <button class="btn-marcacao" onclick="marcarPonto('adversario','B')">
+                                🤚 Backhand
+                            </button>
+
+                            <button class="btn-marcacao" onclick="marcarPonto('adversario','S')">
+                                ✋ Saque
+                            </button>
+                        </div>
+
+                        <div class="grupo">
+                            <span class="grupo-titulo titulo-erro">ERROS</span>
+
+                            <button class="btn-marcacao btn-erro" onclick="registrarErro('adversario','F')">
+                                <span class="icone-erro">⊗</span>
+                                Forehand
+                            </button>
+
+                            <button class="btn-marcacao btn-erro" onclick="registrarErro('adversario','B')">
+                                <span class="icone-erro">⊗</span>
+                                Backhand
+                            </button>
+
+                            <button class="btn-marcacao btn-erro" onclick="registrarErro('adversario','S')">
+                                <span class="icone-erro">⊗</span>
+                                Saque
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-        </div>
+            <div class="sets">
+                <h2 class="sets-titulo">Sets</h2>
 
-        <!-- ===================== SETS ===================== -->
-        <div class="sets">
-            <h2 class="sets-titulo">Sets</h2>
-            <div class="placar-set">
-                <div class="set-time">
-                    <span class="nome-set nome-azul">{{ partida.nome_jogador }}</span>
-                    <span class="valor-set" id="setsJogador">0</span>
+                <div class="placar-set">
+                    <div class="set-time">
+                        <span class="nome-set nome-azul">{{ partida.nome_jogador }}</span>
+                        <span class="valor-set" id="setsJogador">0</span>
+                    </div>
+
+                    <div class="vs-set">×</div>
+
+                    <div class="set-time">
+                        <span class="nome-set nome-vermelho">{{ partida.nome_adversario }}</span>
+                        <span class="valor-set" id="setsAdversario">0</span>
+                    </div>
                 </div>
-                <div class="vs-set">×</div>
-                <div class="set-time">
-                    <span class="nome-set nome-vermelho">{{ partida.nome_adversario }}</span>
-                    <span class="valor-set" id="setsAdversario">0</span>
+            </div>
+
+            <div class="botoes-corrigir">
+                <button class="btn-corrigir corrigir-azul" onclick="corrigirPonto('jogador')">
+                    <span class="icone-corrigir">⊖</span>
+                    -1 {{ partida.nome_jogador }}
+                </button>
+
+                <button class="btn-corrigir corrigir-vermelho" onclick="corrigirPonto('adversario')">
+                    <span class="icone-corrigir">⊖</span>
+                    -1 {{ partida.nome_adversario }}
+                </button>
+            </div>
+
+            <div id="popupVitoria" class="popup-overlay">
+                <div class="popup">
+                    <div class="trofeu">🏆</div>
+                    <h2>Partida Encerrada!</h2>
+                    <p id="mensagemVitoria"></p>
+                    <button onclick="fecharPopup()" class="btn-fechar">Fechar</button>
                 </div>
             </div>
         </div>
-
-        <!-- ===================== CORRIGIR ===================== -->
-        <div class="botoes-corrigir">
-            <button class="btn-corrigir corrigir-azul" onclick="corrigirPonto('jogador')">
-                <span class="icone-corrigir">⊖</span> -1 {{ partida.nome_jogador }}
-            </button>
-            <button class="btn-corrigir corrigir-vermelho" onclick="corrigirPonto('adversario')">
-                <span class="icone-corrigir">⊖</span> -1 {{ partida.nome_adversario }}
-            </button>
-        </div>
-
-        <!-- ===================== POPUP VITÓRIA ===================== -->
-        <div id="popupVitoria" class="popup-overlay">
-            <div class="popup">
-                <div class="trofeu">🏆</div>
-                <h2>Partida Encerrada!</h2>
-                <p id="mensagemVitoria"></p>
-                <button onclick="fecharPopup()" class="btn-fechar">Fechar</button>
-            </div>
-        </div>
-
     </div>
-</div>
 
-<script>
-    const partidaId = "{{ partida.id }}";
-    const nomeJogador = "{{ partida.nome_jogador }}";
-    const nomeAdversario = "{{ partida.nome_adversario }}";
-    const melhorDe = {{ partida.quantidade_sets }};
-</script>
-<script src="{{ url_for('static', filename='js/iniciar_partida.js') }}"></script>
+    <script>
+        const partidaId = "{{ partida.id }}";
+        const nomeJogador = "{{ partida.nome_jogador }}";
+        const nomeAdversario = "{{ partida.nome_adversario }}";
+        const melhorDe = {{ partida.quantidade_sets }};
+    </script>
 
+    <script src="{{ url_for('static', filename='js/iniciar_partida.js') }}"></script>
 </body>
 </html>

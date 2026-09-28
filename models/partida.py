@@ -55,6 +55,18 @@ def listar_partida(usuario_id):
     }).sort("_id", 1))
     return [_formatar(p) for p in partidas]
 
+def listar_todas_partidas():
+    """
+    Lista todas as partidas do sistema para o administrador.
+    Mais recentes primeiro.
+    """
+    partidas = list(
+        _partidas()
+        .find({})
+        .sort("data_partida", -1)
+    )
+
+    return [_formatar(p) for p in partidas]
 
 def buscar_partida(id):
     partida = _partidas().find_one({"_id": ObjectId(id)})

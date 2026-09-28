@@ -1,102 +1,118 @@
 <!DOCTYPE html>
+
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
-    <title>TT Performance - Administração</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='partida.css') }}">
+    <title>TT Performance - Cadastro de Partidas</title>
 </head>
 
 <body>
+    <div class="container">
+        <div class="topo">
+            <h1>🏓 TT Performance</h1>
 
-<div class="container">
+            <div class="topo-acoes">
+                {% if session.get('usuario_tipo') == 'Administrador' %}
+                    <a href="/admin" class="btn-admin">🛠️ Admin</a>
+                {% endif %}
 
-    <header class="topo">
-        <div class="topo-titulo">
-            <span class="icone-titulo">🛠️</span>
-            <div>
-                <h1>Administração</h1>
-                <p class="descricao">Gerenciamento de contas cadastradas no sistema</p>
+                <a href="/historico" class="btn-admin">📜 Histórico</a>
+                <a href="/logout" class="btn-sair">Sair</a>
             </div>
         </div>
-        <div class="topo-acoes">
-            <a href="/" class="btn btn-outline">← Início</a>
-            <a href="/logout" class="btn btn-outline">Sair</a>
-        </div>
-    </header>
 
-    {% with mensagens = get_flashed_messages(with_categories=true) %}
-      {% if mensagens %}
-        <div class="toast {{ mensagens[0][0] }}" id="toastNotificacao">
-          {{ mensagens[0][1] }}
-        </div>
-      {% endif %}
-    {% endwith %}
+        {% with mensagens = get_flashed_messages(with_categories=true) %}
+            {% if mensagens %}
+                <div class="toast {{ mensagens[0][0] }}" id="toastNotificacao">{{ mensagens[0][1] }}</div>
+            {% endif %}
+        {% endwith %}
 
-    <section class="stats">
-        <div class="stat-card">
-            <span class="stat-numero">{{ total_usuarios }}</span>
-            <span class="stat-rotulo">Total de contas</span>
-        </div>
-        <div class="stat-card stat-admin">
-            <span class="stat-numero">{{ usuarios | selectattr('tipo', 'equalto', 'Administrador') | list | length }}</span>
-            <span class="stat-rotulo">Administradores</span>
-        </div>
-        <div class="stat-card stat-treinador">
-            <span class="stat-numero">{{ usuarios | selectattr('tipo', 'equalto', 'Treinador') | list | length }}</span>
-            <span class="stat-rotulo">Treinadores</span>
-        </div>
-        <div class="stat-card stat-jogador">
-            <span class="stat-numero">{{ usuarios | selectattr('tipo', 'equalto', 'Jogador') | list | length }}</span>
-            <span class="stat-rotulo">Jogadores</span>
-        </div>
-    </section>
+        <p class="descricao">Sistema de gerenciamento e análise de partidas de Tênis de Mesa.</p>
 
-    <section class="secao-tabela">
-        <h2>Usuários Cadastrados</h2>
+        <div class="acoes">
+            <button type="button" class="btn-nova" onclick="abrirPopup()">➕ Nova Partida</button>
+        </div>
 
-        <div class="tabela-wrapper">
-            <table>
-                <thead>
+        <hr>
+        <h2>Partidas Cadastradas</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Jogador</th>
+                    <th>Clube</th>
+                    <th>Adversário</th>
+                    <th>Clube Adversário</th>
+                    <th>Data</th>
+                    <th>Ações</th>
+                    <th>Excluir</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for partida in partidas %}
                     <tr>
-                        <th>Usuário</th>
-                        <th>Email</th>
-                        <th>Tipo</th>
-                        <th>Cadastrado em</th>
-                        <th></th>
-                    </tr>
-                </thead>
+                        <td data-label="ID">{{ loop.index }}</td>
+                        <td data-label="Jogador">{{ partida.nome_jogador }}</td>
+                        <td data-label="Clube">{{ partida.clube_jogador }}</td>
+                        <td data-label="Adversário">{{ partida.nome_adversario }}</td>
+                        <td data-label="Clube Adv.">{{ partida.clube_adversario }}</td>
+                        <td data-label="Data">{{ partida.data_partida }}</td>
 
-                <tbody>
-                    {% for usuario in usuarios %}
-                    <tr>
-                        <td data-label="Usuário">
-                            <div class="usuario-info">
-                                <span class="avatar">{{ usuario.nome[0] | upper }}</span>
-                                <span>{{ usuario.nome }}</span>
-                            </div>
+                        <td data-label="Ações">
+                            {% if partida.status == "EM_ANDAMENTO" %}
+                                <a href="/iniciar_partida/{{ partida.id }}" class="btn-iniciar">
+                                    ⚡ Iniciar Partida
+                                </a>
+                            {% else %}
+                                <a href="/historico/{{ partida.id }}" class="btn-historico">
+                                    📊 Ver Histórico
+                                </a>
+                            {% endif %}
                         </td>
-                        <td data-label="Email">{{ usuario.email }}</td>
-                        <td data-label="Tipo">
-                            <span class="badge {{ 'admin' if usuario.tipo == 'Administrador' else ('treinador' if usuario.tipo == 'Treinador' else 'jogador') }}">
-                                {{ usuario.tipo }}
-                            </span>
-                        </td>
-                        <td data-label="Cadastrado em">{{ usuario.data_cadastro }}</td>
-                        <td data-label="">
-                            <a href="/admin/excluir_usuario/{{ usuario.id }}"
-                               class="btn-excluir"
-                               onclick="return confirm('Deseja excluir a conta de {{ usuario.nome }}?')">
+
+                        <td data-label="Excluir">
+                            <a
+                                href="/excluir_partida/{{ partida.id }}"
+                                class="btn-excluir"
+                                onclick="return confirm('Deseja excluir esta partida?')"
+                            >
                                 🗑 Excluir
                             </a>
                         </td>
                     </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
-</div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
+    <div id="popupPartida" class="popup">
+        <div class="popup-conteudo">
+            <span class="fechar" onclick="fecharPopup()">&times;</span>
+            <h2>🏓 Nova Partida</h2>
+
+            <form action="/salvar_partida" method="POST">
+                <input type="text" name="nome" placeholder="Seu nome" required>
+                <input type="text" name="clube" placeholder="Seu clube" required>
+                <input type="text" name="adversario" placeholder="Nome do adversário" required>
+                <input type="text" name="clube_adversario" placeholder="Clube do adversário" required>
+                <input type="date" name="data_partida" required>
+
+                <select name="melhor_de" required>
+                    <option value="3">Melhor de 3</option>
+                    <option value="5">Melhor de 5</option>
+                    <option value="7">Melhor de 7</option>
+                </select>
+
+                <button type="button" class="btn-cancelar" onclick="fecharPopup()">← Voltar</button>
+                <button type="submit" class="btn-cadastrar">Cadastrar Partida</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/partida.js') }}"></script>
 </body>
 </html>
