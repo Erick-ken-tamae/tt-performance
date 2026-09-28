@@ -121,7 +121,29 @@
                                     <td class="email td-email" data-label="Email">{{ usuario.email }}</td>
 
                                     <td class="td-tipo" data-label="Tipo">
-                                        <span class="badge {{ (usuario.tipo or '') | lower }}">{{ usuario.tipo }}</span>
+                                        {% if usuario.id|string == session.get('usuario_id')|string %}
+                                            <span class="badge {{ (usuario.tipo or '') | lower }}">{{ usuario.tipo }}</span>
+                                        {% else %}
+                                            <form
+                                                action="/admin/alterar_tipo/{{ usuario.id }}"
+                                                method="POST"
+                                                class="form-tipo"
+                                            >
+                                                <select
+                                                    name="tipo"
+                                                    class="select-tipo {{ (usuario.tipo or '') | lower }}"
+                                                    data-atual="{{ usuario.tipo }}"
+                                                    data-nome="{{ usuario.nome }}"
+                                                    aria-label="Tipo de {{ usuario.nome }}"
+                                                >
+                                                    <option value="Administrador" {% if usuario.tipo == 'Administrador' %}selected{% endif %}>Administrador</option>
+                                                    <option value="Jogador" {% if usuario.tipo == 'Jogador' %}selected{% endif %}>Jogador</option>
+                                                    {% if usuario.tipo not in ['Administrador', 'Jogador'] %}
+                                                        <option value="{{ usuario.tipo }}" selected disabled>{{ usuario.tipo }}</option>
+                                                    {% endif %}
+                                                </select>
+                                            </form>
+                                        {% endif %}
                                     </td>
 
                                     <td class="td-acoes" data-label="Ações">
@@ -184,5 +206,23 @@
 
         <footer><span>TT Performance</span> <span>•</span> <span>Painel Administrativo</span></footer>
     </div>
+
+    <script>
+        // Pede confirmação antes de mudar o tipo do usuário
+        document.querySelectorAll('.select-tipo').forEach(function (select) {
+            select.addEventListener('change', function () {
+                var nome = select.dataset.nome || 'este usuário';
+                var confirmou = confirm(
+                    'Alterar o tipo de ' + nome + ' para ' + select.value + '?'
+                );
+
+                if (confirmou) {
+                    select.form.submit();
+                } else {
+                    select.value = select.dataset.atual;
+                }
+            });
+        });
+    </script>
 </body>
 </html>

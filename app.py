@@ -2238,6 +2238,77 @@ def admin_excluir_usuario(id):
 
 
 # ============================================================
+# ALTERAR TIPO DO USUÁRIO (Administrador <-> Jogador)
+# ============================================================
+
+@app.route(
+    "/admin/alterar_tipo/<id>",
+    methods=["POST"]
+)
+@admin_required
+def admin_alterar_tipo(id):
+
+    # Importado aqui dentro para que, se a função ainda não
+    # existir em models/usuario.py, só esta rota falhe e o
+    # resto do site continue funcionando.
+    from models.usuario import alterar_tipo_usuario
+
+    novo_tipo = request.form.get("tipo")
+
+    # Só aceita os tipos permitidos
+    if novo_tipo not in ("Administrador", "Jogador"):
+
+        flash(
+            "Tipo de usuário inválido.",
+            "error"
+        )
+
+        return redirect(
+            url_for("admin")
+        )
+
+    # O admin não pode mudar o próprio tipo
+    # (evita ficar sem nenhum administrador)
+    if str(id) == str(session.get("usuario_id")):
+
+        flash(
+            "Você não pode alterar o seu próprio tipo.",
+            "error"
+        )
+
+        return redirect(
+            url_for("admin")
+        )
+
+    usuario = buscar_usuario_por_id(id)
+
+    if not usuario:
+
+        flash(
+            "Usuário não encontrado.",
+            "error"
+        )
+
+        return redirect(
+            url_for("admin")
+        )
+
+    alterar_tipo_usuario(
+        id,
+        novo_tipo
+    )
+
+    flash(
+        f"{usuario.get('nome', 'Usuário')} agora é {novo_tipo}.",
+        "success"
+    )
+
+    return redirect(
+        url_for("admin")
+    )
+
+
+# ============================================================
 # EXECUÇÃO
 # ============================================================
 

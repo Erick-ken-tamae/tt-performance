@@ -1348,7 +1348,70 @@ html {
     }
 }
 
-
+/* O ícone das "Ações rápidas" esticava (a regra ".acao div" com
+   flex: 1 também pegava o ícone). Aqui ele volta a ter 40px. */
 .acao .acao-icone {
     flex: 0 0 40px;
+}
+
+/* =========================================================
+   SELETOR DE TIPO DO USUÁRIO (Administrador / Jogador)
+========================================================= */
+
+.form-tipo {
+    margin: 0;
+}
+
+.select-tipo {
+    appearance: none;
+    -webkit-appearance: none;
+
+    padding: 6px 26px 6px 10px;
+
+    border: 1px solid #d9dee5;
+    border-radius: 20px;
+
+    background-color: #fff;
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23666' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 9px center;
+
+    font: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    color: #333;
+
+    cursor: pointer;
+}
+
+.select-tipo.administrador {
+    background-color: #f1eafe;
+    border-color: #ddd0f5;
+    color: #6a35b8;
+}
+
+.select-tipo.jogador {
+    background-color: #e8f1ff;
+    border-color: #cfe0f7;
+    color: #225ea8;
+}
+
+.select-tipo.treinador {
+    background-color: #e8f7ee;
+    border-color: #c8e8d3;
+    color: #19713a;
+}
+
+.select-tipo:focus-visible {
+    outline: 2px solid #17283d;
+    outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+    /* fonte >= 16px evita o zoom automático do iPhone ao tocar */
+    .select-tipo {
+        font-size: 16px;
+        padding: 8px 32px 8px 12px;
+    }
 }
