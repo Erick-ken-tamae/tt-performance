@@ -1415,3 +1415,143 @@ html {
         padding: 8px 32px 8px 12px;
     }
 }
+
+/* =========================================================
+   POPUP (MODAL) DE CONFIRMAÇÃO
+========================================================= */
+
+.modal-fundo {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(10, 18, 30, 0.65);
+}
+
+.modal-fundo[hidden] {
+    display: none;
+}
+
+body.modal-aberto {
+    overflow: hidden;
+}
+
+.modal-caixa {
+    width: 100%;
+    max-width: 380px;
+
+    padding: 28px 24px 22px;
+
+    background: #fff;
+    border-radius: 18px;
+
+    text-align: center;
+
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+
+    animation: modal-entrar 0.18s ease-out;
+}
+
+@keyframes modal-entrar {
+    from { opacity: 0; transform: translateY(12px) scale(0.97); }
+    to   { opacity: 1; transform: none; }
+}
+
+.modal-icone {
+    width: 54px;
+    height: 54px;
+
+    margin: 0 auto 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eef2ff;
+    border-radius: 50%;
+
+    font-size: 24px;
+}
+
+.modal-caixa h3 {
+    font-size: 19px;
+    color: #17283d;
+}
+
+.modal-texto {
+    margin-top: 8px;
+
+    color: #555;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.modal-troca {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    margin: 16px 0 22px;
+}
+
+.modal-troca .badge {
+    font-size: 12px;
+    padding: 6px 12px;
+}
+
+.modal-seta {
+    color: #888;
+    font-size: 18px;
+}
+
+.modal-botoes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.modal-btn {
+    padding: 12px;
+
+    border: none;
+    border-radius: 10px;
+
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.modal-btn.cancelar {
+    background: #f1f2f4;
+    color: #444;
+}
+
+.modal-btn.cancelar:hover {
+    background: #e5e7ea;
+}
+
+.modal-btn.confirmar {
+    background: #17283d;
+    color: #fff;
+}
+
+.modal-btn.confirmar:hover {
+    background: #101c2c;
+}
+
+.modal-btn:focus-visible {
+    outline: 2px solid #5064d8;
+    outline-offset: 2px;
+}

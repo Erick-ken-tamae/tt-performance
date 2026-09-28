@@ -207,22 +207,84 @@
         <footer><span>TT Performance</span> <span>•</span> <span>Painel Administrativo</span></footer>
     </div>
 
-    <script>
-        // Pede confirmação antes de mudar o tipo do usuário
-        document.querySelectorAll('.select-tipo').forEach(function (select) {
-            select.addEventListener('change', function () {
-                var nome = select.dataset.nome || 'este usuário';
-                var confirmou = confirm(
-                    'Alterar o tipo de ' + nome + ' para ' + select.value + '?'
-                );
+    <!-- Popup de confirmação de troca de tipo -->
+    <div class="modal-fundo" id="modalTipo" hidden>
+        <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="modalTipoTitulo">
+            <div class="modal-icone">🔄</div>
 
-                if (confirmou) {
-                    select.form.submit();
-                } else {
-                    select.value = select.dataset.atual;
+            <h3 id="modalTipoTitulo">Alterar tipo de usuário</h3>
+
+            <p class="modal-texto">
+                Deseja alterar o tipo de <strong id="modalTipoNome"></strong>?
+            </p>
+
+            <div class="modal-troca">
+                <span class="badge" id="modalTipoDe"></span>
+                <span class="modal-seta">→</span>
+                <span class="badge" id="modalTipoPara"></span>
+            </div>
+
+            <div class="modal-botoes">
+                <button type="button" class="modal-btn cancelar" id="modalTipoCancelar">Cancelar</button>
+                <button type="button" class="modal-btn confirmar" id="modalTipoConfirmar">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var modal = document.getElementById('modalTipo');
+            var nome = document.getElementById('modalTipoNome');
+            var de = document.getElementById('modalTipoDe');
+            var para = document.getElementById('modalTipoPara');
+            var btnCancelar = document.getElementById('modalTipoCancelar');
+            var btnConfirmar = document.getElementById('modalTipoConfirmar');
+            var selectAtual = null;
+
+            function fechar(reverter) {
+                modal.hidden = true;
+                document.body.classList.remove('modal-aberto');
+
+                if (reverter && selectAtual) {
+                    selectAtual.value = selectAtual.dataset.atual;
+                }
+                selectAtual = null;
+            }
+
+            document.querySelectorAll('.select-tipo').forEach(function (select) {
+                select.addEventListener('change', function () {
+                    selectAtual = select;
+
+                    nome.textContent = select.dataset.nome || 'este usuário';
+                    de.textContent = select.dataset.atual;
+                    de.className = 'badge ' + select.dataset.atual.toLowerCase();
+                    para.textContent = select.value;
+                    para.className = 'badge ' + select.value.toLowerCase();
+
+                    modal.hidden = false;
+                    document.body.classList.add('modal-aberto');
+                    btnConfirmar.focus();
+                });
+            });
+
+            btnConfirmar.addEventListener('click', function () {
+                if (selectAtual) {
+                    selectAtual.form.submit();
                 }
             });
-        });
+
+            btnCancelar.addEventListener('click', function () { fechar(true); });
+
+            // clicar fora do popup cancela
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) { fechar(true); }
+            });
+
+            // tecla Esc cancela
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && !modal.hidden) { fechar(true); }
+            });
+        })();
     </script>
 </body>
 </html>

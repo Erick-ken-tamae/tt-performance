@@ -2248,11 +2248,6 @@ def admin_excluir_usuario(id):
 @admin_required
 def admin_alterar_tipo(id):
 
-    # Importado aqui dentro para que, se a função ainda não
-    # existir em models/usuario.py, só esta rota falhe e o
-    # resto do site continue funcionando.
-    from models.usuario import alterar_tipo_usuario
-
     novo_tipo = request.form.get("tipo")
 
     # Só aceita os tipos permitidos
@@ -2293,10 +2288,44 @@ def admin_alterar_tipo(id):
             url_for("admin")
         )
 
-    alterar_tipo_usuario(
-        id,
-        novo_tipo
-    )
+    # Importado aqui dentro para que, se a função ainda não
+    # existir em models/usuario.py, só esta rota falhe e o
+    # resto do site continue funcionando.
+    try:
+
+        from models.usuario import alterar_tipo_usuario
+
+        alterar_tipo_usuario(
+            id,
+            novo_tipo
+        )
+
+    except ImportError:
+
+        app.logger.exception("alterar_tipo_usuario não existe")
+
+        flash(
+            "Falta adicionar a função alterar_tipo_usuario "
+            "em models/usuario.py.",
+            "error"
+        )
+
+        return redirect(
+            url_for("admin")
+        )
+
+    except Exception as erro:
+
+        app.logger.exception("Erro ao alterar tipo do usuário")
+
+        flash(
+            f"Não foi possível alterar o tipo: {erro}",
+            "error"
+        )
+
+        return redirect(
+            url_for("admin")
+        )
 
     flash(
         f"{usuario.get('nome', 'Usuário')} agora é {novo_tipo}.",
