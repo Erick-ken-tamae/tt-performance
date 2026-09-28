@@ -1176,3 +1176,179 @@ footer {
     }
 
 }
+
+/* =========================================================
+   CORREÇÃO DE RESPONSIVIDADE (celular / tablet / PC)
+   ---------------------------------------------------------
+   Problema: a tabela (min-width 760px) fazia a coluna do
+   grid crescer além da tela e cortava o conteúdo no celular.
+   Solução: o item do grid pode encolher (min-width: 0) e, no
+   celular, cada usuário vira um card em vez de uma tabela.
+========================================================= */
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+.dashboard-grid {
+    grid-template-columns:
+        minmax(0, 1fr)
+        300px;
+}
+
+.dashboard-grid > * {
+    min-width: 0;
+}
+
+.container,
+.tabela-container {
+    max-width: 100%;
+}
+
+
+/* ---------- TABLET (até 1000px) ---------- */
+
+@media (max-width: 1000px) {
+
+    .dashboard-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .tabela-usuarios {
+        min-width: 600px;
+    }
+}
+
+
+/* ---------- CELULAR (até 700px): tabela vira cards ---------- */
+
+@media (max-width: 700px) {
+
+    .tabela-container {
+        overflow: visible;
+        border: none;
+        background: transparent;
+        border-radius: 0;
+    }
+
+    .tabela-usuarios {
+        display: block;
+        min-width: 0;
+        width: 100%;
+    }
+
+    .tabela-usuarios thead {
+        display: none;
+    }
+
+    .tabela-usuarios tbody {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .tabela-usuarios tbody tr {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 8px 10px;
+        padding: 14px;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+    }
+
+    .tabela-usuarios tbody td {
+        display: block;
+        padding: 0;
+        border: none;
+        min-width: 0;
+    }
+
+    /* linha 1: nome à esquerda, ação à direita */
+    .tabela-usuarios .td-usuario {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .tabela-usuarios .td-acoes {
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: end;
+    }
+
+    /* linha 2: email */
+    .tabela-usuarios .td-email {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        font-size: 12px;
+    }
+
+    /* linha 3: tipo */
+    .tabela-usuarios .td-tipo {
+        grid-column: 1 / -1;
+        grid-row: 3;
+    }
+
+    .tabela-usuarios .usuario-tabela {
+        min-width: 0;
+    }
+
+    .tabela-usuarios .usuario-tabela strong {
+        font-size: 14px;
+    }
+
+    .tabela-usuarios .avatar {
+        width: 38px;
+        height: 38px;
+        font-size: 14px;
+    }
+
+    /* botão de excluir com área de toque maior */
+    .tabela-usuarios .btn-excluir {
+        padding: 9px 13px;
+        font-size: 12px;
+    }
+
+    .tabela-usuarios .conta-atual {
+        font-size: 12px;
+    }
+
+    .tabela-usuarios .tabela-vazia {
+        grid-column: 1 / -1;
+        padding: 30px 10px !important;
+    }
+}
+
+
+/* ---------- CELULAR PEQUENO (até 400px) ---------- */
+
+@media (max-width: 400px) {
+
+    /* mantém 2 colunas nos cards em vez de 1 (menos rolagem) */
+    .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .stat-card {
+        min-height: 72px;
+        padding: 11px;
+        gap: 8px;
+    }
+
+    .stat-icone {
+        width: 34px;
+        height: 34px;
+        font-size: 15px;
+    }
+
+    .stat-numero {
+        font-size: 21px;
+    }
+}
+
+
+.acao .acao-icone {
+    flex: 0 0 40px;
+}

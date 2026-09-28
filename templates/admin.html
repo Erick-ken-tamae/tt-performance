@@ -111,20 +111,20 @@
                         <tbody>
                             {% for usuario in usuarios %}
                                 <tr>
-                                    <td>
+                                    <td class="td-usuario" data-label="Usuário">
                                         <div class="usuario-tabela">
                                             <div class="avatar">{{ (usuario.nome or '?')[0] | upper }}</div>
                                             <strong>{{ usuario.nome }}</strong>
                                         </div>
                                     </td>
 
-                                    <td class="email">{{ usuario.email }}</td>
+                                    <td class="email td-email" data-label="Email">{{ usuario.email }}</td>
 
-                                    <td>
+                                    <td class="td-tipo" data-label="Tipo">
                                         <span class="badge {{ (usuario.tipo or '') | lower }}">{{ usuario.tipo }}</span>
                                     </td>
 
-                                    <td>
+                                    <td class="td-acoes" data-label="Ações">
                                         {% if usuario.id|string == session.get('usuario_id')|string %}
                                             <span class="conta-atual">Sua conta</span>
                                         {% else %}
