@@ -72,3 +72,17 @@ def buscar_usuario_por_id(usuario_id):
 
 def excluir_usuario(usuario_id):
     _usuarios().delete_one({"_id": ObjectId(usuario_id)})
+
+
+def alterar_tipo_usuario(usuario_id, novo_tipo):
+    """
+    Altera o tipo do usuário (Administrador ou Jogador).
+
+    Retorna True se o usuário foi encontrado, False se não existe.
+    """
+    resultado = _usuarios().update_one(
+        {"_id": ObjectId(usuario_id)},
+        {"$set": {"tipo": novo_tipo}}
+    )
+
+    return resultado.matched_count > 0
